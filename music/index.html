@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>音乐 · 见己</title>
+    <meta name="description" content="见己 在听什么 —— 歌单、单曲，和为什么听它。">
+    <link rel="canonical" href="https://zml123123lu-ui.github.io/music/">
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="见己 · RSS" href="/rss.xml">
+
+    <meta name="generator" content="Astro v7.3.2">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="见己">
+    <meta property="og:title" content="音乐 · 见己">
+    <meta property="og:description" content="见己 在听什么 —— 歌单、单曲，和为什么听它。">
+    <meta property="og:url" content="https://zml123123lu-ui.github.io/music/">
+    <meta property="og:locale" content="zh_CN">
+    
+    <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/_astro/BaseLayout.CfRNrbj-.css">
+<link rel="stylesheet" href="/_astro/music.C4DZnQHO.css">
+<style>.shelf-nav[data-astro-cid-74w5s26x]{border-bottom:1px solid var(--rule);font:14px var(--ui);gap:28px;padding:20px 0;display:flex}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x]{border-bottom:2px solid #0000;padding-bottom:6px}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x][aria-current=page]{border-bottom-color:var(--yellow)}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x]:hover{color:var(--teal)}
+</style></head>
+
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+
+    <header class="topbar" data-astro-cid-fzpbxy5g>
+  <div class="wrap tbin" data-astro-cid-fzpbxy5g>
+    <a class="crumb" href="/" data-astro-cid-fzpbxy5g>
+      <span class="dot" aria-hidden="true" data-astro-cid-fzpbxy5g></span>
+      <b data-astro-cid-fzpbxy5g>见己</b>
+      <span data-astro-cid-fzpbxy5g>/ 书影音</span>
+      
+    </a>
+
+    <nav class="tbnav" aria-label="主导航" data-astro-cid-fzpbxy5g>
+      <a href="/posts/" data-astro-cid-fzpbxy5g>
+          写作
+        </a><a href="/shelf/" aria-current="page" data-astro-cid-fzpbxy5g>
+          书影音
+        </a><a href="/works/" data-astro-cid-fzpbxy5g>
+          作品
+        </a><a href="/accounts/" data-astro-cid-fzpbxy5g>
+          账号
+        </a><a href="/tags/" data-astro-cid-fzpbxy5g>
+          标签
+        </a><a href="/archive/" data-astro-cid-fzpbxy5g>
+          归档
+        </a><a href="/about/" data-astro-cid-fzpbxy5g>
+          关于
+        </a>
+    </nav>
+
+    <a class="pill" href="/rss.xml" data-astro-cid-fzpbxy5g>订阅 <span aria-hidden="true" data-astro-cid-fzpbxy5g>→</span></a>
+  </div>
+</header>
+
+    <main id="main">
+      
+  <div class="wrap" data-astro-cid-adrqmx6s>
+    <!-- 题头 -->
+    <header class="hd" data-astro-cid-adrqmx6s>
+      <span class="kick" data-astro-cid-adrqmx6s><span class="d" aria-hidden="true" data-astro-cid-adrqmx6s></span>书影音 · 音乐</span>
+      <h1 data-edit-kind="site" data-edit-id="music" data-edit-field="title" data-astro-cid-adrqmx6s>在听什么</h1>
+      <p class="sub" data-edit-kind="site" data-edit-id="music" data-edit-field="intro" data-astro-cid-adrqmx6s>我爱听的一些音乐。This is real music.</p>
+
+      <div class="bar" data-astro-cid-adrqmx6s>
+        <span class="mono" data-astro-cid-adrqmx6s>1 个歌单 · 106 首单曲</span>
+        <span class="mono" data-astro-cid-adrqmx6s>封面与歌都在网易云</span>
+        <div class="music-import" hidden data-astro-cid-yinnjqi3>
+  <button class="btn import-trigger" type="button" data-astro-cid-yinnjqi3>导入歌单 <span aria-hidden="true" data-astro-cid-yinnjqi3>＋</span></button>
+  <span class="import-success" role="status" hidden data-astro-cid-yinnjqi3></span>
+  <dialog class="import-dialog" aria-labelledby="import-heading" data-astro-cid-yinnjqi3>
+    <div class="dialog-heading" data-astro-cid-yinnjqi3><h2 id="import-heading" data-astro-cid-yinnjqi3>导入网易云歌单</h2><button class="close-dialog" type="button" aria-label="关闭导入窗口" data-astro-cid-yinnjqi3>×</button></div>
+    <form class="import-form" data-astro-cid-yinnjqi3>
+      <label for="playlist-link" data-astro-cid-yinnjqi3>歌单分享链接</label>
+      <input id="playlist-link" name="url" type="text" required maxlength="4096" placeholder="粘贴网易云歌单链接" autocomplete="off" data-astro-cid-yinnjqi3>
+      <p class="form-hint" data-astro-cid-yinnjqi3>支持公开歌单，包括公开的「我喜欢的音乐」。导入后会替换当前展示的音乐。</p>
+      <button class="btn read-playlist" type="submit" data-astro-cid-yinnjqi3>读取歌单</button>
+    </form>
+    <div class="playlist-preview" hidden data-astro-cid-yinnjqi3>
+      <div class="preview-heading" data-astro-cid-yinnjqi3><img class="preview-cover" width="80" height="80" alt="歌单封面" referrerpolicy="no-referrer" data-astro-cid-yinnjqi3><div data-astro-cid-yinnjqi3><h3 class="preview-name" data-astro-cid-yinnjqi3></h3><p class="preview-count" data-astro-cid-yinnjqi3></p></div></div>
+      <ol class="preview-tracks" data-astro-cid-yinnjqi3></ol>
+      <p class="preview-more" data-astro-cid-yinnjqi3></p>
+      <button class="btn confirm-import" type="button" data-astro-cid-yinnjqi3>导入并替换</button>
+    </div>
+    <p class="import-message" role="status" aria-live="polite" data-astro-cid-yinnjqi3></p>
+  </dialog>
+</div>
+<script type="module">var e=document.querySelector(`.music-import`);if(e&&[`127.0.0.1`,`localhost`].includes(location.hostname)){let t=e.querySelector(`dialog`),n=e.querySelector(`form`),r=e.querySelector(`input`),i=e.querySelector(`.read-playlist`),a=e.querySelector(`.confirm-import`),o=e.querySelector(`.playlist-preview`),s=e.querySelector(`.import-message`),c=e.querySelector(`.import-success`),l=``,u=``,d=!1,f=async(e,t)=>{let n=await fetch(`/api/music/${e}`,{method:`POST`,headers:{"Content-Type":`application/json`,"X-Music-Token":l},body:JSON.stringify(t)}),r=await n.json();if(!n.ok)throw Error(r.error??`操作未完成，请重试。`);return r},p=(e,t)=>{d=e,r.disabled=e,i.disabled=e,a.disabled=e,n.setAttribute(`aria-busy`,String(e)),s.textContent=t,s.classList.remove(`has-error`)};fetch(`/api/music/status`).then(async t=>{if(!t.ok)return;let n=await t.json();if(!n.available||typeof n.token!=`string`)return;l=n.token,e.hidden=!1;let r=sessionStorage.getItem(`jianji-music-imported`);r&&(sessionStorage.removeItem(`jianji-music-imported`),c.textContent=r,c.hidden=!1)}).catch(()=>{}),e.querySelector(`.import-trigger`).addEventListener(`click`,()=>t.showModal()),e.querySelector(`.close-dialog`).addEventListener(`click`,()=>{d||t.close()}),t.addEventListener(`cancel`,e=>{d&&e.preventDefault()}),r.addEventListener(`input`,()=>{u=``,o.hidden=!0,s.textContent=``}),n.addEventListener(`submit`,async t=>{if(t.preventDefault(),!d){o.hidden=!0,u=``,p(!0,`正在读取完整歌单…`);try{let t=await f(`preview`,{url:r.value});u=t.draftId,e.querySelector(`.preview-name`).textContent=t.name,e.querySelector(`.preview-count`).textContent=`${t.total} 首歌曲 · 已完整读取`;let n=e.querySelector(`.preview-cover`);n.hidden=!t.coverImage,t.coverImage&&(n.src=t.coverImage),e.querySelector(`.preview-tracks`).replaceChildren(...t.tracks.slice(0,5).map(e=>{let t=document.createElement(`li`);return t.textContent=`${e.title} · ${e.artist}`,t})),e.querySelector(`.preview-more`).textContent=t.total>5?`还有 ${t.total-5} 首，将一起导入。`:``,a.textContent=`导入这 ${t.total} 首`,o.hidden=!1,p(!1,`确认后会保存歌曲和封面，更新唱片架。`)}catch(e){p(!1,e.message),s.classList.add(`has-error`)}}}),a.addEventListener(`click`,async()=>{if(u&&!d){p(!0,`正在下载封面并保存歌单，首次导入需要一点时间，请保持窗口打开…`);try{let e=await f(`import`,{draftId:u});sessionStorage.setItem(`jianji-music-imported`,`已导入 ${e.imported} 首`),location.reload()}catch(e){p(!1,e.message),s.classList.add(`has-error`)}}})}</script>
+        <a class="btn" href="https://music.163.com/#/user/home?id=133010508" data-astro-cid-adrqmx6s>
+            我的网易云 <span aria-hidden="true" data-astro-cid-adrqmx6s>→</span>
+          </a>
+      </div>
+    </header>
+
+    <nav class="shelf-nav" aria-label="书影音分类" data-astro-cid-74w5s26x>
+  <a href="/shelf/" data-astro-cid-74w5s26x>书籍</a><a href="/films/" data-astro-cid-74w5s26x>影视</a><a href="/music/" aria-current="page" data-astro-cid-74w5s26x>音乐</a>
+</nav>
+
+    <!-- 01 立体唱片架 -->
+    <section class="sec" data-astro-cid-adrqmx6s>
+      <div class="shd" data-astro-cid-adrqmx6s>
+        <span class="mono dim" data-astro-cid-adrqmx6s>01 / 单曲</span>
+        <h2 data-astro-cid-adrqmx6s>反复循环的</h2>
+        <span class="mono dim tip" data-astro-cid-adrqmx6s>左右拖动，翻翻唱片</span>
+      </div>
+
+      <div class="music-stack" data-initial="1" data-astro-cid-4b3mhu5t>
+  <div class="stack-heading" data-astro-cid-4b3mhu5t><span data-astro-cid-4b3mhu5t>见己 / 私人唱片架</span><span data-astro-cid-4b3mhu5t>106 RECORDS</span></div>
+  <div class="stack-stage" tabindex="0" role="region" aria-label="横向唱片架，左右拖动或按左右方向键翻唱片" data-astro-cid-4b3mhu5t>
+    <ol class="stack-rail" data-astro-cid-4b3mhu5t>
+      <li class="album-slot" style="transform:translate3d(calc(-50% + -250px),-50%,-110px) rotateY(70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=33789480" aria-label="月の光 ～ good night · 黒川沙良，在网易云打开" data-title="月の光 ～ good night" data-artist="黒川沙良" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/33789473.BIInciZ9_Z13020Y.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>月の光 ～ good night · 黒川沙良</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>月の光 ～ good night · 黒川沙良</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 0px),-50%,0px) rotateY(0deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=64293" aria-label="苦瓜 · 陈奕迅，在网易云打开" aria-current="true" data-title="苦瓜" data-artist="陈奕迅" style="--c:#081828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/64293.T-xigEwc_9p6Ud.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>苦瓜 · 陈奕迅</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>苦瓜 · 陈奕迅</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 250px),-50%,-110px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1887893165" aria-label="blank sky · 安田レイ，在网易云打开" data-title="blank sky" data-artist="安田レイ" style="--c:#5a6161" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1887893165.D4I5Oy01_KhJg.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>blank sky · 安田レイ</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>blank sky · 安田レイ</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 322px),-50%,-220px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2034554735" aria-label="线 · 李佳隆，在网易云打开" data-title="线" data-artist="李佳隆" style="--c:#282828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2034554735.DaAU1QP6_28vcLY.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>线 · 李佳隆</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>线 · 李佳隆</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 394px),-50%,-330px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=757269" aria-label="永遠にともに · コブクロ，在网易云打开" data-title="永遠にともに" data-artist="コブクロ" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/757269.DhR4D0CM_1LYjc.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>永遠にともに · コブクロ</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>永遠にともに · コブクロ</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 466px),-50%,-440px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2648463999" aria-label="Love Quotes · Jenevieve，在网易云打开" data-title="Love Quotes" data-artist="Jenevieve" style="--c:#a82858" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2648463999.Dl-cK_6F_19WMPq.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Love Quotes · Jenevieve</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Love Quotes · Jenevieve</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 538px),-50%,-550px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1875170396" aria-label="Résumé · Jenevieve，在网易云打开" data-title="Résumé" data-artist="Jenevieve" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1875170396.21QkjUJE_1yyhWj.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Résumé · Jenevieve</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Résumé · Jenevieve</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 610px),-50%,-660px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=16808807" aria-label="Where Is The Love? · Black Eyed Peas / Justin Timberlake，在网易云打开" data-title="Where Is The Love?" data-artist="Black Eyed Peas / Justin Timberlake" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/16808807.Cxf6meU0_1N742E.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Where Is The Love? · Black Eyed Peas / Justin Timberlake</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Where Is The Love? · Black Eyed Peas / Justin Timberlake</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 682px),-50%,-770px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=522429778" aria-label="Never Enough · Loren Allred，在网易云打开" data-title="Never Enough" data-artist="Loren Allred" style="--c:#080818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/522429778.BS-cjqCq_oynE.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Never Enough · Loren Allred</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Never Enough · Loren Allred</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 754px),-50%,-880px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=3305969" aria-label="Why Would I Ever · Paula DeAnda，在网易云打开" data-title="Why Would I Ever" data-artist="Paula DeAnda" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/3305969.DnSTxHdf_Z2WAu1.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Why Would I Ever · Paula DeAnda</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Why Would I Ever · Paula DeAnda</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 826px),-50%,-990px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1449537108" aria-label="帰ろう · 藤井風，在网易云打开" data-title="帰ろう" data-artist="藤井風" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1449537108.qnUZV8W4_eObVO.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>帰ろう · 藤井風</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>帰ろう · 藤井風</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 898px),-50%,-1100px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=33789473" aria-label="My Life · 黒川沙良，在网易云打开" data-title="My Life" data-artist="黒川沙良" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/33789473.BIInciZ9_Z13020Y.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>My Life · 黒川沙良</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>My Life · 黒川沙良</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 970px),-50%,-1210px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2034187125" aria-label="沉溺 (你让我的心不再结冰） · 邹沛沛 / Pank，在网易云打开" data-title="沉溺 (你让我的心不再结冰）" data-artist="邹沛沛 / Pank" style="--c:#57624a" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2034187125.DSgZESNZ_2j7901.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>沉溺 (你让我的心不再结冰） · 邹沛沛 / Pank</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>沉溺 (你让我的心不再结冰） · 邹沛沛 / Pank</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1042px),-50%,-1320px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1981762011" aria-label="Guess Who I Saw Today · Samara Joy，在网易云打开" data-title="Guess Who I Saw Today" data-artist="Samara Joy" style="--c:#b81828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1981762011.B9s2GS2x_22GFaw.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Guess Who I Saw Today · Samara Joy</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Guess Who I Saw Today · Samara Joy</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1114px),-50%,-1430px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1397615506" aria-label="Easy Breezy · Kiana Ledé，在网易云打开" data-title="Easy Breezy" data-artist="Kiana Ledé" style="--c:#6c5e38" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1397615506.CbiOPQ3c_Z1sBdwP.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Easy Breezy · Kiana Ledé</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Easy Breezy · Kiana Ledé</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1186px),-50%,-1540px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2103880332" aria-label="歌一切 · 许钧，在网易云打开" data-title="歌一切" data-artist="许钧" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2103880332.BDhCySKf_4pbhI.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>歌一切 · 许钧</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>歌一切 · 许钧</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1258px),-50%,-1650px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2086056137" aria-label="Pull Me Through The Fire · Matisse &amp; Sadko / James French，在网易云打开" data-title="Pull Me Through The Fire" data-artist="Matisse &amp; Sadko / James French" style="--c:#081818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2086056137.DFLbK9QG_gi3cK.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Pull Me Through The Fire · Matisse &amp; Sadko / James French</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Pull Me Through The Fire · Matisse &amp; Sadko / James French</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1330px),-50%,-1760px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1900946831" aria-label="Diamond Heart · Croosh，在网易云打开" data-title="Diamond Heart" data-artist="Croosh" style="--c:#080818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1900946831.BXZm1lSe_Z1kb3TW.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Diamond Heart · Croosh</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Diamond Heart · Croosh</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1402px),-50%,-1870px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=28712318" aria-label="FRAGILE · 山下達郎，在网易云打开" data-title="FRAGILE" data-artist="山下達郎" style="--c:#616154" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/28712318.BnykXgI9_Z1Of8Ph.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>FRAGILE · 山下達郎</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>FRAGILE · 山下達郎</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1474px),-50%,-1980px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1931514962" aria-label="Walkin · Denzel Curry，在网易云打开" data-title="Walkin" data-artist="Denzel Curry" style="--c:#081868" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1931514962.GBpvN77c_ZK9goB.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Walkin · Denzel Curry</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Walkin · Denzel Curry</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1546px),-50%,-2090px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1985051558" aria-label="無法抗拒的你 · Maderlin Weng，在网易云打开" data-title="無法抗拒的你" data-artist="Maderlin Weng" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1985051558.cZEZG1K6_ZF2Mwi.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>無法抗拒的你 · Maderlin Weng</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>無法抗拒的你 · Maderlin Weng</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1618px),-50%,-2200px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=22778306" aria-label="Life · Ms.OOJA，在网易云打开" data-title="Life" data-artist="Ms.OOJA" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/22778306.BSZybCkZ_2sUlsR.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Life · Ms.OOJA</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Life · Ms.OOJA</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1690px),-50%,-2310px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=498577600" aria-label="Missing U · Gen Neo / 汪小敏，在网易云打开" data-title="Missing U" data-artist="Gen Neo / 汪小敏" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/498577600.DnkadVYR_oNPj1.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Missing U · Gen Neo / 汪小敏</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Missing U · Gen Neo / 汪小敏</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1762px),-50%,-2420px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=22786083" aria-label="First Love · 宇多田ヒカル，在网易云打开" data-title="First Love" data-artist="宇多田ヒカル" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/22786083.BJspO5RF_1g1jEd.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>First Love · 宇多田ヒカル</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>First Love · 宇多田ヒカル</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1834px),-50%,-2530px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2149780504" aria-label="intentions · Starfall，在网易云打开" data-title="intentions" data-artist="Starfall" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2149780504.B6lgAfFM_1WjghX.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>intentions · Starfall</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>intentions · Starfall</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1906px),-50%,-2640px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1954711881" aria-label="낭만교향곡 · BIG Naughty / CHANGMO / 朴宰范，在网易云打开" data-title="낭만교향곡" data-artist="BIG Naughty / CHANGMO / 朴宰范" style="--c:#405da5" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1954711881.BPWMkNoO_1bkqUT.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>낭만교향곡 · BIG Naughty / CHANGMO / 朴宰范</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>낭만교향곡 · BIG Naughty / CHANGMO / 朴宰范</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 1978px),-50%,-2750px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2617944302" aria-label="Die With A Smile · Lady Gaga / Bruno Mars，在网易云打开" data-title="Die With A Smile" data-artist="Lady Gaga / Bruno Mars" style="--c:#083858" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2617944302.BhB2alAW_1aGEEx.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Die With A Smile · Lady Gaga / Bruno Mars</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Die With A Smile · Lady Gaga / Bruno Mars</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2050px),-50%,-2860px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1892650191" aria-label="All Night Parking (with Erroll Garner) Interlude · Adele / Erroll Garner，在网易云打开" data-title="All Night Parking (with Erroll Garner) Interlude" data-artist="Adele / Erroll Garner" style="--c:#284848" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1892650191.BIjzEB8Z_Z1Msq1z.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>All Night Parking (with Erroll Garner) Interlude · Adele / Erroll Garner</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>All Night Parking (with Erroll Garner) Interlude · Adele / Erroll Garner</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2122px),-50%,-2970px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=547764799" aria-label="MAYDAY · TheFatRat / Laura Brehm，在网易云打开" data-title="MAYDAY" data-artist="TheFatRat / Laura Brehm" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/547764799.UfesILYv_ZwQuy2.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>MAYDAY · TheFatRat / Laura Brehm</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>MAYDAY · TheFatRat / Laura Brehm</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2194px),-50%,-3080px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2712527010" aria-label="Save My Love · Marshmello / Ellie Goulding / AVAION，在网易云打开" data-title="Save My Love" data-artist="Marshmello / Ellie Goulding / AVAION" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2712527010.D9OJIelQ_Z1abW2p.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Save My Love · Marshmello / Ellie Goulding / AVAION</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Save My Love · Marshmello / Ellie Goulding / AVAION</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2266px),-50%,-3190px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=574917968" aria-label="Gonna Love Me · Teyana Taylor，在网易云打开" data-title="Gonna Love Me" data-artist="Teyana Taylor" style="--c:#485858" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/574917968.BNEqJemQ_ZBkrWk.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Gonna Love Me · Teyana Taylor</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Gonna Love Me · Teyana Taylor</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2338px),-50%,-3300px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2740511421" aria-label="WANTCHU · keshi，在网易云打开" data-title="WANTCHU" data-artist="keshi" style="--c:#626262" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2740511421.DLBoTLPG_1UyuUN.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>WANTCHU · keshi</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>WANTCHU · keshi</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2410px),-50%,-3410px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=3347087904" aria-label="Inside Outside · Connor Price，在网易云打开" data-title="Inside Outside" data-artist="Connor Price" style="--c:#475e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/3347087904.BdWJ3RZC_ZXKO86.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Inside Outside · Connor Price</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Inside Outside · Connor Price</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2482px),-50%,-3520px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=19550021" aria-label="Me, Myself and I · Beyoncé，在网易云打开" data-title="Me, Myself and I" data-artist="Beyoncé" style="--c:#58616b" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/19550021.ByF_WL1X_Z8esJT.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Me, Myself and I · Beyoncé</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Me, Myself and I · Beyoncé</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2554px),-50%,-3630px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=460113004" aria-label="Precious Love · Charlie Wilson，在网易云打开" data-title="Precious Love" data-artist="Charlie Wilson" style="--c:#6c5e3f" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/460113004.CYazA8J5_FEh5G.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Precious Love · Charlie Wilson</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Precious Love · Charlie Wilson</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2626px),-50%,-3740px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=3356494231" aria-label="Home (feat. Hikaru Utada) · Charlie Puth / 宇多田ヒカル，在网易云打开" data-title="Home (feat. Hikaru Utada)" data-artist="Charlie Puth / 宇多田ヒカル" style="--c:#576069" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/3356494231.Qg167NUM_ZDcM5F.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Home (feat. Hikaru Utada) · Charlie Puth / 宇多田ヒカル</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Home (feat. Hikaru Utada) · Charlie Puth / 宇多田ヒカル</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2698px),-50%,-3850px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2158534294" aria-label="Made For Me · Muni Long / Mariah Carey，在网易云打开" data-title="Made For Me" data-artist="Muni Long / Mariah Carey" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2158534294.CNELgczy_Z10y7xS.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Made For Me · Muni Long / Mariah Carey</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Made For Me · Muni Long / Mariah Carey</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2770px),-50%,-3960px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=21234462" aria-label="We Belong Together · Mariah Carey，在网易云打开" data-title="We Belong Together" data-artist="Mariah Carey" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/21234462.BSMcRqgD_ms1PO.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>We Belong Together · Mariah Carey</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>We Belong Together · Mariah Carey</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2842px),-50%,-4070px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1983700720" aria-label="Time Machine · Muni Long，在网易云打开" data-title="Time Machine" data-artist="Muni Long" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1983700720.D1bDI-_t_W2VdC.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Time Machine · Muni Long</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Time Machine · Muni Long</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2914px),-50%,-4180px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2030112610" aria-label="IYKYK · Alex Vaughn / Muni Long，在网易云打开" data-title="IYKYK" data-artist="Alex Vaughn / Muni Long" style="--c:#585897" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2030112610.IubpCjLj_Z194an7.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>IYKYK · Alex Vaughn / Muni Long</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>IYKYK · Alex Vaughn / Muni Long</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 2986px),-50%,-4290px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2019161443" aria-label="Ice Cream Man. · RAYE，在网易云打开" data-title="Ice Cream Man." data-artist="RAYE" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2019161443.tNY290Pq_Z29czpQ.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Ice Cream Man. · RAYE</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Ice Cream Man. · RAYE</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3058px),-50%,-4400px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=17724526" aria-label="Thinkin Bout You (Spring Sampler / 2012) · Frank Ocean，在网易云打开" data-title="Thinkin Bout You (Spring Sampler / 2012)" data-artist="Frank Ocean" style="--c:#914616" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/17724526.CFBkE8vp_27Db7S.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Thinkin Bout You (Spring Sampler / 2012) · Frank Ocean</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Thinkin Bout You (Spring Sampler / 2012) · Frank Ocean</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3130px),-50%,-4510px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2622262360" aria-label="The Baddest · Muni Long，在网易云打开" data-title="The Baddest" data-artist="Muni Long" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2622262360.JyRaY0rz_1n7nXs.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>The Baddest · Muni Long</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>The Baddest · Muni Long</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3202px),-50%,-4620px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2681425876" aria-label="아무래도 (Feat. ZENE THE ZILLA) (feat. ZENE THE ZILLA (제네 더 질라)) · TOIL / Gist，在网易云打开" data-title="아무래도 (Feat. ZENE THE ZILLA) (feat. ZENE THE ZILLA (제네 더 질라))" data-artist="TOIL / Gist" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2681425876.DwTzo6UX_ypHtq.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>아무래도 (Feat. ZENE THE ZILLA) (feat. ZENE THE ZILLA (제네 더 질라)) · TOIL / Gist</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>아무래도 (Feat. ZENE THE ZILLA) (feat. ZENE THE ZILLA (제네 더 질라)) · TOIL / Gist</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3274px),-50%,-4730px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2647737412" aria-label="Skrr · HAON / GISELLE，在网易云打开" data-title="Skrr" data-artist="HAON / GISELLE" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2647737412.D4DT0c3-_1NlVIb.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Skrr · HAON / GISELLE</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Skrr · HAON / GISELLE</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3346px),-50%,-4840px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=18943527" aria-label="Now Or Never (Bonus Track) · Kendrick Lamar / Mary J. Blige，在网易云打开" data-title="Now Or Never (Bonus Track)" data-artist="Kendrick Lamar / Mary J. Blige" style="--c:#616161" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/18943527.Ckq4kQZB_Z1qzjJH.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Now Or Never (Bonus Track) · Kendrick Lamar / Mary J. Blige</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Now Or Never (Bonus Track) · Kendrick Lamar / Mary J. Blige</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3418px),-50%,-4950px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2019161447" aria-label="Worth It. · RAYE，在网易云打开" data-title="Worth It." data-artist="RAYE" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2019161443.tNY290Pq_Z29czpQ.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Worth It. · RAYE</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Worth It. · RAYE</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3490px),-50%,-5060px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2633263191" aria-label="Shelter · Justin Peng，在网易云打开" data-title="Shelter" data-artist="Justin Peng" style="--c:#6b5846" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2633263191.4SeKcUBu_sLrI9.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Shelter · Justin Peng</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Shelter · Justin Peng</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3562px),-50%,-5170px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2713805860" aria-label="Suzanne · Mark Ronson / RAYE，在网易云打开" data-title="Suzanne" data-artist="Mark Ronson / RAYE" style="--c:#6b583b" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2713805860.BqfNROzi_Z1nDlj1.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Suzanne · Mark Ronson / RAYE</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Suzanne · Mark Ronson / RAYE</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3634px),-50%,-5280px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2712058440" aria-label="Diet Pepsi · Addison Rae，在网易云打开" data-title="Diet Pepsi" data-artist="Addison Rae" style="--c:#5e5e57" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2712058440.NXLE7-4Q_212RQy.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Diet Pepsi · Addison Rae</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Diet Pepsi · Addison Rae</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3706px),-50%,-5390px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2649423776" aria-label="luther · Kendrick Lamar / SZA，在网易云打开" data-title="luther" data-artist="Kendrick Lamar / SZA" style="--c:#5a5a5a" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2649423776.8muchK2h_2iqLIE.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>luther · Kendrick Lamar / SZA</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>luther · Kendrick Lamar / SZA</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3778px),-50%,-5500px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2141450807" aria-label="Lady Killers II · G-Eazy，在网易云打开" data-title="Lady Killers II" data-artist="G-Eazy" style="--c:#384848" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2141450807.C8co0xyM_1VPA2D.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Lady Killers II · G-Eazy</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Lady Killers II · G-Eazy</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3850px),-50%,-5610px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2745751872" aria-label="lost you twice · 卢广仲，在网易云打开" data-title="lost you twice" data-artist="卢广仲" style="--c:#080818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2745751872.BC3-PGNf_1soOhT.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>lost you twice · 卢广仲</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>lost you twice · 卢广仲</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3922px),-50%,-5720px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2102065096" aria-label="LOVE · 黒川沙良，在网易云打开" data-title="LOVE" data-artist="黒川沙良" style="--c:#5d5d5d" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2102065096.CgCR9ByN_TsGIg.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>LOVE · 黒川沙良</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>LOVE · 黒川沙良</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 3994px),-50%,-5830px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1457329436" aria-label="Firefighter · Jahkoy，在网易云打开" data-title="Firefighter" data-artist="Jahkoy" style="--c:#281828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1457329436.BCi_M1U__ZFJ1vO.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Firefighter · Jahkoy</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Firefighter · Jahkoy</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4066px),-50%,-5940px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2643014905" aria-label="Dreamin · PARTYNEXTDOOR，在网易云打开" data-title="Dreamin" data-artist="PARTYNEXTDOOR" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2643014905.TmbhG4Gj_1LSwj9.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Dreamin · PARTYNEXTDOOR</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Dreamin · PARTYNEXTDOOR</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4138px),-50%,-6050px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1988671321" aria-label="why didn't you call??? · Saint Harison，在网易云打开" data-title="why didn't you call???" data-artist="Saint Harison" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1988671321.pxHEzELz_Z7hC3g.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>why didn&#39;t you call??? · Saint Harison</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>why didn&#39;t you call??? · Saint Harison</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4210px),-50%,-6160px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2886364" aria-label="Superwoman · Karyn White，在网易云打开" data-title="Superwoman" data-artist="Karyn White" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2886364.C41UYZif_Bsuqg.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Superwoman · Karyn White</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Superwoman · Karyn White</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4282px),-50%,-6270px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1911129815" aria-label="All Of My Love · Charlie Wilson / Smokey Robinson，在网易云打开" data-title="All Of My Love" data-artist="Charlie Wilson / Smokey Robinson" style="--c:#695a46" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1911129815.DVVX3Je9_Z1jdA4v.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>All Of My Love · Charlie Wilson / Smokey Robinson</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>All Of My Love · Charlie Wilson / Smokey Robinson</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4354px),-50%,-6380px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1332888004" aria-label="Swim · Chase Atlantic，在网易云打开" data-title="Swim" data-artist="Chase Atlantic" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1332888004.CutX2rC8_Z165j71.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Swim · Chase Atlantic</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Swim · Chase Atlantic</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4426px),-50%,-6490px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1946812706" aria-label="Excuses · twlv，在网易云打开" data-title="Excuses" data-artist="twlv" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1946812706.CjuhePeY_ZLRSg2.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Excuses · twlv</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Excuses · twlv</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4498px),-50%,-6600px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2727028833" aria-label="Desire (Speed Garage Remix) · Hiko，在网易云打开" data-title="Desire (Speed Garage Remix)" data-artist="Hiko" style="--c:#085888" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2727028833.DqmRIP7S_Z2vhPds.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Desire (Speed Garage Remix) · Hiko</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Desire (Speed Garage Remix) · Hiko</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4570px),-50%,-6710px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=866065094" aria-label="Wicked Games · Kiana Ledé，在网易云打开" data-title="Wicked Games" data-artist="Kiana Ledé" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/866065094.bgZ-vKpR_1Lktql.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Wicked Games · Kiana Ledé</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Wicked Games · Kiana Ledé</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4642px),-50%,-6820px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2164194910" aria-label="sining · Dionela / Jay R，在网易云打开" data-title="sining" data-artist="Dionela / Jay R" style="--c:#282828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2164194910.Bzr11vfu_ZjKcpd.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>sining · Dionela / Jay R</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>sining · Dionela / Jay R</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4714px),-50%,-6930px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2601531236" aria-label="every-little-part · Le Youth / Otherwish / LeyeT，在网易云打开" data-title="every-little-part" data-artist="Le Youth / Otherwish / LeyeT" style="--c:#5d5d5d" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2601531236.fAN4R3Kv_ZQw2dY.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>every-little-part · Le Youth / Otherwish / LeyeT</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>every-little-part · Le Youth / Otherwish / LeyeT</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4786px),-50%,-7040px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=3334635018" aria-label="Birds Of A Feather (Amél Remix) [Vocal Edit] · Amél，在网易云打开" data-title="Birds Of A Feather (Amél Remix) [Vocal Edit]" data-artist="Amél" style="--c:#181828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/3334635018.wEdiiV-G_Zr1zR3.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Birds Of A Feather (Amél Remix) [Vocal Edit] · Amél</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Birds Of A Feather (Amél Remix) [Vocal Edit] · Amél</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4858px),-50%,-7150px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1384496555" aria-label="Leave Em Alone · Quality Control / Layton Greene / Lil Baby / City Girls / PnB Rock，在网易云打开" data-title="Leave Em Alone" data-artist="Quality Control / Layton Greene / Lil Baby / City Girls / PnB Rock" style="--c:#081818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1384496555.DPw2NhjB_Z1yW0A7.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Leave Em Alone · Quality Control / Layton Greene / Lil Baby / City Girls / PnB Rock</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Leave Em Alone · Quality Control / Layton Greene / Lil Baby / City Girls / PnB Rock</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 4930px),-50%,-7260px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2154520553" aria-label="Marry · Top Barry / INDEcompany，在网易云打开" data-title="Marry" data-artist="Top Barry / INDEcompany" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2154520553.Ci1D0adJ_Z1Pdq0c.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Marry · Top Barry / INDEcompany</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Marry · Top Barry / INDEcompany</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5002px),-50%,-7370px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2714181789" aria-label="Folded · Kehlani，在网易云打开" data-title="Folded" data-artist="Kehlani" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2714181789.CKlQt3s0_Z2gvclm.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Folded · Kehlani</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Folded · Kehlani</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5074px),-50%,-7480px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=434974489" aria-label="곁에 있어주길 (STAY WITH ME) · 朴宰范，在网易云打开" data-title="곁에 있어주길 (STAY WITH ME)" data-artist="朴宰范" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/434974489.DNsAl3Cm_EKaxt.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>곁에 있어주길 (STAY WITH ME) · 朴宰范</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>곁에 있어주길 (STAY WITH ME) · 朴宰范</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5146px),-50%,-7590px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2084276892" aria-label="HVN ON EARTH · Lil Tecca / Kodak Black，在网易云打开" data-title="HVN ON EARTH" data-artist="Lil Tecca / Kodak Black" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2084276892.Dw7FhHwA_Z1NWakp.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>HVN ON EARTH · Lil Tecca / Kodak Black</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>HVN ON EARTH · Lil Tecca / Kodak Black</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5218px),-50%,-7700px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2632576198" aria-label="Bécane (Remix) · Trinix / Yamê，在网易云打开" data-title="Bécane (Remix)" data-artist="Trinix / Yamê" style="--c:#081828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2632576198.BvFwE-Xm_Z1xAqmu.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Bécane (Remix) · Trinix / Yamê</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Bécane (Remix) · Trinix / Yamê</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5290px),-50%,-7810px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=514172235" aria-label="Best Part · Daniel Caesar / H.E.R.，在网易云打开" data-title="Best Part" data-artist="Daniel Caesar / H.E.R." style="--c:#85571c" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/514172235.D0wcF8a9_Z1rTyiA.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Best Part · Daniel Caesar / H.E.R.</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Best Part · Daniel Caesar / H.E.R.</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5362px),-50%,-7920px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=666160" aria-label="Apple And Cinnamon · 宇多田ヒカル，在网易云打开" data-title="Apple And Cinnamon" data-artist="宇多田ヒカル" style="--c:#5a5a5a" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/666160.CdND5qjy_Z1VvgEp.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Apple And Cinnamon · 宇多田ヒカル</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Apple And Cinnamon · 宇多田ヒカル</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5434px),-50%,-8030px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2641311349" aria-label="Elevate · NAO，在网易云打开" data-title="Elevate" data-artist="NAO" style="--c:#081828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2641311349.RN-Vy0p2_CHe3x.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Elevate · NAO</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Elevate · NAO</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5506px),-50%,-8140px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2740858325" aria-label="Star Crossing Night (feat. GALI) · 徐明浩 / GALI，在网易云打开" data-title="Star Crossing Night (feat. GALI)" data-artist="徐明浩 / GALI" style="--c:#080818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2740858325.HhMJfdAV_ZcGAP0.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Star Crossing Night (feat. GALI) · 徐明浩 / GALI</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Star Crossing Night (feat. GALI) · 徐明浩 / GALI</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5578px),-50%,-8250px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1437274080" aria-label="Mind Games · Sickick，在网易云打开" data-title="Mind Games" data-artist="Sickick" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1437274080.Bd-VPsY5_Z2bvvI.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Mind Games · Sickick</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Mind Games · Sickick</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5650px),-50%,-8360px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2132293322" aria-label="All I Want Is You · Lavern / NEIMY，在网易云打开" data-title="All I Want Is You" data-artist="Lavern / NEIMY" style="--c:#683838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2132293322.DT5AU6eN_1vOWeQ.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>All I Want Is You · Lavern / NEIMY</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>All I Want Is You · Lavern / NEIMY</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5722px),-50%,-8470px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2135625944" aria-label="満ちてゆく · 藤井風，在网易云打开" data-title="満ちてゆく" data-artist="藤井風" style="--c:#180808" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2135625944.BGH2920M_2wLKgQ.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>満ちてゆく · 藤井風</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>満ちてゆく · 藤井風</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5794px),-50%,-8580px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=21234081" aria-label="Triumphant (Get 'Em) · Mariah Carey / Rick Ross / Meek Mill，在网易云打开" data-title="Triumphant (Get 'Em)" data-artist="Mariah Carey / Rick Ross / Meek Mill" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/21234081.BtoKKBZL_10Iqcq.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Triumphant (Get &#39;Em) · Mariah Carey / Rick Ross / Meek Mill</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Triumphant (Get &#39;Em) · Mariah Carey / Rick Ross / Meek Mill</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5866px),-50%,-8690px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=433018100" aria-label="I NEED YOU · Ailee，在网易云打开" data-title="I NEED YOU" data-artist="Ailee" style="--c:#626262" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/433018100.DsGHCPfa_2mfzxq.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>I NEED YOU · Ailee</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>I NEED YOU · Ailee</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 5938px),-50%,-8800px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1899805384" aria-label="Alone (Feat. SOLE, Dvwn) · Cosmic Boy / SOLE / Dvwn，在网易云打开" data-title="Alone (Feat. SOLE, Dvwn)" data-artist="Cosmic Boy / SOLE / Dvwn" style="--c:#3b6161" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1899805384.-5J4b4IJ_ZLRnk6.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Alone (Feat. SOLE, Dvwn) · Cosmic Boy / SOLE / Dvwn</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Alone (Feat. SOLE, Dvwn) · Cosmic Boy / SOLE / Dvwn</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6010px),-50%,-8910px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=29418127" aria-label="양화대교 · Zion.T，在网易云打开" data-title="양화대교" data-artist="Zion.T" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/29418127.DwrlOjm__ZnRWC5.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>양화대교 · Zion.T</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>양화대교 · Zion.T</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6082px),-50%,-9020px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=21233892" aria-label="H.A.T.E.U. · Mariah Carey，在网易云打开" data-title="H.A.T.E.U." data-artist="Mariah Carey" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/21233892.lLK-hbni_18dnu7.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>H.A.T.E.U. · Mariah Carey</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>H.A.T.E.U. · Mariah Carey</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6154px),-50%,-9130px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2845780" aria-label="If I (Album Version) · Jesse Powell，在网易云打开" data-title="If I (Album Version)" data-artist="Jesse Powell" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2845780.BtLjTaEj_C6l4E.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>If I (Album Version) · Jesse Powell</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>If I (Album Version) · Jesse Powell</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6226px),-50%,-9240px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2724438095" aria-label="且听风吟 · Vansdaddy / 黄之仪Kyra Zilver，在网易云打开" data-title="且听风吟" data-artist="Vansdaddy / 黄之仪Kyra Zilver" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2724438095.DJZBfXDd_iLAG2.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>且听风吟 · Vansdaddy / 黄之仪Kyra Zilver</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>且听风吟 · Vansdaddy / 黄之仪Kyra Zilver</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6298px),-50%,-9350px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=16621718" aria-label="Pieces Of Me · Ledisi，在网易云打开" data-title="Pieces Of Me" data-artist="Ledisi" style="--c:#181828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/16621718.CDpU28ha_Z1AR9kt.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Pieces Of Me · Ledisi</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Pieces Of Me · Ledisi</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6370px),-50%,-9460px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=2594596" aria-label="Can't Take My Eyes Off You · Frankie Valli，在网易云打开" data-title="Can't Take My Eyes Off You" data-artist="Frankie Valli" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/2594596.Dy41jXrD_Zn5Dnd.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Can&#39;t Take My Eyes Off You · Frankie Valli</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Can&#39;t Take My Eyes Off You · Frankie Valli</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6442px),-50%,-9570px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=423118180" aria-label="morning · 雨のパレード，在网易云打开" data-title="morning" data-artist="雨のパレード" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/423118180.SanWnrcg_1SKPMW.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>morning · 雨のパレード</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>morning · 雨のパレード</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6514px),-50%,-9680px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1427882042" aria-label="You Got It · Vedo，在网易云打开" data-title="You Got It" data-artist="Vedo" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1427882042.CxWi7Iav_Z1fskml.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>You Got It · Vedo</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>You Got It · Vedo</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6586px),-50%,-9790px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=39224375" aria-label="告别之前 · 陈柏宇，在网易云打开" data-title="告别之前" data-artist="陈柏宇" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/39224375.CX1SxYbD_Zi46Fb.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>告别之前 · 陈柏宇</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>告别之前 · 陈柏宇</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6658px),-50%,-9900px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=82360" aria-label="Love Song · 方大同，在网易云打开" data-title="Love Song" data-artist="方大同" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/82360.0d5BITbz_3DFgf.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Love Song · 方大同</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Love Song · 方大同</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6730px),-50%,-10010px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=1325711261" aria-label="九月底 · 余佳运，在网易云打开" data-title="九月底" data-artist="余佳运" style="--c:#476187" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/1325711261.C-_sTbM5_wfK5o.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>九月底 · 余佳运</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>九月底 · 余佳运</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6802px),-50%,-10120px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=94714" aria-label="垃圾 · 卢巧音，在网易云打开" data-title="垃圾" data-artist="卢巧音" style="--c:#481808" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/94714.BD6a_Fjy_Qp3Fy.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>垃圾 · 卢巧音</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>垃圾 · 卢巧音</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6874px),-50%,-10230px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=27867458" aria-label="痛爱 (Live) · 容祖儿，在网易云打开" data-title="痛爱 (Live)" data-artist="容祖儿" style="--c:#383838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/27867458.BYL7bQ5K_ZpbDGU.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>痛爱 (Live) · 容祖儿</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>痛爱 (Live) · 容祖儿</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 6946px),-50%,-10340px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=450048037" aria-label="Situations · DANYAL，在网易云打开" data-title="Situations" data-artist="DANYAL" style="--c:#081838" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/450048037.j_p8uQow_Z1jPXGT.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Situations · DANYAL</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Situations · DANYAL</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7018px),-50%,-10450px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=426852652" aria-label="to him · JAMIE，在网易云打开" data-title="to him" data-artist="JAMIE" style="--c:#545a61" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/426852652.D4EEtqgk_11U7yd.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>to him · JAMIE</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>to him · JAMIE</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7090px),-50%,-10560px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=404184357" aria-label="DODODO (Explicit Ver.) · JINSIL / TABLO，在网易云打开" data-title="DODODO (Explicit Ver.)" data-artist="JINSIL / TABLO" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/404184357.7ZcQPQC__2vmmbd.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>DODODO (Explicit Ver.) · JINSIL / TABLO</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>DODODO (Explicit Ver.) · JINSIL / TABLO</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7162px),-50%,-10670px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=28125007" aria-label="넌 나의 것 · Yena / Jolly.V，在网易云打开" data-title="넌 나의 것" data-artist="Yena / Jolly.V" style="--c:#39616d" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/28125007.CgT2u4OU_Z2uYm1.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>넌 나의 것 · Yena / Jolly.V</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>넌 나의 것 · Yena / Jolly.V</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7234px),-50%,-10780px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=36664962" aria-label="먹고하고자고 · Dynamic Duo，在网易云打开" data-title="먹고하고자고" data-artist="Dynamic Duo" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/36664962.BAc8D3Ka_Z235xyx.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>먹고하고자고 · Dynamic Duo</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>먹고하고자고 · Dynamic Duo</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7306px),-50%,-10890px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=28613731" aria-label="好きだよ。~100回の後悔~ (English Ver.) · Che'Nelle，在网易云打开" data-title="好きだよ。~100回の後悔~ (English Ver.)" data-artist="Che'Nelle" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/28613731.C69cLdXc_Z1cWHuK.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>好きだよ。~100回の後悔~ (English Ver.) · Che&#39;Nelle</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>好きだよ。~100回の後悔~ (English Ver.) · Che&#39;Nelle</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7378px),-50%,-11000px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=420134123" aria-label="tone · Aimer，在网易云打开" data-title="tone" data-artist="Aimer" style="--c:#5e5e5e" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/420134123.BfO-V3Uu_2og930.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>tone · Aimer</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>tone · Aimer</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7450px),-50%,-11110px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=30245275" aria-label="I miss you -refrain- · 清水翔太，在网易云打开" data-title="I miss you -refrain-" data-artist="清水翔太" style="--c:#615a54" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/30245275.3RNcVibu_Ecnz1.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>I miss you -refrain- · 清水翔太</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>I miss you -refrain- · 清水翔太</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7522px),-50%,-11220px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=31967424" aria-label="SOFA · Jung Kook，在网易云打开" data-title="SOFA" data-artist="Jung Kook" style="--c:#181818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/31967424.Bwn_8F5-_Z1is5sz.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>SOFA · Jung Kook</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>SOFA · Jung Kook</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7594px),-50%,-11330px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=29777115" aria-label="Psychic (사이킥) · Richard Parkers，在网易云打开" data-title="Psychic (사이킥)" data-artist="Richard Parkers" style="--c:#381828" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/29777115.Cqr_CNw2_26hMi0.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>Psychic (사이킥) · Richard Parkers</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>Psychic (사이킥) · Richard Parkers</span>
+            </a>
+          </li><li class="album-slot" style="transform:translate3d(calc(-50% + 7666px),-50%,-11440px) rotateY(-70deg)" data-astro-cid-4b3mhu5t>
+            <a class="album" href="https://music.163.com/#/song?id=32450288" aria-label="ili · TroyBoi，在网易云打开" data-title="ili" data-artist="TroyBoi" style="--c:#281818" draggable="false" data-astro-cid-4b3mhu5t>
+              <span class="record-disc" aria-hidden="true" data-astro-cid-4b3mhu5t><span class="record-label" data-astro-cid-4b3mhu5t></span></span>
+              <span class="album-art" data-astro-cid-4b3mhu5t>
+<img src="/_astro/32450288.DF2FMw98_11kBKF.webp" alt loading="eager" draggable="false" data-astro-cid-4b3mhu5t="true" decoding="async" width="560" height="560"></span>
+              <span class="album-edge edge-left" aria-hidden="true" data-astro-cid-4b3mhu5t>ili · TroyBoi</span>
+              <span class="album-edge edge-right" aria-hidden="true" data-astro-cid-4b3mhu5t>ili · TroyBoi</span>
+            </a>
+          </li>
+    </ol>
+  </div>
+  <div class="stack-controls" data-astro-cid-4b3mhu5t>
+    <button type="button" class="stack-prev" aria-label="上一张唱片" data-astro-cid-4b3mhu5t>←</button>
+    <div class="stack-caption" aria-live="polite" aria-atomic="true" data-astro-cid-4b3mhu5t><strong data-astro-cid-4b3mhu5t>苦瓜</strong><span data-astro-cid-4b3mhu5t>陈奕迅</span></div>
+    <button type="button" class="stack-next" aria-label="下一张唱片" data-astro-cid-4b3mhu5t>→</button>
+  </div>
+  <p class="stack-help" data-astro-cid-4b3mhu5t>左右拖动 / 触控板横滑 <span class="stack-counter" data-astro-cid-4b3mhu5t>02 / 106</span>点正面唱片，去网易云听</p>
+</div>
+
+<script type="module">var e=document.querySelector(`.music-stack`);if(e){let t=e.querySelector(`.stack-stage`),n=e.querySelector(`.stack-prev`),r=e.querySelector(`.stack-next`),i=e.querySelector(`.stack-caption strong`),a=e.querySelector(`.stack-caption span`),o=e.querySelector(`.stack-counter`),s=matchMedia(`(prefers-reduced-motion: reduce)`),c=[],l=320,u=Number(e.dataset.initial)||0,d=u+(s.matches?0:.35),f=0,p=0,m=0,h=!0,g=-1,_,v=null,y=!1,b=e=>Math.max(0,Math.min(c.length-1,e)),x=()=>{c.forEach(({slot:e,disc:t},n)=>{let r=n-d,i=Math.abs(r);if(i>5.5){e.style.visibility!==`hidden`&&(e.style.visibility=`hidden`);return}e.style.visibility=`visible`;let a=l*(.225*r+.555*Math.tanh(r*1.7)/Math.tanh(1.7)),o=-70*Math.tanh(r*1.6)/Math.tanh(1.6),s=-140*(Math.sqrt(r*r+.16)-.4);e.style.transform=`translate3d(calc(-50% + ${a.toFixed(2)}px),-50%,${s.toFixed(2)}px) rotateY(${o.toFixed(2)}deg)`,t.style.transform=`translate3d(${(Math.exp(-i*i*3)*l*.18).toFixed(2)}px,0,-2px)`})},S=()=>{let e=Math.round(u);n.disabled=e<=0,r.disabled=e>=c.length-1,g!==e&&(g=e,i.textContent=c[e].album.dataset.title??``,a.textContent=c[e].album.dataset.artist??``,o.textContent=`${String(e+1).padStart(2,`0`)} / ${String(c.length).padStart(2,`0`)}`,c.forEach(({album:t},n)=>{n===e?t.setAttribute(`aria-current`,`true`):t.removeAttribute(`aria-current`)}))},C=e=>{p=0;let t=Math.min(40,m?e-m:16)/1e3;if(m=e,s.matches||v)d=u,f=0;else{let e=d-u,n=f+13*e,r=Math.exp(-13*t);d=u+(e+n*t)*r,f=(f-13*n*t)*r;let i=b(d);i!==d&&(d=i,f=0)}Math.abs(u-d)<5e-4&&Math.abs(f)<.003&&(d=u,f=0),x(),(d!==u||f!==0)&&h?p=requestAnimationFrame(C):(m=0,v||S())},w=()=>{!p&&h&&(p=requestAnimationFrame(C))},T=e=>{clearTimeout(_),u=b(Math.round(e)),w()},E=()=>{c=Array.from(e.querySelectorAll(`.album-slot`)).map(e=>({slot:e,album:e.querySelector(`.album`),disc:e.querySelector(`.record-disc`)})),c.length&&(l=c[0].slot.offsetWidth,d=b(d),u=b(u),g=-1,x(),w())};n.addEventListener(`click`,()=>T(u-1)),r.addEventListener(`click`,()=>T(u+1)),t.addEventListener(`keydown`,e=>{let t=e.key===`ArrowRight`?u+1:e.key===`ArrowLeft`?u-1:e.key===`Home`?0:e.key===`End`?c.length-1:null;t!==null&&(e.preventDefault(),T(t))}),t.addEventListener(`pointerdown`,e=>{e.isPrimary&&e.button===0&&(clearTimeout(_),y=!1,u=d,f=0,v={id:e.pointerId,x:e.clientX,start:d,lastX:e.clientX,time:e.timeStamp,velocity:0})}),t.addEventListener(`pointermove`,e=>{if(!v||v.id!==e.pointerId||!y&&Math.abs(e.clientX-v.x)<6)return;y=!0,t.setPointerCapture(e.pointerId),t.classList.add(`is-dragging`);let n=Math.max(1,e.timeStamp-v.time),r=(v.lastX-e.clientX)/(l*.78*n);v.velocity=v.velocity*.65+r*.35,v.lastX=e.clientX,v.time=e.timeStamp,u=b(v.start+(v.x-e.clientX)/(l*.78)),w()}),addEventListener(`pointerup`,e=>{if(!v||v.id!==e.pointerId)return;let n=e.timeStamp-v.time<100?v.velocity:0,r=y?u+n*140:u;f=y?Math.max(-4,Math.min(4,n*1e3)):0,v=null,t.classList.remove(`is-dragging`),T(r)}),t.addEventListener(`pointercancel`,e=>{v?.id===e.pointerId&&(v=null,t.classList.remove(`is-dragging`),T(u))}),t.addEventListener(`wheel`,e=>{if(e.ctrlKey||!e.shiftKey&&Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;let n=(e.shiftKey&&!e.deltaX?e.deltaY:e.deltaX)*(e.deltaMode===1?16:e.deltaMode===2?t.clientWidth:1);n&&(e.preventDefault(),u=b(u+n/(l*.9)),w(),clearTimeout(_),_=setTimeout(()=>T(u),140))},{passive:!1}),t.addEventListener(`click`,e=>{let t=e.target.closest(`.album`);if(!t)return;if(y){e.preventDefault(),y=!1;return}let n=c.findIndex(e=>e.album===t);Math.abs(n-d)>.1&&(e.preventDefault(),T(n))}),t.addEventListener(`focusin`,e=>{if(v)return;let t=c.findIndex(t=>t.album===e.target);t>=0&&T(t)}),s.addEventListener(`change`,w),new ResizeObserver(E).observe(t),new IntersectionObserver(([e])=>{h=e.isIntersecting,h?w():(cancelAnimationFrame(p),p=0,m=0)}).observe(t),addEventListener(`resize`,E,{passive:!0}),E()}</script>
+    </section>
+
+    <!-- 02 歌单 -->
+    <section class="sec" data-astro-cid-adrqmx6s>
+      <div class="shd" data-astro-cid-adrqmx6s>
+        <span class="mono dim" data-astro-cid-adrqmx6s>02 / 歌单</span>
+        <h2 data-astro-cid-adrqmx6s>整张听的时候</h2>
+      </div>
+
+      <div class="list" data-astro-cid-adrqmx6s>
+          <article class="pl" data-astro-cid-adrqmx6s>
+                <a class="art big" href="https://music.163.com/#/playlist?id=167438847" aria-label="欲守护之物不过是泡沫般的温暖喜欢的音乐，在网易云里打开" data-astro-cid-adrqmx6s>
+                  
+<img src="/_astro/playlist-167438847.DEH3UBua_ZLKQYu.webp" alt data-astro-cid-adrqmx6s="true" loading="lazy" decoding="async" width="240" height="240">
+                </a>
+                <div class="txt" data-astro-cid-adrqmx6s>
+                  <h3 data-astro-cid-adrqmx6s>
+                    <a href="https://music.163.com/#/playlist?id=167438847" data-astro-cid-adrqmx6s>欲守护之物不过是泡沫般的温暖喜欢的音乐</a>
+                  </h3>
+                  
+                  <span class="out" data-astro-cid-adrqmx6s>
+                    <a href="https://music.163.com/#/playlist?id=167438847" data-astro-cid-adrqmx6s>在网易云里打开 →</a>
+                  </span>
+                </div>
+              </article>
+        </div>
+    </section>
+
+    <!-- 说明 -->
+    <footer class="note" data-astro-cid-adrqmx6s>
+      <span class="mono dim" data-astro-cid-adrqmx6s>关于这一页</span>
+      <p data-edit-kind="site" data-edit-id="music" data-edit-field="note" data-astro-cid-adrqmx6s>只放了我最爱听的一些音乐，具体看我的网易云歌单，但这也不是全部。</p>
+      <p class="fine" data-astro-cid-adrqmx6s>
+        封面和歌名留在这里。想听的时候，点唱片去网易云。
+      </p>
+    </footer>
+  </div>
+
+    </main>
+
+    <footer class="foot" data-astro-cid-nns7i3if>
+  <div class="wrap fin" data-astro-cid-nns7i3if>
+    <div class="col" data-astro-cid-nns7i3if>
+      <span class="k" data-astro-cid-nns7i3if>见己</span>
+      <span class="v" data-edit-kind="site" data-edit-id="identity" data-edit-field="tagline" data-astro-cid-nns7i3if>当睇清世间所有定理又何用再怕</span>
+    </div>
+
+    <nav class="links" aria-label="页脚导航" data-astro-cid-nns7i3if>
+      <a href="/posts/" data-astro-cid-nns7i3if>写作</a><a href="/shelf/" data-astro-cid-nns7i3if>书影音</a><a href="/works/" data-astro-cid-nns7i3if>作品</a><a href="/accounts/" data-astro-cid-nns7i3if>账号</a><a href="/tags/" data-astro-cid-nns7i3if>标签</a><a href="/archive/" data-astro-cid-nns7i3if>归档</a><a href="/about/" data-astro-cid-nns7i3if>关于</a>
+      <a href="/search/" data-astro-cid-nns7i3if>搜索</a>
+      <a href="/manage/" class="owner-manage" hidden data-astro-cid-nns7i3if>管理内容</a>
+      
+      <span class="divider" aria-hidden="true" data-astro-cid-nns7i3if></span>
+      <a href="https://xhslink.cn/o/v2jwMmqBQQ" target="_blank" rel="me noopener" data-astro-cid-nns7i3if>小红书</a><a href="https://github.com/zml123123lu-ui" target="_blank" rel="me noopener" data-astro-cid-nns7i3if>GitHub</a><a href="https://music.163.com/#/user/home?id=133010508" target="_blank" rel="me noopener" data-astro-cid-nns7i3if>网易云音乐</a>
+      <a href="/rss.xml" data-astro-cid-nns7i3if>RSS</a>
+    </nav>
+
+    <div class="col right" data-astro-cid-nns7i3if>
+      <span class="k" data-astro-cid-nns7i3if>2026</span>
+      <span class="v" data-astro-cid-nns7i3if>用 Astro 搭的 · 自托管字体 · 无追踪</span>
+    </div>
+  </div>
+</footer>
+
+<script type="module">[`localhost`,`127.0.0.1`].includes(location.hostname)&&fetch(`/api/music/status`).then(e=>{e.ok&&document.querySelectorAll(`.owner-manage`).forEach(e=>e.hidden=!1)}).catch(()=>{});</script>
+    <div id="page-editor" hidden data-pagefind-ignore data-astro-cid-bplp3hha>
+ <button id="edit-toggle" type="button" aria-pressed="false" data-astro-cid-bplp3hha>编辑本页</button>
+ <span id="edit-hint" hidden data-astro-cid-bplp3hha>点虚线文字修改</span>
+ <a href="/manage/" data-astro-cid-bplp3hha>管理内容 ↗</a>
+</div>
+<dialog id="text-editor" aria-labelledby="text-editor-title" aria-describedby="text-editor-help" data-pagefind-ignore data-astro-cid-bplp3hha>
+ <form id="text-editor-form" data-astro-cid-bplp3hha>
+  <div class="editor-head" data-astro-cid-bplp3hha><h2 id="text-editor-title" data-astro-cid-bplp3hha>编辑文字</h2><button type="button" id="text-editor-close" aria-label="关闭编辑窗口" data-astro-cid-bplp3hha>×</button></div>
+  <p id="text-editor-help" data-astro-cid-bplp3hha>保存后会更新网站。</p>
+  <label for="text-editor-value" class="sr-only" data-astro-cid-bplp3hha>文字内容</label>
+  <textarea id="text-editor-value" aria-labelledby="text-editor-title" rows="8" data-astro-cid-bplp3hha></textarea>
+  <p id="text-editor-status" role="status" aria-live="polite" data-astro-cid-bplp3hha></p>
+  <div class="editor-actions" data-astro-cid-bplp3hha><button class="btn" type="submit" data-astro-cid-bplp3hha>保存并更新页面</button><button class="btn" type="button" id="text-editor-cancel" data-astro-cid-bplp3hha>取消</button></div>
+ </form>
+</dialog>
+<script>(function(){const fields = {"accounts":{"label":"账号","fields":[["title","平台名称","text"],["subtitle","昵称 / 账号","text"],["url","主页链接","url"],["note","简介","textarea"]]},"posts":{"label":"写作","fields":[["title","标题","text"],["subtitle","副标题（仅开发记录使用，可不填）","text"],["pubDate","日期","date"],["category","分区","select",["读书","随笔","开发"]],["tags","标签（用逗号分隔）","text"],["body","正文（支持 Markdown）","textarea"],["draft","暂存为草稿，不公开","checkbox"]]},"books":{"label":"书籍","fields":[["title","书名","text"],["subtitle","作者","text"],["status","阅读状态","select",["想读","在读","读完"]],["rating","评分（1–5，可不填）","number"],["cover","封面链接（可选）","url"],["url","书籍链接（可选）","url"],["date","记录日期","date"],["note","我的读后感","textarea"]]},"films":{"label":"影视","fields":[["group","板块","select",["电影","电视剧","番剧"]],["title","电影 / 剧集名称","text"],["subtitle","导演 / 主创","text"],["status","观看状态","select",["想看","在看","看过"]],["rating","评分（1–5，可不填）","number"],["cover","海报链接（可选）","url"],["url","影片链接（可选）","url"],["date","记录日期","date"],["note","我的感受","textarea"]]},"works":{"label":"作品","fields":[["title","作品名称","text"],["subtitle","类型 / 一句话介绍","text"],["cover","封面链接（可选）","url"],["url","作品 / 演示链接（可选）","url"],["date","完成日期","date"],["note","作品介绍","textarea"]]}};
+const siteFields = {"identity":{"label":"站点与个人介绍","fields":[["name","站名","text"],["mark","首页印记","text"],["latin","英文站名","text"],["tagline","副标题","text"],["description","站点简介","textarea"],["author","作者名","text"],["bio","个人简介","textarea"],["email","联系邮箱","email"],["emailAlt","备用邮箱","email"]]},"home":{"label":"首页","fields":[["quote","引言前半句","text"],["highlight","引言高亮","text"],["quoteEnd","引言结尾","text"],["source","引言出处","text"],["shelf","书影音入口","text"],["shelfNote","书影音说明","text"],["accounts","账号入口","text"],["accountsNote","账号说明","text"],["works","作品入口","text"],["worksNote","作品说明","text"],["about","关于入口","text"],["aboutNote","关于说明","text"],["update","更新说明","text"]]},"books":{"label":"书影音","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"films":{"label":"影视","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"accounts":{"label":"账号页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"works":{"label":"作品页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"posts":{"label":"写作页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"about":{"label":"关于页正文","fields":[["body","正文（支持 Markdown）","textarea"]]},"music":{"label":"音乐页","fields":[["title","标题","text"],["intro","介绍","textarea"],["note","页尾说明","textarea"]]}};
+
+(async()=>{
+ if(!['localhost','127.0.0.1'].includes(location.hostname)||location.pathname==='/manage/')return;
+ const bar=document.getElementById('page-editor'),toggle=document.getElementById('edit-toggle'),dialog=document.getElementById('text-editor'),form=document.getElementById('text-editor-form'),input=document.getElementById('text-editor-value'),status=document.getElementById('text-editor-status');
+ const selector='[data-edit-kind][data-edit-id][data-edit-field]';
+ let token='',active=false,busy=false,target=null;
+ const originalAttributes=new Map();
+ const request=async(url,body)=>{const response=await fetch(url,{method:body?'POST':'GET',headers:{'X-Music-Token':token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const value=await response.json();if(!response.ok)throw Error(value.error||'保存失败，请重试。');return value;};
+ const setActive=value=>{active=value;document.body.classList.toggle('editing-page',active);toggle.textContent=active?'完成编辑':'编辑本页';toggle.setAttribute('aria-pressed',String(active));document.getElementById('edit-hint').hidden=!active;sessionStorage.setItem('jianji-editing',active?'1':'0');document.querySelectorAll(selector).forEach(node=>{if(active){originalAttributes.set(node,['tabindex','role','title','aria-label'].map(name=>[name,node.getAttribute(name)]));node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label','编辑这段文字');node.title='点击编辑文字'}else{for(const[name,value]of originalAttributes.get(node)||[])if(value===null)node.removeAttribute(name);else node.setAttribute(name,value)}})};
+ const close=()=>{if(!busy)dialog.close()};
+ document.getElementById('text-editor-close').onclick=close;document.getElementById('text-editor-cancel').onclick=close;
+ dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault()});
+ const edit=async node=>{if(busy)return;target=node;const{editKind:kind,editId:id,editField:key}=node.dataset;const schema=kind==='site'?siteFields[id]:fields[kind],field=schema?.fields.find(([name])=>name===key);if(!field)return;
+ document.getElementById('text-editor-title').textContent=field[1];document.getElementById('text-editor-help').textContent=key==='body'?'正文支持 Markdown：用 ## 写小标题，用空行分段。':'保存后会更新网站，同一处文字在其他页面也会同步。';input.value='';status.textContent='正在读取原文…';busy=true;input.disabled=true;form.querySelector('[type=submit]').disabled=true;dialog.showModal();
+ try{const data=await request('/api/content'),entry=data[kind]?.find(item=>item.id===id);if(!entry)throw Error('这条内容已不存在，请刷新页面。');input.value=entry[key]??'';status.textContent='';input.disabled=false;form.querySelector('[type=submit]').disabled=false;input.focus()}catch(error){status.textContent=error.message}finally{busy=false}
+ };
+ document.addEventListener('click',event=>{const node=event.target.closest(selector);if(active&&node){event.preventDefault();event.stopImmediatePropagation();edit(node)}},true);
+ document.addEventListener('keydown',event=>{if(active&&!dialog.open&&['Enter',' '].includes(event.key)&&event.target.matches(selector)){event.preventDefault();edit(event.target)}},true);
+ toggle.onclick=()=>setActive(!active);
+ form.onsubmit=async event=>{event.preventDefault();if(busy||input.disabled)return;busy=true;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=true);status.textContent='正在保存并更新页面，请稍等…';try{const{editKind:kind,editId:id,editField:key}=target.dataset;await request('/api/content/save',{kind,entry:{id,changes:{[key]:input.value}}});location.reload()}catch(error){status.textContent=error.message;busy=false;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=false)}};
+ try{token=(await request('/api/music/status')).token;if(!token)return;const post=document.querySelector('[data-edit-kind=posts][data-edit-field=body]');if(post){const link=bar.querySelector('a');link.href='/manage/?post='+encodeURIComponent(post.dataset.editId);link.textContent='管理本文 ↗'}bar.hidden=false;document.body.classList.add('has-page-editor');if(sessionStorage.getItem('jianji-editing')==='1')setActive(true)}catch{}
+})();
+})();</script>
+  </body>
+</html>
