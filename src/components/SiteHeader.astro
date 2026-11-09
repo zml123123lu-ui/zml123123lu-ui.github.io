@@ -1,0 +1,127 @@
+---
+/**
+ * 内页顶栏。
+ * 结构取自「台账」样稿，但去掉了它的毛玻璃（backdrop-filter）——
+ * 那是被明确否掉的手法。这里用实底 + 发丝线，和全站语言一致。
+ */
+import { NAV, SITE } from '../consts';
+
+interface Props {
+  /** 当前区块名，显示在面包屑里，如「文章」 */
+  section?: string;
+  /** 面包屑右侧的路径片段，如「第 1 页」 */
+  path?: string;
+}
+
+const { section, path } = Astro.props;
+const here = Astro.url.pathname;
+
+const isActive = (href: string) =>
+  href === '/shelf/' ? /^\/(shelf|films|music)(\/|$)/.test(here) :
+  href === '/' ? here === '/' : here.startsWith(href.replace(/\/$/, ''));
+---
+
+<header class="topbar">
+  <div class="wrap tbin">
+    <a class="crumb" href="/">
+      <span class="dot" aria-hidden="true"></span>
+      <b>{SITE.name}</b>
+      {section && <span>/ {section}</span>}
+      {path && <span class="dim">· {path}</span>}
+    </a>
+
+    <nav class="tbnav" aria-label="主导航">
+      {NAV.map((item) => (
+        <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <a class="pill" href="/rss.xml">订阅 <span aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<style>
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tbin {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    height: 56px;
+  }
+
+  .crumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-55);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .crumb b {
+    font-family: var(--disp);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--clay);
+    flex: none;
+  }
+
+  .tbnav {
+    display: flex;
+    gap: 24px;
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--ink-55);
+  }
+  .tbnav a {
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.22s var(--ease), border-color 0.22s var(--ease);
+  }
+  .tbnav a:hover { color: var(--ink); }
+  .tbnav a[aria-current='page'] {
+    color: var(--ink);
+    border-bottom-color: var(--yellow);
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    padding: 8px 15px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    white-space: nowrap;
+    transition: background 0.22s var(--ease), border-color 0.22s var(--ease), color 0.22s var(--ease);
+  }
+  .pill:hover {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--on-light);
+  }
+
+  @media (max-width: 760px) {
+    .tbnav { display: none; }
+  }
+</style>

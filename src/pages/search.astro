@@ -1,0 +1,181 @@
+---
+/**
+ * 站内搜索。
+ * 索引是 Pagefind 在构建时生成的（纯静态，没有后端），
+ * 配置里带了 forceLanguage: 'zh' —— 不加这个参数，中文会被逐字拆开建索引。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
+---
+
+<BaseLayout title="搜索" section="搜索" description="在全部文章里搜索。">
+  <div class="wrap">
+    <div class="hd">
+      <span class="kick">检索 · 全文</span>
+      <h1>搜索</h1>
+      <p class="sub">
+        索引在构建时生成，所以是纯静态的、没有后端。支持中文分词，直接打词就行，不用空格隔开。
+      </p>
+    </div>
+
+    <div class="box">
+      <PagefindConfig />
+      <pagefind-searchbox></pagefind-searchbox>
+    </div>
+
+    <p class="hint">
+      搜不到东西？试试更短的词。索引只收正文，网站导航和页脚不在里面。
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .hd {
+    padding: 42px 0 30px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .kick {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: var(--disp);
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .sub {
+    font-family: var(--song);
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--ink-55);
+    max-width: 46em;
+  }
+
+  .box {
+    padding: 34px 0 10px;
+    min-height: 320px;
+  }
+
+  .hint {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.9;
+    color: var(--ink-38);
+    padding: 24px 0 46px;
+    border-top: 1px solid var(--rule);
+    max-width: 60em;
+  }
+</style>
+
+<style is:global>
+  /*
+   * Pagefind 组件 UI 的默认外观是圆角 + 蓝色焦点环，和这套「发丝线 + 直角 +
+   * 荧光黄」冲突。它用的是普通 DOM（不是 shadow DOM），所以能直接改，
+   * 但组件自带的 CSS 在打包顺序上排在我们后面，因此：
+   *   1. 选择器要加 pagefind-searchbox 前缀提高权重
+   *   2. 只在外观属性（圆角/边框/底色/颜色/字族/焦点）上用 !important
+   *
+   * ⚠️ 绝对不要覆盖 padding。输入框内部给放大镜图标留了固定位置，
+   * 一旦用 !important 改掉 padding，图标就会和占位文字叠在一起。
+   */
+  pagefind-searchbox,
+  pagefind-config {
+    /* 组件自己声明的变量（它的公开定制接口，优先走这条） */
+    --pagefind-ui-scale: 1;
+    --pagefind-ui-primary: var(--ink);
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--rule);
+    --pagefind-ui-tag: var(--wash);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0;
+    --pagefind-ui-font: var(--ui);
+
+    display: block;
+    width: 100%;
+    max-width: 760px;
+  }
+
+  pagefind-searchbox .pf-searchbox,
+  pagefind-searchbox .pf-searchbox-input-wrapper {
+    width: 100%;
+  }
+
+  pagefind-searchbox .pf-searchbox-input {
+    width: 100%;
+    font-family: var(--mono) !important;
+    font-size: 13.5px !important;
+    letter-spacing: 0.02em;
+    border-radius: 0 !important;
+    border: 1px solid var(--rule-strong) !important;
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+  }
+  pagefind-searchbox .pf-searchbox-input::placeholder {
+    color: var(--ink-38) !important;
+  }
+  pagefind-searchbox .pf-searchbox-input:focus,
+  pagefind-searchbox .pf-searchbox-input:focus-visible {
+    outline: none !important;
+    border-color: var(--ink) !important;
+    box-shadow: 0 0 0 3px var(--yellow) !important;
+  }
+
+  /* ⌘K 徽标 */
+  pagefind-searchbox .pf-trigger-key {
+    border-radius: 0 !important;
+    border-color: var(--rule) !important;
+    background: var(--wash) !important;
+    color: var(--ink-38) !important;
+    font-family: var(--mono) !important;
+  }
+
+  /* 结果下拉：直角 + 发丝线，去掉默认投影 */
+  pagefind-searchbox .pf-searchbox-dropdown,
+  pagefind-searchbox .pf-searchbox-results,
+  pagefind-searchbox .pf-searchbox-footer {
+    border-radius: 0 !important;
+    border: 1px solid var(--rule) !important;
+    background: var(--bg) !important;
+    font-family: var(--song) !important;
+    box-shadow: none !important;
+  }
+  pagefind-searchbox .pf-searchbox-results > * {
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--rule) !important;
+  }
+  pagefind-searchbox .pf-searchbox-results > *:last-child {
+    border-bottom: 0 !important;
+  }
+  pagefind-searchbox .pf-searchbox-results mark,
+  pagefind-searchbox .pf-searchbox-results em {
+    background: var(--yellow) !important;
+    color: var(--on-light) !important;
+    border-radius: 0 !important;
+    font-style: normal !important;
+  }
+  pagefind-searchbox .pf-searchbox-footer-key {
+    border-radius: 0 !important;
+    border-color: var(--rule) !important;
+    background: var(--wash) !important;
+    font-family: var(--mono) !important;
+  }
+  pagefind-searchbox .pf-searchbox-status {
+    font-family: var(--mono) !important;
+    font-size: 11px !important;
+    color: var(--ink-38) !important;
+  }
+  /* 结果里的标题给一点字重，摘要用宋体 */
+  pagefind-searchbox .pf-searchbox-results :is(h3, h4, strong, b) {
+    font-family: var(--disp) !important;
+    font-weight: 600 !important;
+    color: var(--ink) !important;
+  }
+</style>

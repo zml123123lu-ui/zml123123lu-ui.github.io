@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "name": "见己",
+    "mark": "见",
+    "latin": "JIANJI",
+    "tagline": "当睇清世间所有定理又何用再怕",
+    "description": "读书、写作、音乐、开发 —— 这是我的生活。",
+    "author": "lu",
+    "bio": "读书、写作、音乐、开发——这是我的生活。",
+    "email": "1070821872@qq.com",
+    "emailAlt": "zml123123lu@gmail.com"
+  },
+  "home": {
+    "quote": "珍惜淡定的心境，",
+    "highlight": "苦过后更加清",
+    "quoteEnd": "。",
+    "source": "— 陈奕迅《苦瓜》",
+    "shelf": "读 · 看 · 听",
+    "shelfNote": "书籍 · 影视 · 音乐",
+    "accounts": "在别处",
+    "accountsNote": "不同平台，同一个我",
+    "works": "做过的",
+    "worksNote": "创作 · 项目 · 实践",
+    "about": "认识我",
+    "aboutNote": "读书 · 随笔 · 开发 · 音乐",
+    "update": "持续更新"
+  },
+  "books": {
+    "title": "在读什么",
+    "intro": "我爱看的书、书摘以及我的读书感悟。"
+  },
+  "films": {
+    "title": "在看什么",
+    "intro": "看过的电影和剧集还有我的一点点感受。"
+  },
+  "accounts": {
+    "title": "在别处",
+    "intro": "我的账号，以及在不同地方留下的记录。"
+  },
+  "works": {
+    "title": "作品",
+    "intro": "一些小有成绩的东西，以及一些做过的成品。"
+  },
+  "posts": {
+    "title": "我的全部写作",
+    "intro": "这是我生活的重心，这里代表了大部分的“我”。"
+  }
+}

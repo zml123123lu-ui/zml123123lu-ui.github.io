@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /manage/
+
+Sitemap: https://zml123123lu-ui.github.io/sitemap-index.xml

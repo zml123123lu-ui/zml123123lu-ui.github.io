@@ -1,0 +1,170 @@
+---
+/**
+ * 标签索引。
+ * 上面是四个固定分区（分类，有颜色），下面是自由标签。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts, categoryCounts, tagCounts } from '../../utils/posts';
+
+const posts = await getPosts();
+const cats = categoryCounts(posts);
+
+/**
+ * 分区名不再重复列进「自由标签」。
+ * 否则「读书」会同时出现在上面的分区区和下面的标签区，读者会以为是两回事
+ * —— 而点进去其实是同一个页面。
+ */
+const CAT_NAMES = new Set(cats.map((c) => c.name));
+const tags = tagCounts(posts).filter((t) => !CAT_NAMES.has(t.name));
+---
+
+<BaseLayout title="标签" section="标签" description="按主题浏览全部文章。">
+  <div class="wrap">
+    <div class="hd">
+      <span class="kick">索引 · 按主题</span>
+      <h1>标签</h1>
+      <p class="sub">
+        本站有 {cats.length} 个固定内容分区，每篇文章只属于其中一个。自由标签可以有多个。
+      </p>
+    </div>
+
+    <section class="block">
+      <h2 class="ttl">
+        内容分区
+        <span class="n">{cats.filter((c) => c.count > 0).length} / {cats.length} 个已开写</span>
+      </h2>
+      <div class="cats">
+        {cats.map((c) =>
+          c.count > 0 ? (
+            <a class="cat" href={`/tags/${encodeURIComponent(c.name)}/`}>
+              <span class="bar" style={`background:${c.color}`} aria-hidden="true"></span>
+              <span class="name">{c.name}</span>
+              <span class="cnt">{c.count} 篇</span>
+            </a>
+          ) : (
+            /* 还没有文章的分区：保留在版面上（让人知道它存在），但不能做成链接
+               —— 空分区不会生成 /tags/<名字>/ 页面，点了就是 404。 */
+            <span class="cat empty">
+              <span class="bar" style={`background:${c.color}`} aria-hidden="true"></span>
+              <span class="name">{c.name}</span>
+              <span class="cnt">还没写</span>
+            </span>
+          ),
+        )}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="ttl">自由标签 <span class="n">{tags.length} 个</span></h2>
+      <div class="tags">
+        {tags.map((t) => (
+          <a class="tag" href={`/tags/${encodeURIComponent(t.name)}/`}>
+            <span class="name">{t.name}</span>
+            <span class="cnt">{t.count}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hd {
+    padding: 42px 0 30px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .kick {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: var(--disp);
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+  .sub {
+    font-family: var(--song);
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--ink-55);
+    max-width: 44em;
+  }
+
+  .block { padding: 34px 0; border-bottom: 1px solid var(--rule); }
+  .block:last-of-type { border-bottom: 0; }
+
+  .ttl {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 20px;
+  }
+  .ttl .n { color: var(--ink-22); letter-spacing: 0.08em; }
+
+  /* 分区：色条 + 名称 + 篇数 */
+  .cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .cat {
+    display: grid;
+    grid-template-columns: 4px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 18px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.25s var(--ease);
+  }
+  .cat:hover { background: var(--yellow); color: var(--on-light); }
+  /* 空分区：不可点，视觉上弱化，但仍在版面上 */
+  .cat.empty { cursor: default; }
+  .cat.empty:hover { background: transparent; color: inherit; }
+  .cat.empty .bar { opacity: 0.25; }
+  .cat.empty .name { color: var(--ink-38); }
+  .cat.empty:hover .cnt { color: var(--ink-38); }
+  .cat .bar { width: 4px; height: 26px; }
+  .cat .name { font-family: var(--disp); font-size: 18px; font-weight: 600; }
+  .cat .cnt { font-family: var(--mono); font-size: 11px; color: var(--ink-38); }
+  .cat:hover .cnt { color: rgba(11, 11, 11, 0.55); }
+
+  /* 自由标签：等宽小签 */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    transition: background 0.22s var(--ease), color 0.22s var(--ease), border-color 0.22s var(--ease);
+  }
+  .tag:hover {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .tag .cnt { font-size: 10px; color: var(--ink-38); }
+  .tag:hover .cnt { color: rgba(255, 255, 255, 0.6); }
+</style>

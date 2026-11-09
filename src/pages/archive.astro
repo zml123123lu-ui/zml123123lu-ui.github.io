@@ -1,0 +1,221 @@
+---
+/**
+ * 归档页 —— 「台账」的年份时间轴。
+ * 左侧年份常驻，右侧条目按时间倒序，中线上一颗节点。
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, fmtDate, categoryClass, thousands } from '../consts';
+import { getPosts, byYear, plainLength } from '../utils/posts';
+
+const posts = await getPosts();
+const years = byYear(posts);
+const span = years.length > 1 ? `${years[years.length - 1].year} — ${years[0].year}` : `${SITE.since}`;
+---
+
+<BaseLayout title="归档" section="归档" description={`${SITE.name} 的全部文章，按年份归档，${span}。`}>
+  <div class="wrap">
+    <div class="hd">
+      <div>
+        <span class="kick">档案 · 按时间</span>
+        <h1>归档</h1>
+      </div>
+      <div class="meta">
+        <span class="lbl">收录</span>
+        <span class="val">{posts.length}<small>篇</small></span>
+        <span class="lbl">跨度</span>
+        <span class="val">{span}</span>
+      </div>
+    </div>
+
+    <div class="tl">
+      {years.map(({ year, items }) => (
+        <>
+          <div class="yr">
+            <b>{year}</b>
+            <span class="cnt">{items.length} 篇</span>
+            <span class="node"></span>
+          </div>
+          <div class="items">
+            {items.map((p) => (
+              <a class="it" href={`/posts/${p.id}/`}>
+                <span class="d">{fmtDate(p.data.pubDate).slice(5)}</span>
+                <span class="t">{p.data.title}{p.data.category === '开发' && p.data.subtitle && <span class="post-subtitle">{p.data.subtitle}</span>}</span>
+                <span class={`chip ${categoryClass(p.data.category)}`}>{p.data.category}</span>
+                <span class="g">{thousands(plainLength(p))} 字</span>
+              </a>
+            ))}
+          </div>
+        </>
+      ))}
+    </div>
+
+    {posts.length === 0 && <p class="empty">还没有文章。去 <a href="/admin/">写作台</a> 写第一篇。</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .hd {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+    padding: 42px 0 26px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .kick {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: var(--disp);
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .meta {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-38);
+  }
+  .meta .val {
+    font-family: var(--disp);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .meta .val small {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--ink-55);
+    margin-left: 2px;
+  }
+  .meta .lbl + .val { margin-right: 10px; }
+
+  /* ── 时间轴 ───────────────────────────────────────────────────── */
+  .tl {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+  }
+
+  /* 年份格与条目格同处一个网格行，各自加底边 → 分隔线横贯整幅 */
+  .yr {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 26px 26px 26px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tl > *:last-child { border-bottom: 0; }
+  /* 中线上那颗节点 */
+  .yr .node {
+    position: absolute;
+    right: -4.5px;
+    top: 32px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1.5px solid var(--teal);
+  }
+  .yr b {
+    font-family: var(--disp);
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .yr .cnt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-38);
+  }
+
+  .items {
+    border-left: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0 14px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .it {
+    display: grid;
+    grid-template-columns: 68px 1fr auto 78px;
+    gap: 16px;
+    align-items: center;
+    padding: 11px 12px;
+    border-bottom: 1px dashed var(--rule);
+    transition: background 0.22s var(--ease);
+  }
+  .it:last-child { border-bottom: 0; }
+  .it:hover { background: var(--paper); }
+
+  .it .d {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-38);
+    letter-spacing: 0.04em;
+  }
+  .it .t {
+    font-family: var(--disp);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.45;
+    transition: color 0.22s var(--ease);
+  }
+  .it:hover .t { color: var(--teal); }
+  .it .g {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--ink-38);
+    text-align: right;
+  }
+
+  .empty {
+    padding: 40px 0;
+    font-family: var(--song);
+    color: var(--ink-55);
+  }
+  .empty a { text-decoration: underline; text-underline-offset: 4px; }
+
+  @media (max-width: 900px) {
+    .tl { grid-template-columns: 92px 1fr; }
+    .yr { padding-right: 18px; }
+    .yr b { font-size: 21px; }
+    .items { padding-left: 20px; }
+    .it { grid-template-columns: 56px 1fr auto; gap: 12px; }
+    .it .g { display: none; }
+  }
+
+  @media (max-width: 620px) {
+    .tl { grid-template-columns: 1fr; }
+    .yr {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 10px;
+      padding: 22px 0 12px;
+    }
+    .yr .node { display: none; }
+    .yr .line { display: none; }
+    .items {
+      border-left: 0;
+      padding: 0 0 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .it { grid-template-columns: 52px 1fr; gap: 10px; padding: 10px 0; }
+    .it .chip { grid-column: 2; justify-self: start; }
+  }
+</style>

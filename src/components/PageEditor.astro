@@ -1,0 +1,45 @@
+---
+import fields from '../data/editor-fields.json';
+import siteFields from '../data/site-fields.json';
+---
+<div id="page-editor" hidden data-pagefind-ignore>
+ <button id="edit-toggle" type="button" aria-pressed="false">编辑本页</button>
+ <span id="edit-hint" hidden>点虚线文字修改</span>
+ <a href="/manage/">管理内容 ↗</a>
+</div>
+<dialog id="text-editor" aria-labelledby="text-editor-title" aria-describedby="text-editor-help" data-pagefind-ignore>
+ <form id="text-editor-form">
+  <div class="editor-head"><h2 id="text-editor-title">编辑文字</h2><button type="button" id="text-editor-close" aria-label="关闭编辑窗口">×</button></div>
+  <p id="text-editor-help">保存后会更新网站。</p>
+  <label for="text-editor-value" class="sr-only">文字内容</label>
+  <textarea id="text-editor-value" aria-labelledby="text-editor-title" rows="8"></textarea>
+  <p id="text-editor-status" role="status" aria-live="polite"></p>
+  <div class="editor-actions"><button class="btn" type="submit">保存并更新页面</button><button class="btn" type="button" id="text-editor-cancel">取消</button></div>
+ </form>
+</dialog>
+<script is:inline define:vars={{ fields, siteFields }}>
+(async()=>{
+ if(!['localhost','127.0.0.1'].includes(location.hostname)||location.pathname==='/manage/')return;
+ const bar=document.getElementById('page-editor'),toggle=document.getElementById('edit-toggle'),dialog=document.getElementById('text-editor'),form=document.getElementById('text-editor-form'),input=document.getElementById('text-editor-value'),status=document.getElementById('text-editor-status');
+ const selector='[data-edit-kind][data-edit-id][data-edit-field]';
+ let token='',active=false,busy=false,target=null;
+ const originalAttributes=new Map();
+ const request=async(url,body)=>{const response=await fetch(url,{method:body?'POST':'GET',headers:{'X-Music-Token':token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const value=await response.json();if(!response.ok)throw Error(value.error||'保存失败，请重试。');return value;};
+ const setActive=value=>{active=value;document.body.classList.toggle('editing-page',active);toggle.textContent=active?'完成编辑':'编辑本页';toggle.setAttribute('aria-pressed',String(active));document.getElementById('edit-hint').hidden=!active;sessionStorage.setItem('jianji-editing',active?'1':'0');document.querySelectorAll(selector).forEach(node=>{if(active){originalAttributes.set(node,['tabindex','role','title','aria-label'].map(name=>[name,node.getAttribute(name)]));node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label','编辑这段文字');node.title='点击编辑文字'}else{for(const[name,value]of originalAttributes.get(node)||[])if(value===null)node.removeAttribute(name);else node.setAttribute(name,value)}})};
+ const close=()=>{if(!busy)dialog.close()};
+ document.getElementById('text-editor-close').onclick=close;document.getElementById('text-editor-cancel').onclick=close;
+ dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault()});
+ const edit=async node=>{if(busy)return;target=node;const{editKind:kind,editId:id,editField:key}=node.dataset;const schema=kind==='site'?siteFields[id]:fields[kind],field=schema?.fields.find(([name])=>name===key);if(!field)return;
+ document.getElementById('text-editor-title').textContent=field[1];document.getElementById('text-editor-help').textContent=key==='body'?'正文支持 Markdown：用 ## 写小标题，用空行分段。':'保存后会更新网站，同一处文字在其他页面也会同步。';input.value='';status.textContent='正在读取原文…';busy=true;input.disabled=true;form.querySelector('[type=submit]').disabled=true;dialog.showModal();
+ try{const data=await request('/api/content'),entry=data[kind]?.find(item=>item.id===id);if(!entry)throw Error('这条内容已不存在，请刷新页面。');input.value=entry[key]??'';status.textContent='';input.disabled=false;form.querySelector('[type=submit]').disabled=false;input.focus()}catch(error){status.textContent=error.message}finally{busy=false}
+ };
+ document.addEventListener('click',event=>{const node=event.target.closest(selector);if(active&&node){event.preventDefault();event.stopImmediatePropagation();edit(node)}},true);
+ document.addEventListener('keydown',event=>{if(active&&!dialog.open&&['Enter',' '].includes(event.key)&&event.target.matches(selector)){event.preventDefault();edit(event.target)}},true);
+ toggle.onclick=()=>setActive(!active);
+ form.onsubmit=async event=>{event.preventDefault();if(busy||input.disabled)return;busy=true;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=true);status.textContent='正在保存并更新页面，请稍等…';try{const{editKind:kind,editId:id,editField:key}=target.dataset;await request('/api/content/save',{kind,entry:{id,changes:{[key]:input.value}}});location.reload()}catch(error){status.textContent=error.message;busy=false;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=false)}};
+ try{token=(await request('/api/music/status')).token;if(!token)return;const post=document.querySelector('[data-edit-kind=posts][data-edit-field=body]');if(post){const link=bar.querySelector('a');link.href='/manage/?post='+encodeURIComponent(post.dataset.editId);link.textContent='管理本文 ↗'}bar.hidden=false;document.body.classList.add('has-page-editor');if(sessionStorage.getItem('jianji-editing')==='1')setActive(true)}catch{}
+})();
+</script>
+<style>
+#page-editor[hidden],#edit-hint[hidden]{display:none}#page-editor{position:fixed;bottom:18px;right:var(--gutter);z-index:50;display:flex;align-items:center;gap:18px;border:1px solid var(--rule-strong);padding:10px 14px;background:var(--bg);color:var(--ink);font:12px var(--ui)}#page-editor button{border:0;background:var(--yellow);color:var(--on-light);padding:9px 12px;font:inherit;cursor:pointer}#page-editor a{font:11px var(--mono)}#edit-hint{color:var(--ink-55)}:global(body.editing-page [data-edit-kind]){outline:1px dashed var(--ink-55);outline-offset:4px;cursor:text}:global(body.editing-page [data-edit-kind]:is(:hover,:focus-visible)){outline:2px solid var(--ink);outline-offset:4px}dialog{width:min(640px,calc(100% - 32px));max-height:calc(100dvh - 32px);margin:auto;border:1px solid var(--rule-strong);padding:28px;background:var(--bg);color:var(--ink);overflow:auto}dialog::backdrop{background:rgb(0 0 0 / .3)}.editor-head{display:flex;justify-content:space-between;align-items:center;gap:16px}h2{font:600 25px var(--disp)}.editor-head button{border:0;background:transparent;color:var(--ink);font-size:27px;cursor:pointer;padding:0 8px}#text-editor-help,#text-editor-status{font:12px/1.8 var(--ui);color:var(--ink-55);margin:16px 0}textarea{display:block;width:100%;min-height:160px;max-height:50dvh;resize:vertical;border:1px solid var(--rule-strong);padding:14px;background:var(--bg);color:var(--ink);font:15px/1.8 var(--song)}.editor-actions{display:flex;gap:14px;flex-wrap:wrap}:global(.has-page-editor){padding-bottom:80px}button:disabled{opacity:.5;cursor:wait}@media(max-width:600px){#page-editor{left:16px;right:16px;bottom:12px;justify-content:space-between;gap:8px;font-size:11px}#page-editor a{font-size:10px}dialog{padding:20px}h2{font-size:23px}}
+</style>

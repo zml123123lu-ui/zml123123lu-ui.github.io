@@ -1,0 +1,260 @@
+{
+  "accounts": [
+    {
+      "id": "xiaohongshu",
+      "title": "小红书",
+      "subtitle": "LU",
+      "url": "https://xhslink.cn/o/v2jwMmqBQQ",
+      "note": "这是我的意识之地。"
+    },
+    {
+      "id": "github",
+      "title": "GitHub",
+      "subtitle": "",
+      "url": "https://github.com/zml123123lu-ui",
+      "note": "其实只是用来做公开网站的，对。"
+    },
+    {
+      "id": "netease",
+      "title": "网易云音乐",
+      "subtitle": "欲守护之物不过是泡沫般的温暖",
+      "url": "https://music.163.com/#/user/home?id=133010508",
+      "note": "音乐是我的精神食粮。"
+    }
+  ],
+  "books": [
+    {
+      "id": "weread-3300013610",
+      "title": "哲学家们都干了些什么？（修订版）",
+      "subtitle": "林欣浩",
+      "status": "读完",
+      "cover": "/book-covers/3300013610.jpg",
+      "url": "https://weread.qq.com/web/reader/28932750813ab6bd1g010e25",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-849134",
+      "title": "金色梦乡",
+      "subtitle": "伊坂幸太郎",
+      "status": "读完",
+      "cover": "/book-covers/849134.jpg",
+      "url": "https://weread.qq.com/web/reader/7f132a105cf4ee7f1e8ac79",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-40509842",
+      "title": "Blue",
+      "subtitle": "[日]叶真中显",
+      "status": "读完",
+      "cover": "/book-covers/40509842.jpg",
+      "url": "https://weread.qq.com/web/reader/b2b32ad0726a2192b2b1b17",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-24918942",
+      "title": "海边的卡夫卡",
+      "subtitle": "[日]村上春树",
+      "status": "读完",
+      "cover": "/book-covers/24918942.jpg",
+      "url": "https://weread.qq.com/web/reader/6eb32020717c3b9e6ebcaf6",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-3300113884",
+      "title": "当呼吸化为空气（修订版）",
+      "subtitle": "[美]保罗·卡拉尼什",
+      "status": "读完",
+      "cover": "/book-covers/3300113884.jpg",
+      "url": "https://weread.qq.com/web/reader/c7932e10813ab92fcg014bc9",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-908780",
+      "title": "极简主义",
+      "subtitle": "乔舒亚·菲尔茨·米尔本 瑞安·尼科迪默斯",
+      "status": "读完",
+      "cover": "/book-covers/908780.jpg",
+      "url": "https://weread.qq.com/web/reader/6e5322e05dddec6e5fbbf29",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-3300048761",
+      "title": "鱼不存在",
+      "subtitle": "露露·米勒",
+      "status": "读完",
+      "cover": "/book-covers/3300048761.jpg",
+      "url": "https://weread.qq.com/web/reader/0af32760813ab798cg01135c",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-3300197644",
+      "title": "不消费的一年",
+      "subtitle": "[加]凯特·弗兰德斯",
+      "status": "读完",
+      "cover": "/book-covers/3300197644.jpg",
+      "url": "https://weread.qq.com/web/reader/46532970813abb3b4g0142ff",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "weread-26713355",
+      "title": "你当像鸟飞往你的山",
+      "subtitle": "[美]塔拉·韦斯特弗",
+      "status": "读完",
+      "cover": "/book-covers/26713355.jpg",
+      "url": "https://weread.qq.com/web/reader/8b832b5071979d0b8b86c0d",
+      "date": "",
+      "note": ""
+    }
+  ],
+  "films": [
+    {
+      "id": "douban-24733428",
+      "group": "电影",
+      "title": "心灵奇旅",
+      "subtitle": "2020",
+      "status": "看过",
+      "cover": "/film-posters/24733428.jpg",
+      "url": "https://movie.douban.com/subject/24733428/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-1889243",
+      "group": "电影",
+      "title": "星际穿越",
+      "subtitle": "2014",
+      "status": "看过",
+      "cover": "/film-posters/1889243.jpg",
+      "url": "https://movie.douban.com/subject/1889243/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-35010610",
+      "group": "电影",
+      "title": "挽救计划",
+      "subtitle": "2026",
+      "status": "看过",
+      "cover": "/film-posters/35010610.jpg",
+      "url": "https://movie.douban.com/subject/35010610/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-27060077",
+      "group": "电影",
+      "title": "绿皮书",
+      "subtitle": "2018",
+      "status": "看过",
+      "cover": "/film-posters/27060077.jpg",
+      "url": "https://movie.douban.com/subject/27060077/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-27140017",
+      "group": "电视剧",
+      "title": "非自然死亡",
+      "subtitle": "2018",
+      "status": "看过",
+      "cover": "/film-posters/27140017.jpg",
+      "url": "https://movie.douban.com/subject/27140017/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-36156235",
+      "group": "电视剧",
+      "title": "重启人生",
+      "subtitle": "2023",
+      "status": "看过",
+      "cover": "/film-posters/36156235.jpg",
+      "url": "https://movie.douban.com/subject/36156235/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-35358556",
+      "group": "电视剧",
+      "title": "短剧开始啦",
+      "subtitle": "2021",
+      "status": "看过",
+      "cover": "/film-posters/35358556.jpg",
+      "url": "https://movie.douban.com/subject/35358556/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-37113482",
+      "group": "电视剧",
+      "title": "吃饱睡足等幸福",
+      "subtitle": "2025",
+      "status": "看过",
+      "cover": "/film-posters/37113482.jpg",
+      "url": "https://movie.douban.com/subject/37113482/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-26689409",
+      "group": "电视剧",
+      "title": "我的家里空无一物",
+      "subtitle": "2016",
+      "status": "看过",
+      "cover": "/film-posters/26689409.jpg",
+      "url": "https://movie.douban.com/subject/26689409/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-26805209",
+      "group": "番剧",
+      "title": "紫罗兰的永恒花园",
+      "subtitle": "2018",
+      "status": "看过",
+      "cover": "/film-posters/26805209.jpg",
+      "url": "https://movie.douban.com/subject/26805209/",
+      "date": "",
+      "note": ""
+    },
+    {
+      "id": "douban-26677934",
+      "group": "番剧",
+      "title": "灵能百分百",
+      "subtitle": "2016",
+      "status": "看过",
+      "cover": "/film-posters/26677934.jpg",
+      "url": "https://movie.douban.com/subject/26677934/",
+      "date": "",
+      "note": ""
+    }
+  ],
+  "works": [
+    {
+      "id": "content-portfolio",
+      "title": "内容策划与图文运营作品集",
+      "subtitle": "内容策划 · 图文运营",
+      "cover": "",
+      "url": "https://www.workbuddy.link/p/F39rFfwtVlFycfO72ZmSeT",
+      "date": "",
+      "note": "独立选题、原创图文与内容复盘。"
+    },
+    {
+      "id": "vibe-coding",
+      "title": "Vibe Coding 成果",
+      "subtitle": "需求设计 · 界面设计 · AI 协作开发",
+      "cover": "",
+      "url": "/works/vibe-coding/",
+      "date": "",
+      "note": "远行 · 生活工作台，以及生活记录、日序等应用实践。"
+    }
+  ]
+}

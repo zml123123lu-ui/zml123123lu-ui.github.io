@@ -1,0 +1,83 @@
+---
+/**
+ * 全站唯一 HTML 骨架。
+ *
+ * 字体自托管（不依赖 Google Fonts CDN —— 国内不可达，而且拖慢首屏）。
+ *
+ * 页面默认带页眉页脚；首页自带方格导航行，用 bare 关掉。
+ */
+import '../styles/fonts.css';
+import '../styles/global.css';
+import PageEditor from '../components/PageEditor.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { SITE } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 当前区块名，交给页眉做面包屑 */
+  section?: string;
+  /** 面包屑右侧的路径片段 */
+  path?: string;
+  /** OG 图，站内路径即可 */
+  ogImage?: string;
+  /** 极窄页面：不渲染页眉页脚（首页、404） */
+  bare?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  section,
+  path,
+  ogImage,
+  bare = false,
+} = Astro.props;
+
+const pageTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.tagline}`;
+const siteOrigin = Astro.site ?? new URL('https://jianji.vercel.app');
+const canonical = new URL(Astro.url.pathname, siteOrigin);
+const ogImageAbs = ogImage ? new URL(ogImage, siteOrigin).href : undefined;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} · RSS`} href="/rss.xml" />
+
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:locale" content="zh_CN" />
+    {ogImageAbs && <meta property="og:image" content={ogImageAbs} />}
+    <meta name="twitter:card" content={ogImageAbs ? 'summary_large_image' : 'summary'} />
+  </head>
+
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+
+    {!bare && <SiteHeader section={section} path={path} />}
+
+    <main id="main">
+      <slot />
+    </main>
+
+    {!bare && <SiteFooter />}
+    <PageEditor />
+  </body>
+</html>

@@ -1,0 +1,133 @@
+---
+import { SITE } from '../consts';
+const colors = ['#555555','#626262','#707070','#5c5c5c'];
+const butterflies = Array.from({length:18},(_,i)=>{
+ const angle=(i*137.5-95)*Math.PI/180;
+ return {color:colors[i%colors.length],dx:Math.cos(angle)*88,dy:Math.sin(angle)*88,turn:(i%2?1:-1)*(10+(i%4)*12),delay:100+(i%6)*85,size:38+(i%3)*6,depth:50+(i%4)*25};
+});
+const sparkles = Array.from({length:84},(_,i)=>{
+ const angle=i*137.5*Math.PI/180,radius=26+(i*17)%42;
+ return {x:Math.cos(angle)*radius,y:Math.sin(angle)*radius,delay:(i%8)*45,size:i%3===0?2+i%3:8+i%9,dot:i%3===0};
+});
+---
+<dialog id="envelope-intro" class="intro" aria-labelledby="envelope-invitation">
+ <div class="paper-background" aria-hidden="true"></div>
+ <div class="invitation">
+  <span class="signature" aria-hidden="true">{SITE.latin}</span>
+  <div class="letter">
+   <svg class="watercolor" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+    <defs>
+     <filter id="watercolor-bleed" x="-45%" y="-65%" width="190%" height="230%"><feTurbulence type="fractalNoise" baseFrequency=".009" numOctaves="3" seed="12" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="85"/><feGaussianBlur stdDeviation="28"/></filter>
+     <filter id="watercolor-soft" x="-50%" y="-65%" width="200%" height="230%"><feGaussianBlur stdDeviation="64"/></filter>
+    </defs>
+    <g filter="url(#watercolor-bleed)">
+     <ellipse cx="150" cy="220" rx="380" ry="250" fill="#c6c6c6" opacity=".78"/>
+     <ellipse cx="700" cy="100" rx="340" ry="200" fill="#c4c4c4" opacity=".76"/>
+     <ellipse cx="1480" cy="430" rx="330" ry="330" fill="#c6c6c6" opacity=".58"/>
+     <ellipse cx="1160" cy="950" rx="460" ry="240" fill="#e0e0e0" opacity=".82"/>
+     <ellipse cx="120" cy="850" rx="400" ry="260" fill="#d0d0d0" opacity=".78"/>
+    </g>
+    <g filter="url(#watercolor-soft)" opacity=".84">
+     <ellipse cx="560" cy="440" rx="230" ry="210" fill="#c6c6c6"/>
+     <ellipse cx="865" cy="290" rx="260" ry="190" fill="#c4c4c4"/>
+     <ellipse cx="1050" cy="580" rx="250" ry="210" fill="#e0e0e0"/>
+     <ellipse cx="620" cy="720" rx="240" ry="170" fill="#d0d0d0"/>
+     <ellipse cx="800" cy="500" rx="150" ry="120" fill="#fcfcfc" opacity=".9"/>
+    </g>
+   </svg>
+   <button class="seal" type="button" aria-label={`播放3D开场动画，进入${SITE.name}首页`} autofocus>
+    <img src="/intro/pearl-butterfly-seal.png" width="480" height="480" alt="" fetchpriority="high" decoding="sync" />
+   </button>
+  </div>
+  <p id="envelope-invitation">点击章印，播放动画并进入{SITE.name}</p>
+  <button class="intro-skip" type="button">直接进入 →</button>
+ </div>
+ <div class="sparkles" aria-hidden="true">{sparkles.map(s=><span class="spark-flight" data-x={s.x} data-y={s.y} data-delay={s.delay} style={`width:${s.size}px;height:${s.size}px`}>
+  <svg class="star" viewBox="0 0 16 16">{s.dot?<circle cx="8" cy="8" r="4" fill="#fff"/>:<path d="M8 0L9.5 6.5L16 8L9.5 9.5L8 16L6.5 9.5L0 8L6.5 6.5Z" fill="#fff" stroke="#888" stroke-opacity=".35" stroke-width=".4"/>}</svg>
+ </span>)}</div>
+ <div class="butterflies" aria-hidden="true">{butterflies.map((b,i)=><span class="flight" style={`--dx:${b.dx}vmax;--dy:${b.dy}vmax;--mx:${b.dx*.42}vmax;--my:${b.dy*.35-8}vmax;--turn:${b.turn}deg;--delay:${b.delay}ms;--size:${b.size}px;--depth:${b.depth}px;color:${b.color}`}>
+  <span class="butterfly">
+   {['left','right'].map(side=><svg viewBox="0 0 64 56" class={`wing ${side}`}>
+    <defs>
+     <linearGradient id={`wing-${side}-${i}`} x1="0%" y1="0%" x2="100%" y2="100%"><stop stop-color="#efefef" stop-opacity=".9"/><stop offset=".35" stop-color="currentColor" stop-opacity=".82"/><stop offset=".7" stop-color="#aaaaaa" stop-opacity=".72"/><stop offset="1" stop-color="currentColor" stop-opacity=".92"/></linearGradient>
+     <path id={`outline-${side}-${i}`} d="M31 27C25 18 14 1 3 -3C5 7 2 14 8 21C14 27 23 29 31 29Z M30 30C23 28 13 29 10 34C8 39 13 43 17 43L17 53L23 43C28 40 30 35 32 31Z"/>
+    </defs>
+    <g transform={side==='right'?'translate(64 0) scale(-1 1)':undefined}>
+     <use href={`#outline-${side}-${i}`} fill={`url(#wing-${side}-${i})`} stroke="currentColor" stroke-width="1.2"/>
+     <use href={`#outline-${side}-${i}`} fill="none" stroke="#ffffff" stroke-width=".35"/>
+     <path d="M30 27Q17 13 5 0M29 28Q14 22 5 11M29 29Q18 27 9 22M30 31Q20 32 12 34M30 32Q22 39 18 49M30 33Q26 39 23 42M18 15L13 6M13 10L8 3M17 23L10 16M23 37L15 39" fill="none" stroke="#f9f9f9" stroke-width=".55" opacity=".85"/>
+
+    </g>
+   </svg>)}
+   <svg viewBox="0 0 64 56" class="butterfly-body"><path d="M32 23C29 29 30 39 31 43Q32 46 33 43C34 39 35 29 32 23Z" fill="#555555"/><circle cx="32" cy="21" r="1.8" fill="#555555"/><path d="M31 20C29 14 25 10 24 13M33 20C35 14 39 10 40 13" stroke="#777777" stroke-width="1" fill="none" stroke-linecap="round"/><circle cx="24" cy="13" r=".7" fill="#555555"/><circle cx="40" cy="13" r=".7" fill="#555555"/></svg>
+
+  </span>
+ </span>)}</div>
+</dialog>
+<script is:inline>
+(() => {
+ const dialog=document.getElementById('envelope-intro'),seal=dialog.querySelector('.seal');
+ let opening=false,timer;const animations=[];
+ if(typeof dialog.showModal!=='function')return;
+ dialog.showModal();document.documentElement.dataset.envelopeOpen='true';
+ const finish=()=>{clearTimeout(timer);animations.splice(0).forEach(animation=>animation.cancel());dialog.close();dialog.classList.remove('opening','full-motion');delete document.documentElement.dataset.envelopeOpen;document.querySelector('.home .brandcell')?.focus({preventScroll:true})};
+ const play=(element,frames,options)=>{const animation=element.animate(frames,{fill:'both',...options});animations.push(animation);return animation};
+ seal.addEventListener('click',()=>{
+  if(opening)return;opening=true;
+  if(typeof seal.animate!=='function'){finish();return}
+  const box=seal.getBoundingClientRect();
+  const flights=[...dialog.querySelectorAll('.flight')].map(element=>({element,dx:element.style.getPropertyValue('--dx'),dy:element.style.getPropertyValue('--dy'),mx:element.style.getPropertyValue('--mx'),my:element.style.getPropertyValue('--my'),turn:parseFloat(element.style.getPropertyValue('--turn')),delay:parseFloat(element.style.getPropertyValue('--delay')),depth:parseFloat(element.style.getPropertyValue('--depth'))}));
+  dialog.style.setProperty('--origin-x',`${box.left+box.width/2}px`);dialog.style.setProperty('--origin-y',`${box.top+box.height/2}px`);
+  dialog.classList.add('opening','full-motion');seal.setAttribute('aria-disabled','true');
+  // 主动播放用原生动画，系统减少动态样式不会把它压成0.01毫秒。
+  play(seal,[{opacity:1,transform:'translate(-50%,-50%) scale(1)'},{opacity:0,transform:'translate(-50%,-50%) scale(1.24) rotateY(35deg)'}],{duration:480,easing:'ease-out'});
+  play(dialog.querySelector('.watercolor'),[{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(1.12)'}],{duration:2100,delay:500,easing:'ease-in-out'});
+  play(dialog.querySelector('.paper-background'),[{opacity:1},{opacity:0}],{duration:1700,delay:900,easing:'ease-in-out'});
+  for(const element of dialog.querySelectorAll('.signature,#envelope-invitation'))play(element,[{opacity:1},{opacity:0}],{duration:350});
+  const journeys=flights.map(({element,dx,dy,mx,my,turn,delay,depth})=>{
+   const journey=play(element,[{offset:0,opacity:0,transform:'translate3d(-50%,0,-100px) scale(.7)'},{offset:.1,opacity:1},{offset:.4,opacity:1,transform:`translate3d(${mx},${my},80px) rotateZ(${turn*.35}deg) scale(.95)`},{offset:.8,opacity:1},{offset:1,opacity:0,transform:`translate3d(${dx},${dy},${depth+150}px) rotateZ(${turn}deg) scale(.9)`}],{duration:3500,delay,easing:'cubic-bezier(.3,.25,.45,1)'});
+   play(element.querySelector('.butterfly'),[{transform:'rotateX(8deg) rotateY(-12deg) rotateZ(-6deg)'},{transform:'rotateX(-10deg) rotateY(12deg) rotateZ(8deg)'}],{duration:700,delay,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+   play(element.querySelector('.left'),[{transform:'rotateY(-52deg)'},{transform:'rotateY(12deg)'}],{duration:300,delay,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+   play(element.querySelector('.right'),[{transform:'rotateY(52deg)'},{transform:'rotateY(-12deg)'}],{duration:300,delay,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+   return journey.finished;
+  });
+  const starJourneys=[...dialog.querySelectorAll('.spark-flight')].map((element,i)=>{
+   const x=Number(element.dataset.x),y=Number(element.dataset.y),delay=Number(element.dataset.delay);
+   const journey=play(element,[{opacity:0,transform:`translate(${x*.08}vw,${y*.08}vh) scale(.4)`},{offset:.1,opacity:1},{offset:.65,opacity:1,transform:`translate(${x*.78}vw,${y*.78}vh) scale(1)`},{opacity:0,transform:`translate(${x}vw,${y}vh) scale(.8)`}],{duration:3000+(i%5)*120,delay,easing:'ease-out'});
+   play(element.querySelector('.star'),[{opacity:.12,transform:'scale(.55) rotate(-8deg)'},{offset:.4,opacity:1,transform:'scale(1) rotate(0deg)'},{offset:.6,opacity:1,transform:'scale(1) rotate(2deg)'},{opacity:.12,transform:'scale(.55) rotate(8deg)'}],{duration:650+(i%7)*95,delay:delay-((i*73)%600),iterations:Infinity,easing:'ease-in-out'});
+   return journey.finished;
+  });
+  Promise.all([...journeys,...starJourneys]).then(finish).catch(()=>{});timer=setTimeout(finish,5000);
+ });
+ dialog.addEventListener('cancel',event=>{event.preventDefault();finish()});
+ dialog.querySelector('.intro-skip').addEventListener('click',finish);
+ dialog.addEventListener('keydown',event=>{if(event.key==='Tab')dialog.classList.add('keyboard-navigation')});
+})();
+</script>
+<style>
+:global(html[data-envelope-open]){overflow:hidden}
+.intro{position:fixed;inset:0;width:100%;max-width:none;height:100dvh;max-height:none;border:0;padding:0;margin:0;overflow:hidden;background:transparent;color:#5b5b5b}
+.intro::backdrop{background:transparent}
+.paper-background{position:absolute;inset:0;background:#fcfcfc}
+.invitation,.letter{position:absolute;inset:0}
+.signature{position:absolute;bottom:15%;left:0;right:0;text-align:center;font:10px var(--mono);letter-spacing:.3em;color:#7e7e7e;z-index:10}
+.watercolor{position:absolute;inset:0;width:100%;height:100%}
+.seal{position:absolute;left:50%;top:50%;width:clamp(120px,11vw,152px);aspect-ratio:1;border:0;padding:0;background:transparent;transform:translate(-50%,-50%);cursor:pointer;transition:transform .2s ease;filter:drop-shadow(0 3px 4px #6d6d6d20)}
+.seal img{filter:grayscale(1);display:block;width:100%;height:100%}
+.seal:hover{transform:translate(-50%,-50%) scale(1.05)}
+.seal:focus{outline:none}
+.keyboard-navigation .seal:focus-visible{outline:2px solid #676767;outline-offset:7px;border-radius:50%}
+#envelope-invitation{position:absolute;top:calc(50% + 86px);left:0;right:0;text-align:center;font:13px/1.6 var(--song);letter-spacing:.12em;color:#606060;z-index:10}
+.intro-skip{position:absolute;bottom:5%;left:50%;transform:translateX(-50%);border:0;background:transparent;color:#606060;padding:12px;font:12px var(--ui);cursor:pointer;z-index:10}
+.intro-skip:hover{text-decoration:underline}
+.butterflies{position:absolute;inset:0;perspective:900px;perspective-origin:50% 50%;pointer-events:none;transform-style:preserve-3d}
+.flight{position:absolute;left:var(--origin-x,50%);top:var(--origin-y,50%);width:var(--size);height:var(--size);opacity:0;transform-style:preserve-3d}
+.butterfly{position:absolute;inset:0;transform-style:preserve-3d}
+.wing,.butterfly-body{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sparkles{position:absolute;inset:0;pointer-events:none}
+.spark-flight{position:absolute;left:var(--origin-x,50%);top:var(--origin-y,50%);opacity:0}
+.star{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 1px #7778)}
+.wing{transform-origin:50% 54%;backface-visibility:visible;filter:drop-shadow(0 0 .5px #666)}
+@media(max-width:600px){.seal{width:124px}.flight{width:calc(var(--size)*.9);height:calc(var(--size)*.9)}.signature{font-size:9px}#envelope-invitation{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.seal{transition:none}}
+</style>

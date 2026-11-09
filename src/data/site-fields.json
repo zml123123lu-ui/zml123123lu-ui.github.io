@@ -1,0 +1,227 @@
+{
+  "identity": {
+    "label": "站点与个人介绍",
+    "fields": [
+      [
+        "name",
+        "站名",
+        "text"
+      ],
+      [
+        "mark",
+        "首页印记",
+        "text"
+      ],
+      [
+        "latin",
+        "英文站名",
+        "text"
+      ],
+      [
+        "tagline",
+        "副标题",
+        "text"
+      ],
+      [
+        "description",
+        "站点简介",
+        "textarea"
+      ],
+      [
+        "author",
+        "作者名",
+        "text"
+      ],
+      [
+        "bio",
+        "个人简介",
+        "textarea"
+      ],
+      [
+        "email",
+        "联系邮箱",
+        "email"
+      ],
+      [
+        "emailAlt",
+        "备用邮箱",
+        "email"
+      ]
+    ]
+  },
+  "home": {
+    "label": "首页",
+    "fields": [
+      [
+        "quote",
+        "引言前半句",
+        "text"
+      ],
+      [
+        "highlight",
+        "引言高亮",
+        "text"
+      ],
+      [
+        "quoteEnd",
+        "引言结尾",
+        "text"
+      ],
+      [
+        "source",
+        "引言出处",
+        "text"
+      ],
+      [
+        "shelf",
+        "书影音入口",
+        "text"
+      ],
+      [
+        "shelfNote",
+        "书影音说明",
+        "text"
+      ],
+      [
+        "accounts",
+        "账号入口",
+        "text"
+      ],
+      [
+        "accountsNote",
+        "账号说明",
+        "text"
+      ],
+      [
+        "works",
+        "作品入口",
+        "text"
+      ],
+      [
+        "worksNote",
+        "作品说明",
+        "text"
+      ],
+      [
+        "about",
+        "关于入口",
+        "text"
+      ],
+      [
+        "aboutNote",
+        "关于说明",
+        "text"
+      ],
+      [
+        "update",
+        "更新说明",
+        "text"
+      ]
+    ]
+  },
+  "books": {
+    "label": "书影音",
+    "fields": [
+      [
+        "title",
+        "栏目标题",
+        "text"
+      ],
+      [
+        "intro",
+        "栏目介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "films": {
+    "label": "影视",
+    "fields": [
+      [
+        "title",
+        "栏目标题",
+        "text"
+      ],
+      [
+        "intro",
+        "栏目介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "accounts": {
+    "label": "账号页",
+    "fields": [
+      [
+        "title",
+        "栏目标题",
+        "text"
+      ],
+      [
+        "intro",
+        "栏目介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "works": {
+    "label": "作品页",
+    "fields": [
+      [
+        "title",
+        "栏目标题",
+        "text"
+      ],
+      [
+        "intro",
+        "栏目介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "posts": {
+    "label": "写作页",
+    "fields": [
+      [
+        "title",
+        "栏目标题",
+        "text"
+      ],
+      [
+        "intro",
+        "栏目介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "about": {
+    "label": "关于页正文",
+    "fields": [
+      [
+        "body",
+        "正文（支持 Markdown）",
+        "textarea"
+      ]
+    ]
+  },
+  "music": {
+    "label": "音乐页",
+    "fields": [
+      [
+        "title",
+        "标题",
+        "text"
+      ],
+      [
+        "intro",
+        "介绍",
+        "textarea"
+      ],
+      [
+        "note",
+        "页尾说明",
+        "textarea"
+      ]
+    ]
+  }
+}

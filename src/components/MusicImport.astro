@@ -1,0 +1,117 @@
+<div class="music-import" hidden>
+  <button class="btn import-trigger" type="button">导入歌单 <span aria-hidden="true">＋</span></button>
+  <span class="import-success" role="status" hidden></span>
+  <dialog class="import-dialog" aria-labelledby="import-heading">
+    <div class="dialog-heading"><h2 id="import-heading">导入网易云歌单</h2><button class="close-dialog" type="button" aria-label="关闭导入窗口">×</button></div>
+    <form class="import-form">
+      <label for="playlist-link">歌单分享链接</label>
+      <input id="playlist-link" name="url" type="text" required maxlength="4096" placeholder="粘贴网易云歌单链接" autocomplete="off" />
+      <p class="form-hint">支持公开歌单，包括公开的「我喜欢的音乐」。导入后会替换当前展示的音乐。</p>
+      <button class="btn read-playlist" type="submit">读取歌单</button>
+    </form>
+    <div class="playlist-preview" hidden>
+      <div class="preview-heading"><img class="preview-cover" width="80" height="80" alt="歌单封面" referrerpolicy="no-referrer" /><div><h3 class="preview-name"></h3><p class="preview-count"></p></div></div>
+      <ol class="preview-tracks"></ol>
+      <p class="preview-more"></p>
+      <button class="btn confirm-import" type="button">导入并替换</button>
+    </div>
+    <p class="import-message" role="status" aria-live="polite"></p>
+  </dialog>
+</div>
+<script>
+  const root = document.querySelector<HTMLElement>('.music-import');
+  if (root && ['127.0.0.1', 'localhost'].includes(location.hostname)) {
+    const dialog = root.querySelector<HTMLDialogElement>('dialog')!;
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const input = root.querySelector<HTMLInputElement>('input')!;
+    const readButton = root.querySelector<HTMLButtonElement>('.read-playlist')!;
+    const confirm = root.querySelector<HTMLButtonElement>('.confirm-import')!;
+    const preview = root.querySelector<HTMLElement>('.playlist-preview')!;
+    const message = root.querySelector<HTMLElement>('.import-message')!;
+    const success = root.querySelector<HTMLElement>('.import-success')!;
+    let token = '';
+    let draftId = '';
+    let pending = false;
+    const request = async (endpoint: string, body: unknown) => {
+      const response = await fetch(`/api/music/${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Music-Token': token }, body: JSON.stringify(body) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? '操作未完成，请重试。');
+      return data;
+    };
+    const setPending = (value: boolean, text: string) => {
+      pending = value;
+      input.disabled = value; readButton.disabled = value; confirm.disabled = value;
+      form.setAttribute('aria-busy', String(value));
+      message.textContent = text;
+      message.classList.remove('has-error');
+    };
+    fetch('/api/music/status').then(async (response) => {
+      if (!response.ok) return;
+      const status = await response.json();
+      if (!status.available || typeof status.token !== 'string') return;
+      token = status.token; root.hidden = false;
+      const imported = sessionStorage.getItem('jianji-music-imported');
+      if (imported) { sessionStorage.removeItem('jianji-music-imported'); success.textContent = imported; success.hidden = false; }
+    }).catch(() => {});
+    root.querySelector('.import-trigger')!.addEventListener('click', () => dialog.showModal());
+    root.querySelector('.close-dialog')!.addEventListener('click', () => { if (!pending) dialog.close(); });
+    dialog.addEventListener('cancel', (event) => { if (pending) event.preventDefault(); });
+    input.addEventListener('input', () => { draftId = ''; preview.hidden = true; message.textContent = ''; });
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (pending) return;
+      preview.hidden = true; draftId = '';
+      setPending(true, '正在读取完整歌单…');
+      try {
+        const data = await request('preview', { url: input.value });
+        draftId = data.draftId;
+        root.querySelector<HTMLElement>('.preview-name')!.textContent = data.name;
+        root.querySelector<HTMLElement>('.preview-count')!.textContent = `${data.total} 首歌曲 · 已完整读取`;
+        const image = root.querySelector<HTMLImageElement>('.preview-cover')!;
+        image.hidden = !data.coverImage;
+        if (data.coverImage) image.src = data.coverImage;
+        const list = root.querySelector<HTMLOListElement>('.preview-tracks')!;
+        list.replaceChildren(...data.tracks.slice(0, 5).map((track: { title: string; artist: string }) => {
+          const item = document.createElement('li'); item.textContent = `${track.title} · ${track.artist}`; return item;
+        }));
+        root.querySelector<HTMLElement>('.preview-more')!.textContent = data.total > 5 ? `还有 ${data.total - 5} 首，将一起导入。` : '';
+        confirm.textContent = `导入这 ${data.total} 首`;
+        preview.hidden = false;
+        setPending(false, '确认后会保存歌曲和封面，更新唱片架。');
+      } catch (error) { setPending(false, (error as Error).message); message.classList.add('has-error'); }
+    });
+    confirm.addEventListener('click', async () => {
+      if (!draftId || pending) return;
+      setPending(true, '正在下载封面并保存歌单，首次导入需要一点时间，请保持窗口打开…');
+      try {
+        const data = await request('import', { draftId });
+        sessionStorage.setItem('jianji-music-imported', `已导入 ${data.imported} 首`);
+        location.reload();
+      } catch (error) { setPending(false, (error as Error).message); message.classList.add('has-error'); }
+    });
+  }
+</script>
+<style>
+  .music-import { display: contents; }
+  .music-import[hidden] { display: none; }
+  .import-success { font: 11px var(--ui); color: var(--ink-72); }
+  .import-dialog { width: min(540px, calc(100% - 32px)); max-height: calc(100dvh - 40px); padding: 26px; border: 1px solid var(--ink); color: var(--ink); background: var(--bg); overflow-y: auto; }
+  .import-dialog::backdrop { background: rgba(0,0,0,.35); }
+  .dialog-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .dialog-heading h2 { margin: 0; font: 500 25px var(--song); }
+  .close-dialog { border: 0; background: transparent; color: var(--ink); width: 32px; height: 32px; font: 26px var(--ui); cursor: pointer; }
+  .import-form label { display: block; margin-bottom: 10px; font: 13px var(--ui); }
+  .import-form input { display: block; width: 100%; padding: 13px 12px; color: var(--ink); background: var(--bg); border: 1px solid var(--rule-strong); font: 13px var(--ui); border-radius: 0; }
+  .form-hint, .preview-more, .import-message { font: 12px/1.8 var(--ui); color: var(--ink-72); margin: 12px 0; }
+  .playlist-preview { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--rule); }
+  .preview-heading { display: flex; gap: 16px; align-items: center; }
+  .preview-cover { flex: none; object-fit: cover; }
+  .preview-name { font: 500 20px/1.5 var(--song); overflow-wrap: anywhere; }
+  .preview-count { font: 12px var(--ui); margin-top: 8px; }
+  .preview-tracks { margin: 18px 0 0; padding-left: 24px; font: 12px/2 var(--ui); overflow-wrap: anywhere; }
+  .import-message { margin-bottom: 0; }
+  .import-message.has-error { color: var(--rose); }
+  .btn { cursor: pointer; }
+  .btn:disabled { opacity: .5; cursor: wait; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+</style>

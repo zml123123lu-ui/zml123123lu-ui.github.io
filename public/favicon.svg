@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="见己">
+  <!-- 站标：白底 + 墨色圆点 + 一条发丝线。
+       和首页品牌格的构图一致：一个点，一条线。 -->
+  <rect width="64" height="64" fill="#FFFFFF"/>
+  <circle cx="32" cy="26" r="11" fill="#0B0B0B"/>
+  <rect x="12" y="46" width="40" height="4" fill="#0B0B0B"/>
+</svg>

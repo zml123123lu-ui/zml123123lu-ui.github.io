@@ -1,0 +1,308 @@
+---
+/**
+ * 文章详情版式。
+ *
+ * 中文长文的三条硬规矩，缺一条都会明显难读：
+ *   1. 行宽压到 30–40 个汉字（这里 34 字）
+ *   2. 行高 1.8 以上
+ *   3. 段与段之间留足空隙
+ * 另外目录常驻在右侧栏，滚动时跟着走。
+ */
+import BaseLayout from './BaseLayout.astro';
+import { fmtDate, thousands, categoryClass, CONTACT } from '../consts';
+import { plainLength, type Post } from '../utils/posts';
+
+interface Props {
+  post: Post;
+  headings: { depth: number; slug: string; text: string }[];
+  readingMinutes: number;
+  prev?: Post;
+  next?: Post;
+}
+
+const { post, headings, readingMinutes, prev, next } = Astro.props;
+const d = post.data;
+const chars = plainLength(post);
+
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  section="文章"
+  path={fmtDate(d.pubDate)}
+>
+  <div class="wrap">
+    <div class="doc">
+      <!-- 题头 -->
+      <header class="head">
+        <div class="meta">
+          <span class={`chip ${categoryClass(d.category)}`}>{d.category}</span>
+          <span class="sep" aria-hidden="true">/</span>
+          <span class="idx">{fmtDate(d.pubDate)}</span>
+          <span class="sep" aria-hidden="true">/</span>
+          <span class="idx">{thousands(chars)} 字 · {readingMinutes} 分钟</span>
+          {d.updatedDate && (
+            <>
+              <span class="sep" aria-hidden="true">/</span>
+              <span class="idx">修订于 {fmtDate(d.updatedDate)}</span>
+            </>
+          )}
+        </div>
+
+        <h1 data-pagefind-body data-edit-kind="posts" data-edit-id={post.id} data-edit-field="title">{d.title}</h1>
+        {d.category === '开发' && d.subtitle && <span class="post-subtitle" data-pagefind-body data-edit-kind="posts" data-edit-id={post.id} data-edit-field="subtitle">{d.subtitle}</span>}
+
+        {d.tags.length > 0 && (
+          <div class="tags">
+            {d.tags.map((t) => <a class="tag" href={`/tags/${encodeURIComponent(t)}/`}>#{t}</a>)}
+          </div>
+        )}
+      </header>
+
+      <!-- 正文 + 目录 -->
+      <div class="cols">
+        <article class="prose" data-pagefind-body data-edit-kind="posts" data-edit-id={post.id} data-edit-field="body">
+          <slot />
+
+          <footer class="end">
+            <div class="rule" aria-hidden="true"></div>
+            <p class="sign">
+              有想法可以到
+              <a href={CONTACT.href}>{CONTACT.label}</a> 找我。
+            </p>
+          </footer>
+        </article>
+
+        <aside class="side">
+          <div class="sticky">
+            {toc.length > 1 && (
+              <nav class="toc" aria-label="本页目录">
+                <h2>本页目录</h2>
+                <ol>
+                  {toc.map((h) => (
+                    <li class={h.depth === 3 ? 'sub' : ''}>
+                      <a href={`#${h.slug}`}>{h.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            )}
+
+            <div class="back">
+              <a class="btn" href="/posts/">
+                <span aria-hidden="true">←</span> 全部文章
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- 上一篇 / 下一篇 -->
+      {(prev || next) && (
+        <nav class="pn" aria-label="文章翻页">
+          {prev ? (
+            <a class="pn-i left" href={`/posts/${prev.id}/`}>
+              <span class="idx">← 上一篇</span>
+              <span class="t">{prev.data.title}</span>
+            </a>
+          ) : (
+            <span class="pn-i empty"></span>
+          )}
+          {next ? (
+            <a class="pn-i right" href={`/posts/${next.id}/`}>
+              <span class="idx">下一篇 →</span>
+              <span class="t">{next.data.title}</span>
+            </a>
+          ) : (
+            <span class="pn-i empty"></span>
+          )}
+        </nav>
+      )}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* 文章页是一份「文档」：正文栏 + 目录整体居中，左右留白对称。
+     索引页（首页/列表/归档）仍然是满幅左对齐的网格 —— 两者刻意不同：
+     网格要铺满，读的东西不能铺满。 */
+  .doc {
+    max-width: var(--measure-doc);
+    margin: 0 auto;
+  }
+
+  /* ── 题头 ─────────────────────────────────────────────────────── */
+  .head {
+    padding: 46px 0 34px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .sep { color: var(--ink-22); font-size: 11px; }
+
+  .head h1 {
+    font-family: var(--disp);
+    font-size: clamp(30px, 4.2vw, 50px);
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.022em;
+    margin-bottom: 18px;
+    /* 用 em 是故意的：标题的舒适行长应当随字号缩放 */
+    max-width: 18em;
+  }
+
+
+  .head .post-subtitle {
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.5;
+    margin-top: -4px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 22px;
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+  .tag {
+    color: var(--ink-55);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .tag:hover {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+  }
+
+  /* ── 正文两栏 ─────────────────────────────────────────────────── */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 42px 0 10px;
+  }
+
+  .prose {
+    max-width: var(--measure);
+  }
+
+  /* ── 文末 ─────────────────────────────────────────────────────── */
+  .end { margin-top: 3.2em; }
+  .end .rule {
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: 22px;
+  }
+  .sign {
+    font-family: var(--song);
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--ink-55);
+  }
+  .sign a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--ink-38);
+  }
+  .sign a:hover { color: var(--clay); text-decoration-color: var(--clay); }
+
+  /* ── 侧栏目录 ─────────────────────────────────────────────────── */
+  .side { display: none; }
+
+  .sticky {
+    position: sticky;
+    top: 84px;
+  }
+
+  .toc h2 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 12px;
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--rule);
+  }
+  .toc li { line-height: 1.5; }
+  .toc li.sub { padding-left: 12px; }
+  .toc a {
+    display: block;
+    padding: 5px 0 5px 12px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    font-family: var(--song);
+    font-size: 13px;
+    color: var(--ink-55);
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .toc a:hover {
+    color: var(--ink);
+    border-left-color: var(--yellow);
+  }
+
+  .back { margin-top: 28px; }
+
+  /* ── 翻页 ─────────────────────────────────────────────────────── */
+  .pn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    margin-top: 40px;
+  }
+  .pn-i {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px 24px 24px 0;
+    min-width: 0;
+    transition: background 0.25s var(--ease);
+  }
+  .pn-i:hover { background: var(--paper); }
+  .pn-i.right {
+    text-align: right;
+    align-items: flex-end;
+    padding: 24px 0 24px 24px;
+    border-left: 1px solid var(--rule);
+  }
+  .pn-i .t {
+    font-family: var(--disp);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.22s var(--ease);
+  }
+  .pn-i:hover .t { color: var(--teal); }
+
+  /* ── 宽屏：目录升为常驻右栏 ───────────────────────────────────── */
+  @media (min-width: 1080px) {
+    .cols {
+      grid-template-columns: minmax(0, var(--measure)) 232px;
+      column-gap: 40px;
+      justify-content: space-between;
+    }
+    .side { display: block; }
+  }
+
+  /* 目录收起来之后，文档宽度收到正文栏宽度，避免正文贴左、右边大片空白 */
+  @media (max-width: 1079px) {
+    .doc { max-width: var(--measure); }
+  }
+</style>

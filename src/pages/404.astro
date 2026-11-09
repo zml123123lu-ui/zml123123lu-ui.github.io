@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, NAV } from '../consts';
+---
+
+<BaseLayout title="页面不存在" description="这个地址没有对应的内容。">
+  <div class="grid">
+    <div class="cell big">
+      <span class="idx">错误 / 404</span>
+      <b>404</b>
+    </div>
+    <div class="cell msg">
+      <span class="idx">说明</span>
+      <span class="body">
+        <span class="tit">这个地址没有东西</span>
+        <span class="ex">
+          可能是我改过链接，也可能是你手打的时候漏了一个字符。
+          下面的入口应该能找到你要的。
+        </span>
+      </span>
+    </div>
+    {NAV.map((item) => (
+      <a class="cell nav" href={item.href}>
+        <span class="lk">{item.label}</span>
+        <span class="sub">{item.sub}</span>
+      </a>
+    ))}
+    <a class="cell nav linkout" href="/">
+      <span class="lk strong">回首页 <span aria-hidden="true">→</span></span>
+      <span class="sub">{SITE.tagline}</span>
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid var(--rule);
+    min-height: 62vh;
+    align-content: start;
+    max-width: var(--wrap);
+    margin: 0 auto;
+  }
+
+  .cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 210px;
+    padding: 20px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    transition: background 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .cell:nth-child(5n) { border-right: 0; }
+
+  .big {
+    grid-column: span 2;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: var(--yellow);
+    color: var(--on-light);
+    border-color: transparent;
+  }
+  .big b {
+    font-family: var(--disp);
+    font-size: clamp(84px, 12vw, 168px);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .big .idx { position: absolute; top: 20px; left: 20px; color: rgba(11, 11, 11, 0.5); }
+  .big { position: relative; }
+
+  .msg { grid-column: span 3; }
+  .msg .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px 0;
+  }
+  .msg .tit { font-family: var(--disp); font-size: 26px; font-weight: 600; }
+  .msg .ex {
+    font-family: var(--song);
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--ink-55);
+    max-width: 30em;
+  }
+
+  .nav { min-height: 96px; justify-content: center; }
+  .nav .lk { font-family: var(--disp); font-size: 14px; font-weight: 500; }
+  .nav .lk.strong { font-weight: 600; }
+  .nav .sub {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-38);
+    margin-top: 4px;
+  }
+  .nav:hover { background: var(--yellow); color: var(--on-light); }
+  .nav:hover .sub { color: rgba(11, 11, 11, 0.55); }
+
+  @media (max-width: 1000px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .cell:nth-child(5n) { border-right: 1px solid var(--rule); }
+    .cell:nth-child(2n) { border-right: 0; }
+    .big, .msg { grid-column: span 2; }
+  }
+</style>

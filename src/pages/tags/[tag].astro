@@ -1,0 +1,215 @@
+---
+/**
+ * 标签详情。
+ * 一个 URL 同时承担两种语义：分区名（读书/随笔/开发/音乐）和自由标签。
+ * 命中任一即收录 —— 这样分类和标签共用一个页面，不用维护两套路由。
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { fmtDate, categoryClass, thousands, CATEGORIES } from '../../consts';
+import { getPosts, plainLength, tagCounts } from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+
+  const names = new Set<string>();
+  for (const p of posts) {
+    names.add(p.data.category);
+    for (const t of p.data.tags) names.add(t);
+  }
+
+  return [...names].map((name) => {
+    const isCategory = CATEGORIES.some((c) => c.name === name);
+    const items = posts.filter(
+      (p) => (isCategory ? p.data.category === name : p.data.tags.includes(name)),
+    );
+    return { params: { tag: name }, props: { name, items, isCategory } };
+  });
+}
+
+const { name, items, isCategory } = Astro.props;
+const allTags = tagCounts(await getPosts());
+const color = CATEGORIES.find((c) => c.name === name)?.color;
+---
+
+<BaseLayout
+  title={name}
+  section={isCategory ? '分区' : '标签'}
+  path={name}
+  description={`${name} 下的全部文章，共 ${items.length} 篇。`}
+>
+  <div class="wrap">
+    <div class="hd">
+      <span class="kick">{isCategory ? '内容分区' : '自由标签'}</span>
+      <h1>
+        {isCategory && <span class="dot" style={`background:${color}`} aria-hidden="true"></span>}
+        {name}
+      </h1>
+      <p class="cnt">{items.length} 篇文章</p>
+    </div>
+
+    <div class="grid">
+      {items.map((p, i) => (
+        <a class="post" href={`/posts/${p.id}/`}>
+          <span class="top">
+            <span class="no">{String(i + 1).padStart(2, '0')}</span>
+            <span class={`chip ${categoryClass(p.data.category)}`}>{p.data.category}</span>
+          </span>
+          <h4>{p.data.title}</h4>
+          {p.data.category === '开发' && p.data.subtitle && <span class="post-subtitle">{p.data.subtitle}</span>}
+          <span class="bot">
+            <span class="date">{fmtDate(p.data.pubDate)}</span>
+            <span class="mono dim">{thousands(plainLength(p))} 字</span>
+          </span>
+        </a>
+      ))}
+    </div>
+
+    {allTags.length > 0 && (
+      <section class="others">
+        <h2 class="ttl">其他标签</h2>
+        <div class="tags">
+          {allTags
+            .filter((t) => t.name !== name)
+            .map((t) => (
+              <a class="tag" href={`/tags/${encodeURIComponent(t.name)}/`}>
+                {t.name}<span class="n">{t.count}</span>
+              </a>
+            ))}
+        </div>
+      </section>
+    )}
+
+    <p class="back">
+      <a class="btn" href="/tags/"><span aria-hidden="true">←</span> 全部标签</a>
+      <a class="btn" href="/posts/">全部文章</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .hd {
+    padding: 42px 0 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .kick {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 12px;
+  }
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--disp);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .dot {
+    width: 14px;
+    height: 14px;
+    flex: none;
+  }
+  .cnt {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-38);
+  }
+
+  /* 与首页、文章列表同一套格子语言 */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 0;
+  }
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 26px 20px;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    transition: background 0.3s var(--ease);
+  }
+  .post:nth-child(2n) { border-right: 0; }
+  .post:hover { background: var(--paper); }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .no {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-38);
+  }
+  h4 {
+    font-family: var(--disp);
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.36;
+    transition: color 0.22s var(--ease);
+  }
+  .post:hover h4 { color: var(--teal); }
+  .bot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 13px;
+    border-top: 1px dashed var(--rule);
+  }
+  .date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-38);
+  }
+
+  /* 其他标签 */
+  .others {
+    padding: 34px 0 30px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ttl {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 18px;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    transition: background 0.22s var(--ease), color 0.22s var(--ease), border-color 0.22s var(--ease);
+  }
+  .tag:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tag .n { font-size: 10px; color: var(--ink-38); }
+  .tag:hover .n { color: rgba(255, 255, 255, 0.6); }
+
+  .back {
+    display: flex;
+    gap: 12px;
+    padding: 30px 0 40px;
+  }
+
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+    .post { border-right: 0; padding: 22px 0 18px; }
+  }
+</style>

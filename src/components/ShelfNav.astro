@@ -1,0 +1,18 @@
+---
+interface Props { current: 'books' | 'films' | 'music'; }
+const { current } = Astro.props;
+const sections = [
+  { key: 'books', label: '书籍', href: '/shelf/' },
+  { key: 'films', label: '影视', href: '/films/' },
+  { key: 'music', label: '音乐', href: '/music/' },
+];
+---
+<nav class="shelf-nav" aria-label="书影音分类">
+  {sections.map(item => <a href={item.href} aria-current={current === item.key ? 'page' : undefined}>{item.label}</a>)}
+</nav>
+<style>
+.shelf-nav { display:flex; gap:28px; padding:20px 0; border-bottom:1px solid var(--rule); font:14px var(--ui); }
+.shelf-nav a { padding-bottom:6px; border-bottom:2px solid transparent; }
+.shelf-nav a[aria-current='page'] { border-bottom-color:var(--yellow); }
+.shelf-nav a:hover { color:var(--teal); }
+</style>

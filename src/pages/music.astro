@@ -1,0 +1,325 @@
+---
+/**
+ * 音乐页 —— 分区「音乐」的落地页。
+ *
+ * 这一页**不放文章**：它只做一件事，把我正在听的歌摆出来。
+ *
+ * ⚠️ 这里**故意不嵌播放器**（2026-09-16 改的，别再改回去）。
+ *
+ *    网易云的 outchain 外链播放器看起来能嵌，但它播的是**访客自己的账号权限**：
+ *    没登录、或没开 VIP 的访客，网易云对 VIP 歌曲直接返回 code=-110、url=null，
+ *    也就是根本不给播放地址。实测一个 10 首的陈奕迅歌单，只有 2 首免费歌能响。
+ *    一排点了没反应的灰按钮，比什么东西都不放更糟。
+ *
+ * 展示按 2026-11-06 用户提供的「谜底黑胶」截图重做：
+ * 专辑横向排列，拖动、横滑和方向键会连续翻转封面并吸附到下一张。
+ * 具体布局和滚动角度由 MusicStack 组件负责；曲目仍来自 listening.md。
+ *
+ * 封面由 scripts/fetch_covers.py 在构建期抓到本地自托管（和字体一个路子），
+ * 页面对外零依赖 —— 不靠网易云的 CDN，也不靠访客的会员。
+ */
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../consts';
+import { playlistPage } from '../utils/netease';
+import MusicStack from '../components/MusicStack.astro';
+import MusicImport from '../components/MusicImport.astro';
+import ShelfNav from '../components/ShelfNav.astro';
+
+const entry = await getEntry('music', 'listening');
+if (!entry) throw new Error('缺少 src/content/music/listening.md');
+
+const { title, intro, note, playlists, tracks } = entry.data;
+
+/** 关于页那份社交链接里如果有网易云，就在题头给一个出口。 */
+const netease = SITE.author.links.find((l: { label: string }) => l.label === '网易云音乐')?.href;
+
+/**
+ * 封面按文件名取（`<歌曲id>.jpg` / `playlist-<歌单id>.jpg`）。
+ *
+ * **缺图不算错误**：新加了一首歌但还没跑 fetch_covers.py 时，下面会退成一个
+ * 纸色方块，页面照样成立 —— 不要为了缺图让构建失败。
+ */
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/covers/*.jpg', { eager: true });
+const cover = (name: string) => files[`../assets/covers/${name}.jpg`]?.default ?? null;
+
+/**
+ * 脊色。由 scripts/fetch_covers.py 从每张封面里提取，写进同目录的 tones.json。
+ *
+ * 用 glob 读而不是直接 import：**文件万一不在也不能让构建挂掉** ——
+ * 用户完全可能刚 clone 下来、还没跑过抓取脚本。缺了就退到下面这个中性色。
+ *
+ * 换歌流程：改 listening.md → 跑 `python3 scripts/fetch_covers.py` →
+ * 封面和脊色一起更新。这一步不跑，新歌的脊会是这个兜底灰。
+ */
+const toneFiles = import.meta.glob<{ default: Record<string, string> }>(
+  '../assets/covers/tones.json',
+  { eager: true },
+);
+const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.default ?? {};
+
+---
+
+<BaseLayout
+  title="音乐"
+  section="书影音"
+  description={`${SITE.name} 在听什么 —— 歌单、单曲，和为什么听它。`}
+>
+  <div class="wrap">
+    <!-- 题头 -->
+    <header class="hd">
+      <span class="kick"><span class="d" aria-hidden="true"></span>书影音 · 音乐</span>
+      <h1 data-edit-kind="site" data-edit-id="music" data-edit-field="title">{title}</h1>
+      {intro && <p class="sub" data-edit-kind="site" data-edit-id="music" data-edit-field="intro">{intro}</p>}
+
+      <div class="bar">
+        <span class="mono">{playlists.length} 个歌单 · {tracks.length} 首单曲</span>
+        <span class="mono">封面与歌都在网易云</span>
+        <MusicImport />
+        {netease && (
+          <a class="btn" href={netease}>
+            我的网易云 <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </div>
+    </header>
+
+    <ShelfNav current="music" />
+
+    <!-- 01 立体唱片架 -->
+    <section class="sec">
+      <div class="shd">
+        <span class="mono dim">01 / 单曲</span>
+        <h2>反复循环的</h2>
+        {tracks.length > 0 && <span class="mono dim tip">左右拖动，翻翻唱片</span>}
+      </div>
+
+      {tracks.length > 0 ? (
+        <MusicStack tracks={tracks} covers={files} tones={TONES} />
+      ) : (
+        <p class="empty">
+          还没填单曲。打开 <code>src/content/music/listening.md</code>，把歌曲 ID 加进去就有了。
+        </p>
+      )}
+    </section>
+
+    <!-- 02 歌单 -->
+    <section class="sec">
+      <div class="shd">
+        <span class="mono dim">02 / 歌单</span>
+        <h2>整张听的时候</h2>
+      </div>
+
+      {playlists.length > 0 ? (
+        <div class="list">
+          {playlists.map((p) => {
+            const img = cover(`playlist-${p.id}`);
+            return (
+              <article class="pl">
+                <a class="art big" href={playlistPage(p.id)} aria-label={`${p.title}，在网易云里打开`}>
+                  {img ? <Image src={img} width={240} height={240} format="webp" alt="" /> : <span class="ph" />}
+                </a>
+                <div class="txt">
+                  <h3>
+                    <a href={playlistPage(p.id)}>{p.title}</a>
+                  </h3>
+                  {p.note && <p>{p.note}</p>}
+                  <span class="out">
+                    <a href={playlistPage(p.id)}>在网易云里打开 →</a>
+                  </span>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <p class="empty">
+          还没填歌单。打开 <code>src/content/music/listening.md</code>，把歌单 ID 加进去就有了。
+        </p>
+      )}
+    </section>
+
+    <!-- 说明 -->
+    <footer class="note">
+      <span class="mono dim">关于这一页</span>
+      {note && <p data-edit-kind="site" data-edit-id="music" data-edit-field="note">{note}</p>}
+      <p class="fine">
+        封面和歌名留在这里。想听的时候，点唱片去网易云。
+      </p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── 题头 ─────────────────────────────────────────────────────── */
+  .hd { padding: 42px 0 0; }
+
+  .kick {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-38);
+    margin-bottom: 14px;
+  }
+  .kick .d { width: 7px; height: 7px; background: var(--wine); flex: none; }
+
+  h1 {
+    font-family: var(--disp);
+    font-size: clamp(34px, 4vw, 54px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .sub {
+    font-family: var(--song);
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--ink-55);
+    max-width: 34em;
+  }
+
+  /* 题头下面那条台账行：左边是数字，右边是出口 */
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .bar .mono { color: var(--ink-38); }
+  .bar .btn { margin-left: auto; }
+
+  /* ── 分区标题 ─────────────────────────────────────────────────── */
+  .sec { border-top: 1px solid var(--rule); }
+  .shd {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 22px 0 16px;
+  }
+  .shd h2 {
+    font-family: var(--disp);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .shd .tip { margin-left: auto; }
+
+  /* ── 歌单：一张唱片封套 + 右侧的字 ────────────────────────────── */
+  .list { border-top: 1px solid var(--rule); }
+
+  .art { display: block; flex: none; }
+  .art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  .pl {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 34px;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: background 0.3s var(--ease);
+  }
+  /* 整行翻浅纸色 —— 首页是整格翻荧光黄，这里是长条目，用浅纸色更克制 */
+  .pl:hover { background: var(--paper); }
+  .pl .art.big { width: 240px; height: 240px; }
+
+  /* 文字栏撑满，把「在网易云里打开」压到和封面底边齐平 */
+  .pl .txt {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-right: 32px;
+  }
+  .pl h3 {
+    font-family: var(--disp);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .pl h3 a { transition: color 0.2s var(--ease); }
+  .pl h3 a:hover { color: var(--wine); }
+  .pl .txt p {
+    font-family: var(--song);
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--ink-55);
+    max-width: 32em;
+  }
+
+  .out {
+    align-self: flex-start;
+    margin-top: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .out a {
+    color: var(--ink-38);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 2px;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+  .out a:hover { color: var(--wine); border-bottom-color: var(--wine); }
+
+  .empty {
+    padding: 22px 0;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-38);
+  }
+  .empty code {
+    font-family: var(--mono);
+    border: 1px solid var(--rule);
+    background: var(--wash);
+    padding: 2px 6px;
+  }
+
+  /* ── 页脚说明 ─────────────────────────────────────────────────── */
+  .note {
+    padding: 30px 0 46px;
+    border-top: 1px solid var(--rule);
+  }
+  .note .mono { display: block; margin-bottom: 14px; }
+  .note p {
+    font-family: var(--song);
+    font-size: 13.5px;
+    line-height: 1.95;
+    color: var(--ink-55);
+    max-width: 44em;
+  }
+  .note .fine {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--ink-38);
+  }
+
+  /* ── 响应式 ───────────────────────────────────────────────────── */
+  @media (max-width: 1080px) {
+    .pl { grid-template-columns: 200px minmax(0, 1fr); gap: 26px; }
+    .pl .art.big { width: 200px; height: 200px; }
+    .pl .txt { padding-right: 0; }
+  }
+
+  @media (max-width: 720px) {
+    .hd { padding-top: 30px; }
+    .bar { gap: 12px; }
+    .bar .btn { margin-left: 0; }
+    .shd h2 { font-size: 21px; }
+    .shd .tip { margin-left: 0; flex-basis: 100%; }
+
+    .pl { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .pl .art.big { width: 180px; height: 180px; }
+    .pl h3 { font-size: 21px; }
+    .pl .out { margin-top: 16px; }
+  }
+</style>

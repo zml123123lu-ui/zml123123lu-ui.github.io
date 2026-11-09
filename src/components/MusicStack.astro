@@ -1,0 +1,249 @@
+---
+import { Image } from 'astro:assets';
+import { songPage } from '../utils/netease';
+interface Props {
+  tracks: { id: string; title: string; artist: string }[];
+  covers: Record<string, { default: ImageMetadata }>;
+  tones: Record<string, string>;
+}
+const { tracks, covers, tones } = Astro.props;
+const initial = Math.min(1, tracks.length - 1);
+---
+<div class="music-stack" data-initial={initial}>
+  <div class="stack-heading"><span>见己 / 私人唱片架</span><span>{String(tracks.length).padStart(2, '0')} RECORDS</span></div>
+  <div class="stack-stage" tabindex="0" role="region" aria-label="横向唱片架，左右拖动或按左右方向键翻唱片">
+    <ol class="stack-rail">
+      {tracks.map((track, i) => {
+        const image = covers[`../assets/covers/${track.id}.jpg`]?.default;
+        const d = i - initial;
+        return (
+          <li class="album-slot" style={`transform:translate3d(calc(-50% + ${Math.sign(d) * (Math.min(Math.abs(d), 1) * 250 + Math.max(Math.abs(d) - 1, 0) * 72)}px),-50%,${-Math.abs(d) * 110}px) rotateY(${-Math.sign(d) * 70}deg)`}>
+            <a class="album" href={songPage(track.id)} aria-label={`${track.title}${track.artist ? ` · ${track.artist}` : ''}，在网易云打开`} aria-current={i === initial ? 'true' : undefined} data-title={track.title} data-artist={track.artist} style={`--c:${tones[track.id] ?? '#363636'}`} draggable="false">
+              <span class="record-disc" aria-hidden="true"><span class="record-label"></span></span>
+              <span class="album-art">{image ? <Image src={image} width={560} height={560} format="webp" alt="" loading="eager" draggable="false" /> : <span class="missing-cover">{track.title}</span>}</span>
+              <span class="album-edge edge-left" aria-hidden="true">{track.title} · {track.artist}</span>
+              <span class="album-edge edge-right" aria-hidden="true">{track.title} · {track.artist}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+  <div class="stack-controls">
+    <button type="button" class="stack-prev" aria-label="上一张唱片" disabled={initial === 0}>←</button>
+    <div class="stack-caption" aria-live="polite" aria-atomic="true"><strong>{tracks[initial]?.title}</strong><span>{tracks[initial]?.artist}</span></div>
+    <button type="button" class="stack-next" aria-label="下一张唱片" disabled={initial === tracks.length - 1}>→</button>
+  </div>
+  <p class="stack-help">左右拖动 / 触控板横滑 <span class="stack-counter">{String(initial + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}</span>点正面唱片，去网易云听</p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.music-stack');
+  if (root) {
+    const stage = root.querySelector<HTMLElement>('.stack-stage')!;
+    const previous = root.querySelector<HTMLButtonElement>('.stack-prev')!;
+    const next = root.querySelector<HTMLButtonElement>('.stack-next')!;
+    const title = root.querySelector<HTMLElement>('.stack-caption strong')!;
+    const artist = root.querySelector<HTMLElement>('.stack-caption span')!;
+    const counter = root.querySelector<HTMLElement>('.stack-counter')!;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let entries: { slot: HTMLElement; album: HTMLAnchorElement; disc: HTMLElement }[] = [];
+    let size = 320;
+    let target = Number(root.dataset.initial) || 0;
+    let position = target + (reduced.matches ? 0 : 0.35);
+    let velocity = 0;
+    let frame = 0;
+    let lastTime = 0;
+    let visible = true;
+    let announced = -1;
+    let wheelTimer: ReturnType<typeof setTimeout>;
+    let drag: { id: number; x: number; start: number; lastX: number; time: number; velocity: number } | null = null;
+    let dragged = false;
+    const clamp = (value: number) => Math.max(0, Math.min(entries.length - 1, value));
+
+    const paint = () => {
+      entries.forEach(({ slot, disc }, i) => {
+        const d = i - position;
+        const distance = Math.abs(d);
+        // 长歌单仅绘制附近唱片，避免上百张封面挤在远处并持续合成。
+        if (distance > 5.5) {
+          if (slot.style.visibility !== 'hidden') slot.style.visibility = 'hidden';
+          return;
+        }
+        slot.style.visibility = 'visible';
+        // 连续曲线避免唱片经过中心或侧面时突然改变速度。
+        const x = size * (0.225 * d + 0.555 * Math.tanh(d * 1.7) / Math.tanh(1.7));
+        const angle = -70 * Math.tanh(d * 1.6) / Math.tanh(1.6);
+        const depth = -140 * (Math.sqrt(d * d + 0.16) - 0.4);
+        slot.style.transform = `translate3d(calc(-50% + ${x.toFixed(2)}px),-50%,${depth.toFixed(2)}px) rotateY(${angle.toFixed(2)}deg)`;
+        disc.style.transform = `translate3d(${(Math.exp(-distance * distance * 3) * size * 0.18).toFixed(2)}px,0,-2px)`;
+      });
+    };
+    const announce = () => {
+      const index = Math.round(target);
+      previous.disabled = index <= 0;
+      next.disabled = index >= entries.length - 1;
+      if (announced === index) return;
+      announced = index;
+      title.textContent = entries[index].album.dataset.title ?? '';
+      artist.textContent = entries[index].album.dataset.artist ?? '';
+      counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(entries.length).padStart(2, '0')}`;
+      entries.forEach(({ album }, i) => {
+        if (i === index) album.setAttribute('aria-current', 'true');
+        else album.removeAttribute('aria-current');
+      });
+    };
+    const tick = (time: number) => {
+      frame = 0;
+      const elapsed = Math.min(40, lastTime ? time - lastTime : 16) / 1000;
+      lastTime = time;
+      if (reduced.matches || drag) {
+        position = target;
+        velocity = 0;
+      } else {
+        // 临界阻尼的解析解：切换时缓起，松手时保留速度，并自然停稳。
+        const frequency = 13;
+        const offset = position - target;
+        const impulse = velocity + frequency * offset;
+        const decay = Math.exp(-frequency * elapsed);
+        position = target + (offset + impulse * elapsed) * decay;
+        velocity = (velocity - frequency * impulse * elapsed) * decay;
+        const bounded = clamp(position);
+        if (bounded !== position) { position = bounded; velocity = 0; }
+      }
+      if (Math.abs(target - position) < 0.0005 && Math.abs(velocity) < 0.003) { position = target; velocity = 0; }
+      paint();
+      if ((position !== target || velocity !== 0) && visible) frame = requestAnimationFrame(tick);
+      else { lastTime = 0; if (!drag) announce(); }
+    };
+    const animate = () => { if (!frame && visible) frame = requestAnimationFrame(tick); };
+    const select = (index: number) => {
+      clearTimeout(wheelTimer);
+      target = clamp(Math.round(index));
+      animate();
+    };
+    const measure = () => {
+      entries = Array.from(root.querySelectorAll<HTMLElement>('.album-slot')).map((slot) => ({
+        slot, album: slot.querySelector<HTMLAnchorElement>('.album')!, disc: slot.querySelector<HTMLElement>('.record-disc')!,
+      }));
+      if (!entries.length) return;
+      size = entries[0].slot.offsetWidth;
+      position = clamp(position);
+      target = clamp(target);
+      announced = -1;
+      paint();
+      animate();
+    };
+    previous.addEventListener('click', () => select(target - 1));
+    next.addEventListener('click', () => select(target + 1));
+    stage.addEventListener('keydown', (event) => {
+      const index = event.key === 'ArrowRight' ? target + 1 : event.key === 'ArrowLeft' ? target - 1 : event.key === 'Home' ? 0 : event.key === 'End' ? entries.length - 1 : null;
+      if (index !== null) { event.preventDefault(); select(index); }
+    });
+    stage.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      clearTimeout(wheelTimer);
+      dragged = false;
+      target = position;
+      velocity = 0;
+      drag = { id: event.pointerId, x: event.clientX, start: position, lastX: event.clientX, time: event.timeStamp, velocity: 0 };
+    });
+    stage.addEventListener('pointermove', (event) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      if (!dragged && Math.abs(event.clientX - drag.x) < 6) return;
+      dragged = true;
+      stage.setPointerCapture(event.pointerId);
+      stage.classList.add('is-dragging');
+      const elapsed = Math.max(1, event.timeStamp - drag.time);
+      const measuredVelocity = (drag.lastX - event.clientX) / (size * 0.78 * elapsed);
+      drag.velocity = drag.velocity * 0.65 + measuredVelocity * 0.35;
+      drag.lastX = event.clientX;
+      drag.time = event.timeStamp;
+      target = clamp(drag.start + (drag.x - event.clientX) / (size * 0.78));
+      animate();
+    });
+    const finishDrag = (event: PointerEvent) => {
+      if (!drag || drag.id !== event.pointerId) return;
+      const releaseVelocity = event.timeStamp - drag.time < 100 ? drag.velocity : 0;
+      const destination = dragged ? target + releaseVelocity * 140 : target;
+      velocity = dragged ? Math.max(-4, Math.min(4, releaseVelocity * 1000)) : 0;
+      drag = null;
+      stage.classList.remove('is-dragging');
+      select(destination);
+    };
+    addEventListener('pointerup', finishDrag);
+    stage.addEventListener('pointercancel', (event) => {
+      if (drag?.id === event.pointerId) { drag = null; stage.classList.remove('is-dragging'); select(target); }
+    });
+    stage.addEventListener('wheel', (event) => {
+      if (event.ctrlKey || (!event.shiftKey && Math.abs(event.deltaX) <= Math.abs(event.deltaY))) return;
+      const delta = (event.shiftKey && !event.deltaX ? event.deltaY : event.deltaX) * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? stage.clientWidth : 1);
+      if (!delta) return;
+      event.preventDefault();
+      target = clamp(target + delta / (size * 0.9));
+      animate();
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => select(target), 140);
+    }, { passive: false });
+    stage.addEventListener('click', (event) => {
+      const album = (event.target as Element).closest('.album');
+      if (!album) return;
+      if (dragged) { event.preventDefault(); dragged = false; return; }
+      const index = entries.findIndex((entry) => entry.album === album);
+      if (Math.abs(index - position) > 0.1) { event.preventDefault(); select(index); }
+    });
+    stage.addEventListener('focusin', (event) => {
+      if (drag) return;
+      const index = entries.findIndex((entry) => entry.album === event.target);
+      if (index >= 0) select(index);
+    });
+    reduced.addEventListener('change', animate);
+    new ResizeObserver(measure).observe(stage);
+    new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) animate();
+      else { cancelAnimationFrame(frame); frame = 0; lastTime = 0; }
+    }).observe(stage);
+    addEventListener('resize', measure, { passive: true });
+    measure();
+  }
+</script>
+
+<style>
+  .music-stack { --album-size: 320px; margin: 12px 0 40px; color: #151515; background: #ffffff; }
+  .stack-heading { display: flex; justify-content: space-between; gap: 16px; padding: 24px 28px; font: 10px var(--mono); letter-spacing: .08em; }
+  .stack-stage { position: relative; height: 440px; overflow: clip; perspective: 1100px; touch-action: pan-y; cursor: grab; user-select: none; }
+  .stack-stage.is-dragging { cursor: grabbing; }
+  .stack-stage:focus-visible { outline: 2px solid #151515; outline-offset: -3px; }
+  .stack-rail { position: absolute; inset: 0; list-style: none; padding: 0; margin: 0; transform-style: preserve-3d; }
+  .album-slot { position: absolute; left: 50%; top: 50%; width: var(--album-size); height: var(--album-size); transform-style: preserve-3d; }
+  .album { --c: #444444 !important; position: absolute; inset: 0; display: block; transform-style: preserve-3d; color: #ffffff; text-decoration: none; }
+  .album-art { position: absolute; inset: 0; display: block; background: var(--c); transform: translateZ(6px); backface-visibility: hidden; border: 1px solid color-mix(in srgb, var(--c) 80%, white); }
+  .album-art img { display: block; width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; }
+  .missing-cover { display: grid; height: 100%; place-items: center; font: 24px var(--disp); }
+  .record-disc { position: absolute; inset: 4%; border-radius: 50%; background: repeating-radial-gradient(circle, #171717 0 1px, #242424 1px 2px, #121212 2px 4px); transform: translate3d(0,0,-2px); }
+  .record-label { position: absolute; inset: 34%; border-radius: 50%; background: var(--c); border: 10px solid color-mix(in srgb, var(--c) 80%, #ffffff); }
+  .record-label::after { content: ''; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; transform: translate(-50%,-50%); border-radius: 50%; background: #171717; }
+  .album-edge { position: absolute; top: 0; height: 100%; width: 12px; padding: 12px 0; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font: 600 10px var(--ui); background: var(--c); backface-visibility: hidden; overflow: hidden; white-space: nowrap; }
+  .edge-left { left: 0; transform-origin: left; transform: translateZ(6px) rotateY(90deg); }
+  .edge-right { right: 0; transform-origin: right; transform: translateZ(6px) rotateY(-90deg); }
+  .album:focus-visible .album-art { outline: 3px solid #151515; outline-offset: 3px; }
+  .stack-controls { display: flex; align-items: center; justify-content: center; gap: 40px; padding: 12px 20px 20px; }
+  .stack-controls button { flex: none; width: 42px; height: 42px; border: 1px solid #151515; background: transparent; color: #151515; font: 23px var(--ui); cursor: pointer; }
+  .stack-controls button:hover:not(:disabled) { color: white; background: #151515; }
+  .stack-controls button:disabled { opacity: .35; cursor: default; }
+  .stack-controls button:focus-visible { outline: 2px solid #151515; outline-offset: 4px; }
+  .stack-caption { min-width: 120px; text-align: center; }
+  .stack-caption strong { display: block; font: 500 22px var(--song); }
+  .stack-caption span { display: block; margin-top: 6px; font: 12px var(--ui); }
+  .stack-help { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 16px; padding: 8px 20px 25px; margin: 0; font: 10px var(--ui); letter-spacing: .04em; }
+  .stack-counter { font-family: var(--mono); }
+  @media (max-width: 720px) {
+    .music-stack { --album-size: min(54vw, 260px); margin-top: 8px; }
+    .stack-heading { padding: 20px 18px; font-size: 9px; }
+    .stack-stage { height: 310px; perspective: 780px; }
+    .stack-controls { gap: 24px; padding: 8px 16px 18px; }
+    .stack-caption strong { font-size: 20px; }
+    .stack-help { gap: 10px; font-size: 9px; }
+  }
+</style>

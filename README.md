@@ -1,0 +1,13 @@
+# 见己
+
+lu 的个人网站：写作、书影音、账号与作品。
+
+公开网址：https://zml123123lu-ui.github.io/
+
+## 本机使用
+
+使用 Node.js 24，运行 `npm ci`、`npm run build`、`npm run serve`。
+
+`main` 分支保存 Astro 源码，`gh-pages` 分支保存生成后的静态网页。GitHub Pages 从 `gh-pages` 根目录发布。
+
+在线网站仅供浏览；文字编辑、文章管理和歌单导入仅在本机管理服务中开放。本机保存后需重新构建并更新发布分支，才会更新在线页面。

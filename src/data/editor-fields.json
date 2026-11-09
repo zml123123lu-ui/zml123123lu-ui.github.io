@@ -1,0 +1,208 @@
+{
+  "accounts": {
+    "label": "账号",
+    "fields": [
+      [
+        "title",
+        "平台名称",
+        "text"
+      ],
+      [
+        "subtitle",
+        "昵称 / 账号",
+        "text"
+      ],
+      [
+        "url",
+        "主页链接",
+        "url"
+      ],
+      [
+        "note",
+        "简介",
+        "textarea"
+      ]
+    ]
+  },
+  "posts": {
+    "label": "写作",
+    "fields": [
+      [
+        "title",
+        "标题",
+        "text"
+      ],
+      [
+        "subtitle",
+        "副标题（仅开发记录使用，可不填）",
+        "text"
+      ],
+      [
+        "pubDate",
+        "日期",
+        "date"
+      ],
+      [
+        "category",
+        "分区",
+        "select",
+        [
+          "读书",
+          "随笔",
+          "开发"
+        ]
+      ],
+      [
+        "tags",
+        "标签（用逗号分隔）",
+        "text"
+      ],
+      [
+        "body",
+        "正文（支持 Markdown）",
+        "textarea"
+      ],
+      [
+        "draft",
+        "暂存为草稿，不公开",
+        "checkbox"
+      ]
+    ]
+  },
+  "books": {
+    "label": "书籍",
+    "fields": [
+      [
+        "title",
+        "书名",
+        "text"
+      ],
+      [
+        "subtitle",
+        "作者",
+        "text"
+      ],
+      [
+        "status",
+        "阅读状态",
+        "select",
+        [
+          "想读",
+          "在读",
+          "读完"
+        ]
+      ],
+      [
+        "rating",
+        "评分（1–5，可不填）",
+        "number"
+      ],
+      [
+        "cover",
+        "封面链接（可选）",
+        "url"
+      ],
+      [
+        "url",
+        "书籍链接（可选）",
+        "url"
+      ],
+      [
+        "date",
+        "记录日期",
+        "date"
+      ],
+      [
+        "note",
+        "我的读后感",
+        "textarea"
+      ]
+    ]
+  },
+  "films": {
+    "label": "影视",
+    "fields": [
+      ["group", "板块", "select", ["电影", "电视剧", "番剧"]],
+      [
+        "title",
+        "电影 / 剧集名称",
+        "text"
+      ],
+      [
+        "subtitle",
+        "导演 / 主创",
+        "text"
+      ],
+      [
+        "status",
+        "观看状态",
+        "select",
+        [
+          "想看",
+          "在看",
+          "看过"
+        ]
+      ],
+      [
+        "rating",
+        "评分（1–5，可不填）",
+        "number"
+      ],
+      [
+        "cover",
+        "海报链接（可选）",
+        "url"
+      ],
+      [
+        "url",
+        "影片链接（可选）",
+        "url"
+      ],
+      [
+        "date",
+        "记录日期",
+        "date"
+      ],
+      [
+        "note",
+        "我的感受",
+        "textarea"
+      ]
+    ]
+  },
+  "works": {
+    "label": "作品",
+    "fields": [
+      [
+        "title",
+        "作品名称",
+        "text"
+      ],
+      [
+        "subtitle",
+        "类型 / 一句话介绍",
+        "text"
+      ],
+      [
+        "cover",
+        "封面链接（可选）",
+        "url"
+      ],
+      [
+        "url",
+        "作品 / 演示链接（可选）",
+        "url"
+      ],
+      [
+        "date",
+        "完成日期",
+        "date"
+      ],
+      [
+        "note",
+        "作品介绍",
+        "textarea"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,93 @@
+---
+/**
+ * 手绘线稿插图 —— 首页方格里的装饰格。
+ * 线稿是「有手作痕迹」这一条设计原则的落点：整页都是直线和网格，
+ * 需要一点不是机器画的东西来平衡。
+ */
+interface Props {
+  name: 'spark' | 'book' | 'cup' | 'plant' | 'gear' | 'mountain' | 'music' | 'record' | 'moon';
+  /** 线条粗细，默认与样稿一致 */
+  weight?: number;
+}
+
+const { name, weight = 2.1 } = Astro.props;
+
+const paths: Record<string, string[]> = {
+  // 随笔：对话框 + 一张笑脸
+  spark: [
+    'M14 20h58a6 6 0 0 1 6 6v30a6 6 0 0 1-6 6H40l-14 12V62h-12a6 6 0 0 1-6-6V26a6 6 0 0 1 6-6z',
+    'M36 36c0 5 4 8 9 8s9-3 9-8',
+    'M32 45h0M62 45h0',
+  ],
+  // 读书：摊开的书
+  book: [
+    'M49 28c-10-7-23-9-36-7v53c14-2 26 0 36 8 12-8 24-10 38-8V21c-14-2-27 0-38 7zM49 28v54',
+    'M23 36c6-1 12 0 18 3M23 46c6-1 12 0 18 3M60 37c6-2 12-2 18-1M60 47c6-2 12-2 18-1',
+    'M69 19v35l6-5 6 4V20',
+  ],
+  // 日常：冒着热气的杯子
+  cup: [
+    'M26 40h44v26a14 14 0 0 1-14 14H40a14 14 0 0 1-14-14V40z',
+    'M70 46h6a9 9 0 0 1 0 18h-6',
+    'M40 30c0-5 4-6 4-11M52 30c0-5 4-6 4-11',
+  ],
+  // 音乐：一对连梁的音符
+  music: [
+    'M23 70a10 7 0 1 0 20 0a10 7 0 1 0-20 0',
+    'M56 62a10 7 0 1 0 20 0a10 7 0 1 0-20 0',
+    'M43 70V24',
+    'M76 62V16',
+    'M43 24L76 16',
+    'M12 88h76',
+  ],
+  // 生长：一株芽
+  plant: [
+    'M36 56h28l-4 26H40l-4-26z',
+    'M50 56V26',
+    'M50 40c-10 0-16-6-16-14 10 0 16 5 16 14z',
+    'M50 34c9 0 15-5 15-13-9 0-15 4-15 13z',
+  ],
+  // 开发：齿轮
+  gear: [
+    'M50 18v10M50 72v10M82 50H72M28 50H18M73 27l-7 7M34 66l-7 7M73 73l-7-7M34 34l-7-7',
+  ],
+  record: ['M25 45c3-12 10-18 21-20M29 60c3 8 9 12 16 14M55 27c10 2 17 10 19 19M11 87h77'],
+  moon: ['M66 17a32 32 0 1 0 18 49A30 30 0 0 1 66 17zM77 14v14M70 21h14M87 37v10M82 42h10'],
+  // 远方：山与太阳
+  mountain: ['M10 74l24-34 14 18 12-16 20 32z', 'M10 82h80'],
+};
+
+const circles: Record<string, [number, number, number][]> = {
+  gear: [
+    [50, 50, 13],
+    [50, 50, 30],
+  ],
+  mountain: [[72, 26, 8]],
+  record: [[50, 51, 33], [50, 51, 12], [50, 51, 2]],
+};
+
+const dashed: Record<string, number[]> = {
+  // 齿轮外圈是虚线
+  gear: [1],
+};
+---
+
+<svg
+  viewBox="0 0 100 100"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={weight}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  {(paths[name] ?? []).map((d) => <path d={d}></path>)}
+  {(circles[name] ?? []).map(([cx, cy, r], i) => (
+    <circle
+      cx={cx}
+      cy={cy}
+      r={r}
+      stroke-dasharray={dashed[name]?.includes(i) ? '4 6' : undefined}
+    ></circle>
+  ))}
+</svg>
