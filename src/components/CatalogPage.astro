@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ShelfNav from './ShelfNav.astro';
+import BookOrbit from './BookOrbit.astro';
 import text from '../data/site-text.json';
 import catalog from '../data/catalog.json';
-interface Props { kind: 'accounts' | 'books' | 'films' | 'works';  }
-const { kind } = Astro.props;
+interface Props { kind: 'accounts' | 'books' | 'films' | 'works'; bookView?: 'orbit' | 'shelf'; }
+const { kind, bookView = 'orbit' } = Astro.props;
 const { title, intro } = text[kind];
+const allBooks = kind === 'books' && bookView === 'shelf';
+const pageTitle = allBooks ? '全部书架' : title;
 const items: {id:string;title:string;group?:string;subtitle?:string;url?:string;note?:string;cover?:string;status?:string;rating?:number;date?:string}[] = catalog[kind];
 const groups = kind === 'films' ? [
  {name:'我最爱的电影',items:items.filter(item=>(item.group || '电影')==='电影')},
@@ -13,12 +16,12 @@ const groups = kind === 'films' ? [
  {name:'我最爱的番',items:items.filter(item=>item.group==='番剧')},
 ] : [{name:'',items}];
 ---
-<BaseLayout title={title} section={['books','films'].includes(kind) ? '书影音' : title} description={intro}>
+<BaseLayout title={pageTitle} section={['books','films'].includes(kind) ? '书影音' : title} description={intro}>
  <div class="wrap catalog-page">
-  <header class="heading"><span class="mono dim">见己 / {title}</span><h1 data-edit-kind="site" data-edit-id={kind} data-edit-field="title">{title}</h1><p data-edit-kind="site" data-edit-id={kind} data-edit-field="intro">{intro}</p></header>
+  <header class="heading"><span class="mono dim">见己 / {pageTitle}</span><h1 data-edit-kind={allBooks ? undefined : 'site'} data-edit-id={kind} data-edit-field="title">{pageTitle}</h1><p data-edit-kind="site" data-edit-id={kind} data-edit-field="intro">{intro}</p></header>
   {(kind === 'books' || kind === 'films') && <ShelfNav current={kind} />}
-  <div class="summary"><span class="mono dim">{items.length} {kind==='books'?'本书':'条记录'}</span>{kind==='works' && <span class="mono dim">创作 · 项目 · 实践</span>}</div>
-  {items.length ? groups.filter(group=>group.items.length).map(group=><section class:list={{'film-section':kind==='films'}}>
+  <div class="summary"><span class="mono dim">{items.length} {kind==='books'?'本书':'条记录'}</span>{kind==='works' && <span class="mono dim">创作 · 项目 · 实践</span>}{kind === 'books' && <a href={allBooks ? '/shelf/' : '/shelf/all/'}>{allBooks ? '返回环绕' : '查看全部书架'} →</a>}</div>
+  {kind === 'books' && !allBooks && items.length ? <BookOrbit items={items} /> : items.length ? groups.filter(group=>group.items.length).map(group=><section class:list={{'film-section':kind==='films'}}>
    {group.name && <header class="group-heading"><h2>{group.name}</h2><span class="mono dim">{group.items.length} 部</span></header>}
    <div class:list={['entries',kind]}>{group.items.map((item,i)=>{
    const Tag=item.url?'a':'article';
@@ -36,19 +39,8 @@ const groups = kind === 'films' ? [
  </div>
 </BaseLayout>
 <style>
-.film-section{margin-bottom:44px}
-.group-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:8px 0 18px;border-bottom:1px solid var(--rule)}
-.group-heading h2{font-size:25px}
-.entries.films{grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:24px}
-.films .entry{padding:22px 0;border:0;text-align:center}
-.films .entry-top{font-size:10px;margin-bottom:16px}
-.films .cover{height:256px;object-position:center;margin-bottom:14px}
-.films h3{font:600 18px/1.5 var(--disp);text-wrap:balance;overflow-wrap:anywhere}
-.films .subtitle{color:var(--ink-72);margin-top:6px}
-.films a.entry:hover{background:transparent;color:var(--ink)}
-.films a.entry:is(:hover,:focus-visible) h3{color:var(--teal)}
-@media(max-width:1050px){.entries.films{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.entries.films{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.films .cover{height:200px}.films h3{font-size:16px}.group-heading h2{font-size:22px}}
+.summary>a{font:12px var(--mono);color:var(--ink);text-underline-offset:5px}
+.summary>a:hover{text-decoration:underline}
 .entries.books{grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:32px 0}
 .books .entry{padding:12px 18px 20px;border:0}
 .books .entry-top{margin-bottom:18px;font-size:11px}
@@ -62,5 +54,18 @@ const groups = kind === 'films' ? [
 .cover-placeholder{display:flex;align-items:center;justify-content:center;width:145px;height:210px;padding:16px;border:1px solid var(--rule);font:20px/1.6 var(--disp)}
 @media(max-width:1050px){.entries.books{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:600px){.entries.books{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 0}.books .entry{padding:10px 12px 16px}.books .book-face{height:204px;margin-inline:-12px;padding-inline:12px}.books .cover{height:180px}.books h2{font-size:16px}.books .subtitle{font-size:12px}.books .entry-top{gap:8px}.cover-placeholder{height:180px}}
+.film-section{margin-bottom:44px}
+.group-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:8px 0 18px;border-bottom:1px solid var(--rule)}
+.group-heading h2{font-size:25px}
+.entries.films{grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:24px}
+.films .entry{padding:22px 0;border:0;text-align:center}
+.films .entry-top{font-size:10px;margin-bottom:16px}
+.films .cover{height:256px;object-position:center;margin-bottom:14px}
+.films h3{font:600 18px/1.5 var(--disp);text-wrap:balance;overflow-wrap:anywhere}
+.films .subtitle{color:var(--ink-72);margin-top:6px}
+.films a.entry:hover{background:transparent;color:var(--ink)}
+.films a.entry:is(:hover,:focus-visible) h3{color:var(--teal)}
+@media(max-width:1050px){.entries.films{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.entries.films{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.films .cover{height:200px}.films h3{font-size:16px}.group-heading h2{font-size:22px}}
 .heading{padding:42px 0 30px;border-bottom:1px solid var(--rule)}h1{font:700 clamp(34px,4vw,54px) var(--disp);margin:16px 0} .heading p{font:15px/1.9 var(--song);color:var(--ink-55)}.summary{display:flex;justify-content:space-between;padding:24px 0}.entries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}.entry{min-width:0;padding:26px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}a.entry:hover{background:var(--yellow);color:var(--on-light)}a.entry:hover :is(.dim,.subtitle,.note){color:inherit}.entry-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}.entry-top>span:last-child{margin-left:auto}.status{font:11px var(--ui);color:var(--ink-55)}h2{font:600 25px/1.4 var(--disp);overflow-wrap:anywhere}.subtitle{font:13px/1.8 var(--ui);color:var(--ink-55);margin-top:10px}.note{font:14px/1.85 var(--song);white-space:pre-wrap;color:var(--ink-72);margin:18px 0}.cover{display:block;width:100%;height:230px;object-fit:contain;object-position:left center;margin-bottom:24px}.rating{font-size:16px;letter-spacing:3px;margin-top:14px}.empty{border-block:1px solid var(--rule);padding:60px 0 80px}.empty p{font:21px/1.7 var(--song);margin-top:20px}.bottom-links{display:flex;gap:28px;margin:30px 0 45px;font:12px var(--mono)}.works{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:760px){.entries{grid-template-columns:1fr}.entry{padding:22px}.heading{padding-top:30px}h2{font-size:23px}.empty{padding:40px 0 60px}}
 </style>

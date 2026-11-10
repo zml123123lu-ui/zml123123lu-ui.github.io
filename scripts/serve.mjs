@@ -1,4 +1,5 @@
 import { readDashboard, saveManagedContent } from './content-manager.mjs';
+import { readBookCover } from './book-cover-reader.mjs';
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -68,15 +69,17 @@ const server = http.createServer(async (request, response) => {
     }
     if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405); return response.end(); }
     const pathname = decodeURIComponent(url.pathname);
-    const file = path.resolve(dist, '.' + pathname);
-    if (file !== dist && !file.startsWith(dist + path.sep)) { response.writeHead(403); return response.end(); }
+    const isBookCover = pathname.startsWith('/book-covers/');
+    const staticRoot = isBookCover ? path.join(ROOT, 'public') : dist;
+    const file = path.resolve(staticRoot, '.' + pathname);
+    if (file !== staticRoot && !file.startsWith(staticRoot + path.sep)) { response.writeHead(403); return response.end(); }
     let target = file;
     let status = 200;
     try {
       if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
       await stat(target);
     } catch { target = path.join(dist, '404.html'); status = 404; }
-    const bytes = await readFile(target);
+    const bytes = isBookCover && status === 200 ? await readBookCover(target) : await readFile(target);
     response.writeHead(status, { 'Content-Type': types[path.extname(target)] || 'application/octet-stream', 'Content-Length': bytes.length, 'X-Content-Type-Options': 'nosniff', ...(path.extname(target) === '.html' ? { 'Cache-Control': 'no-cache' } : {}) });
     response.end(request.method === 'HEAD' ? undefined : bytes);
   } catch (error) {
