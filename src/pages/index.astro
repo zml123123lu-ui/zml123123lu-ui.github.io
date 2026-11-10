@@ -1,129 +1,181 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SiteFooter from '../components/SiteFooter.astro';
-import Illo from '../components/Illo.astro';
-import EnvelopeIntro from '../components/EnvelopeIntro.astro';
-import text from '../data/site-text.json';
-import { SITE, NAV, fmtDate, thousands } from '../consts';
-import { getPosts, totalChars } from '../utils/posts';
+import { SITE, fmtDate } from '../consts';
+import { getPosts } from '../utils/posts';
 
 const posts = await getPosts();
-const entries = {
-  about: { label: '关于', title: text.home.about, note: text.home.aboutNote, field: 'about', href: '/about/', tone: 'purple', icon: 'moon' },
-  shelf: { label: '书影音', title: text.home.shelf, note: text.home.shelfNote, field: 'shelf', href: '/shelf/', tone: 'blue', icon: 'record' },
-  works: { label: '作品', title: text.home.works, note: text.home.worksNote, field: 'works', href: '/works/', tone: 'yellow', icon: 'book' },
-  accounts: { label: '账号', title: text.home.accounts, note: text.home.accountsNote, field: 'accounts', href: '/accounts/', tone: 'green', icon: 'spark' },
-} as const;
-type Cell = ({ kind: 'glyph'; character: string; caption: string } | { kind: 'entry'; key: keyof typeof entries } | { kind: 'post'; index: number } | { kind: 'illustration'; name: 'book' | 'record' | 'moon' | 'plant'; label: string; tone?: string }) & { extra?: boolean; mobileHidden?: boolean };
-// 满宽三排：宽屏四列，矮屏五列；手机继续三列九格，避免内容过密。
-const cells: Cell[] = [
-  { kind: 'glyph', character: SITE.mark, caption: SITE.latin },
-  { kind: 'entry', key: 'about' },
-  { kind: 'post', index: 0 },
-  { kind: 'entry', key: 'shelf' },
-  { kind: 'illustration', name: 'record', label: '在听', extra: true, mobileHidden: true },
-  { kind: 'entry', key: 'works' },
-  { kind: 'post', index: 1 },
-  { kind: 'entry', key: 'accounts' },
-  { kind: 'post', index: 2 },
-  { kind: 'illustration', name: 'moon', label: '日常', tone: 'pale-purple', extra: true, mobileHidden: true },
-  { kind: 'post', index: 3, mobileHidden: true },
-  { kind: 'illustration', name: 'book', label: '在读', tone: 'pale-green', mobileHidden: true },
-  { kind: 'post', index: 4, mobileHidden: true },
-  { kind: 'illustration', name: 'plant', label: '生长', tone: 'pale-yellow', extra: true, mobileHidden: true },
-  { kind: 'glyph', character: '己', caption: 'KNOW THYSELF' },
+const essays = posts.filter(post => post.data.category === '随笔');
+const featured = [essays[0], posts.find(post => post.data.category === '开发'), essays[1]];
+const entries = [
+  { title: '关于', href: '/about/' },
+  { title: '书影音', href: '/shelf/' },
+  { title: '作品', href: '/works/' },
+  { title: '账号', href: '/accounts/' },
 ];
 ---
 <BaseLayout bare={true}>
-<EnvelopeIntro />
-<div class="home">
-  <div class="topnote">
-    <span><span data-edit-kind="site" data-edit-id="identity" data-edit-field="name">{SITE.name}</span> · <span data-edit-kind="site" data-edit-id="identity" data-edit-field="tagline">{SITE.tagline}</span></span>
-    <span>共 {posts.length} 篇 · {thousands(totalChars(posts))} 字</span>
+  <header>
+    <a class="brand" href="/" aria-label="见己首页"><span data-edit-kind="site" data-edit-id="identity" data-edit-field="name">{SITE.name}</span></a>
+    <a class="all" href="/posts/">全部写作 ↗</a>
+  </header>
+  <div class="scene" aria-label="文章与栏目，移动鼠标或拖动浏览">
+    <div class="orbit"><div class="room"><div class="back">
+      {featured.map((post, i) => post && (
+        <a class:list={['paper', 'article', `a${i}`]} aria-label={post.data.title} style={`--chars:${[...post.data.title].length};--type-size:${Math.max(18, 37 - [...post.data.title].length)}px`} href={`/posts/${post.id}/`}>
+          <span class="float">
+            <span class="meta">{post.data.category} / {fmtDate(post.data.pubDate)}</span>
+            <h2 data-edit-kind="posts" data-edit-id={post.id} data-edit-field="title">{post.data.title}</h2>
+            <span class="read">读这一篇 <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
+      ))}
+      {entries.map((entry, i) => (
+        <a class:list={['paper', 'entry', `e${i}`]} aria-label={entry.title} href={entry.href}>
+          <span class="float"><span class="entry-title">{entry.title}</span><span class="arrow" aria-hidden="true">↗</span></span>
+        </a>
+      ))}
+    </div></div></div>
   </div>
-  <nav class="grid grid-nav" aria-label="主导航">
-    <a class="cell navcell brandcell" href="/"><span class="bc"><span class="dot"></span><b data-edit-kind="site" data-edit-id="identity" data-edit-field="name">{SITE.name}</b><span class="mono dim">{SITE.latin}</span></span></a>
-    {NAV.slice(0,3).map(item=><a class="cell navcell" href={item.href}><span class="lk">{item.label}</span><span class="sub">{item.sub}</span></a>)}
-    <a class="cell navcell" href="/rss.xml"><span class="lk">订阅 →</span><span class="sub">RSS / 邮件</span></a>
-  </nav>
-  <div class="grid grid-body">
-    {cells.map(cell=>{
-      if(cell.kind==='glyph')return <div class="cell glyph"><span class="idx">{cell.caption}</span><b>{cell.character}</b></div>;
-      if(cell.kind==='entry'){
-        const item=entries[cell.key];
-        return <a class:list={['cell','solid','content-entry',item.tone,item.field]} href={item.href}>
-          <span class="entry-head"><span class="idx">{item.label}</span><Illo name={item.icon} weight={1.8}/></span>
-          <span class="biglink"><span data-edit-kind="site" data-edit-id="home" data-edit-field={item.field}>{item.title}</span><span class="arw" aria-hidden="true">→</span></span>
-          <span class="idx note" data-edit-kind="site" data-edit-id="home" data-edit-field={item.field+'Note'}>{item.note}</span>
-        </a>;
-      }
-      if(cell.kind==='illustration')return <div class:list={['cell','illustration',cell.name,cell.extra && 'extra',cell.mobileHidden && 'mobile-hidden',cell.tone && 'solid',cell.tone]}><span class="idx">{cell.label}</span><Illo name={cell.name} weight={1.8}/></div>;
-      const post=posts[cell.index];
-      if(!post)return <div class:list={['cell','empty',cell.extra && 'extra',cell.mobileHidden && 'mobile-hidden']} data-post-index={cell.index}><span class="idx">留白</span><span class="empty-text">下一篇，慢慢写。</span></div>;
-      return <a class:list={['cell','art',cell.extra && 'extra',cell.mobileHidden && 'mobile-hidden']} data-post-index={cell.index} href={`/posts/${post.id}/`}>
-        <span class="idx">{String(cell.index+1).padStart(2,'0')} / {post.data.category}</span>
-        <span class="body"><span class="tit" data-edit-kind="posts" data-edit-id={post.id} data-edit-field="title">{post.data.title}</span>{post.data.category === '开发' && post.data.subtitle && <span class="post-subtitle" data-edit-kind="posts" data-edit-id={post.id} data-edit-field="subtitle">{post.data.subtitle}</span>}</span>
-        <span class="idx date">{fmtDate(post.data.pubDate)}</span>
-      </a>;
-    })}
-  </div>
-  <SiteFooter />
-</div>
+  <h1 class="word"><b>{SITE.name}</b><span>{SITE.latin}</span></h1>
+  <footer class="bottom">
+    <span class="desktop-hint">移动鼠标，慢慢浏览。</span><span class="mobile-hint">拖动浏览</span>
+    <div class="controls"><button id="motion" type="button" aria-pressed="false">播放动态 ↗</button><a href="/search/">搜索 ↗</a></div>
+  </footer>
 </BaseLayout>
 <style>
-.body .post-subtitle{font-size:clamp(10px,4cqw,20px);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-a.cell:is(:hover,:focus-visible) .post-subtitle{color:var(--home-hover-dim)}
-@media(max-width:720px){.body .post-subtitle{margin-top:3px}}
-.home{width:100%;margin:0;display:flex;flex-direction:column;--home-hover:var(--ink);--home-hover-dim:var(--bg)}
-.topnote{width:100%;margin:0;display:flex;justify-content:space-between;gap:20px;padding:13px var(--gutter);font:10px/1.5 var(--mono);letter-spacing:.08em;color:var(--ink-55);border-bottom:1px solid var(--rule)}
-.grid{display:grid;width:100%;margin:0}.grid-nav{grid-template-columns:repeat(5,minmax(0,1fr));flex-shrink:0}.grid-body{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:auto;flex:none;min-height:0}
-.grid-body>.cell{aspect-ratio:1;container-type:inline-size}.cell.extra{display:none}.cell.illustration{align-items:center;justify-content:center}.illustration>.idx{position:absolute;left:12px;top:12px}.illustration :global(svg){width:56%;max-width:240px;height:auto}
-.cell{min-width:0;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 20px;background:var(--bg);transition:background .25s var(--ease),color .25s var(--ease)}
-.grid-body>.cell:last-child,.grid-body>.shelf,.grid-body>[data-post-index="2"],.grid-nav>.cell:last-child{border-right:0}.navcell{height:46px;padding:0 10px;justify-content:center}.bc{display:flex;align-items:center;gap:6px}.bc b{font:700 18px var(--disp)}.dot{width:8px;height:8px;background:var(--ink);border-radius:50%;flex:none}.bc .mono{font-size:10px}.lk{font:500 13px var(--disp)}.sub{font:10px var(--mono);color:var(--ink-55);margin-top:3px}
-.idx{font:clamp(8px,3cqw,14px)/1.5 var(--mono);letter-spacing:.03em;color:var(--ink-72)}.glyph{align-items:center;justify-content:center;padding:0;background:var(--ink);color:var(--bg)}.glyph>.idx{position:absolute;top:12px;left:12px;color:var(--bg);opacity:.75}.glyph b{font:700 clamp(52px,48cqw,260px)/.85 var(--disp);letter-spacing:-.03em}
-.entry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.entry-head :global(svg){width:clamp(18px,8cqw,42px);height:auto;flex-shrink:0}.biglink{font:700 clamp(15px,8.4cqw,42px)/1.2 var(--disp);display:flex;align-items:center;gap:6px}.arw{font-size:18px;transition:transform .25s var(--ease)}.note{margin-top:8px}
-.body{display:flex;flex-direction:column;justify-content:center;gap:8px;flex:1;padding:6px 0}.tit{font:500 clamp(13px,6cqw,30px)/1.35 var(--disp);text-wrap:balance;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.date{margin-top:4px}.empty-text{font:20px var(--disp);margin:auto 0;color:var(--ink-55)}
-a.cell:is(:hover,:focus-visible){background:var(--home-hover);color:var(--bg)}a.cell:is(:hover,:focus-visible) :is(.idx,.sub,.dim){color:var(--home-hover-dim)}a.content-entry:is(:hover,:focus-visible) .arw{transform:translateX(6px)}
-.home :global(footer.foot){margin-top:0;flex-shrink:0}.home :global(.fin){padding-top:14px;padding-bottom:14px;justify-content:center;gap:16px}.home :global(.fin>.col){display:none}.home :global(.links){justify-content:center;font-size:10px;gap:8px 12px}
-@media(min-width:721px) and (max-height:879px){
-  .grid-body{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .grid-body>.extra{display:flex}
-  .grid-body>.shelf{border-right:1px solid var(--rule)}
-  .grid-body>.record,.grid-body>.moon{border-right:0}
-  .grid-body>[data-post-index="2"]{border-right:1px solid var(--rule)}
+*{box-sizing:border-box}
+:global(html),:global(body){margin:0;width:100%;height:100%;background:var(--bg);color:var(--ink)}
+:global(body){font-family:'Songti SC',STSong,serif;overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+a,button{-webkit-tap-highlight-color:transparent}
+a:focus-visible,button:focus-visible{outline:1px solid var(--ink);outline-offset:6px}
+header{position:fixed;top:0;left:0;right:0;z-index:5;height:90px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
+.brand{font-size:24px;letter-spacing:4px;font-weight:600}
+.all{font:11px -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif}
+.all:hover{text-decoration:underline;text-underline-offset:6px}
+.scene{position:fixed;inset:50px 0 64px;overflow:hidden;perspective:1300px;perspective-origin:50% 50%;touch-action:none;cursor:grab}
+.scene:active{cursor:grabbing}
+.orbit,.room,.back{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
+.orbit{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.room{width:100%;height:100%}
+.back{transform:translateZ(-100px)}
+.paper{position:absolute;pointer-events:auto;padding:10px;display:block;width:max-content;min-height:44px;transform-style:preserve-3d;cursor:pointer;background:transparent}
+.meta{position:absolute;right:calc(100% + 7px);top:12px;writing-mode:vertical-rl;font:9px/1.4 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:var(--ink-55);letter-spacing:.08em;white-space:nowrap}
+h2{font-family:inherit;font-weight:400;font-size:clamp(15px,calc(34vh / var(--chars) / 1.12),var(--type-size));line-height:1.25;letter-spacing:.12em;margin:0;writing-mode:vertical-rl;text-orientation:mixed;white-space:nowrap}
+.float{display:block;position:relative;transform-style:preserve-3d}
+.paper{transform:translateZ(var(--depth,0px));transition:transform .65s ease-out}
+.read{position:absolute;left:50%;top:100%;writing-mode:vertical-rl;font:9px/1.5 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:var(--ink-55);margin-top:12px;opacity:0;transition:opacity .2s}
+.article:is(:hover,:focus-visible) .read{opacity:1}
+.article:is(:hover,:focus-visible) h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:8px}
+.a0{--depth:36px;left:16%;top:5%;}
+.a1{--depth:-21px;left:73%;top:12%;}
+.a2{--depth:48px;left:38%;top:2%;}
+.entry-title{font-size:clamp(46px,6.4vh,72px);font-weight:500;line-height:1.18;letter-spacing:.08em;writing-mode:vertical-rl;white-space:nowrap;display:block}
+.arrow{position:absolute;left:50%;bottom:-20px;font:17px -apple-system,sans-serif;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
+.entry:is(:hover,:focus-visible) .arrow{opacity:1;transform:none}
+.e0{--depth:27px;left:9%;top:60%;}
+.e1{--depth:-30px;left:30%;top:73%;}
+.e1 .entry-title{font-size:clamp(36px,5vh,55px)}
+.e2{--depth:42px;left:67%;top:68%;}
+.e3{--depth:-18px;left:87%;top:51%;}
+.word{margin:0;font-family:inherit;position:fixed;left:50%;top:50%;z-index:4;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
+.word b{display:block;font-size:clamp(64px,9vh,104px);font-weight:500;letter-spacing:.08em;line-height:1.2;writing-mode:vertical-rl;white-space:nowrap}
+.word span{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);font:8px/2 monospace;letter-spacing:.3em;color:var(--ink-55);white-space:nowrap}
+
+.bottom{position:fixed;bottom:0;left:0;right:0;height:64px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;z-index:5;background:var(--bg);font:10px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:var(--ink-55)}
+.controls{display:flex;gap:24px;align-items:center}
+.controls button{border:0;border-bottom:1px solid var(--rule-strong);background:none;padding:5px 0;font:inherit;color:var(--ink)}
+.controls a{color:var(--ink-72)}
+.mobile-hint{display:none}
+
+@media(max-width:900px){header{height:66px;padding:0 22px}
+.brand{font-size:21px}
+.all{font-size:10px}
+.scene{inset:65px 0 82px;perspective:1000px}
+.back{transform:none}
+.paper{padding:6px;transform:translateZ(calc(var(--depth,0px)*.35))}
+.meta{font-size:8px;right:calc(100% + 2px);top:9px;letter-spacing:0}
+h2{font-size:clamp(12.5px,calc(27vh / var(--chars) / 1.12),18px);letter-spacing:.1em}
+.read{display:none}
+.a0{left:10%;top:5%}
+.a1{left:43%;top:2%}
+.a1 h2{font-size:16px}
+.a2{left:76%;top:9%}
+.entry-title{font-size:36px;letter-spacing:.04em}
+.e0{left:13%;top:58%}
+.e1{left:36%;top:73%}
+.e1 .entry-title{font-size:29px}
+.e2{left:72%;top:74%}
+.e3{left:79%;top:46%}
+.e3 .entry-title{font-size:33px}
+.word{left:50%;top:50%;transform:translate(-50%,-50%)}
+.word b{font-size:53px;letter-spacing:.08em}
+.word span{font-size:7px;top:calc(100% + 12px)}
+.bottom{height:75px;padding:0 22px;gap:10px;font-size:9px}
+.desktop-hint{display:none}
+.mobile-hint{display:inline}
+.controls{gap:16px}
 }
-@media(min-width:721px) and (max-width:1100px){.cell{padding:12px}.bc .mono{display:none}}
-@media(max-width:720px){
-  .topnote{padding:12px 8px;gap:8px;flex-wrap:wrap;font-size:8px}
-  .grid-nav{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .brandcell{grid-column:1/-1;border-right:0}
-  .navcell{height:40px;padding:0 9px}.bc .mono{display:none}
-  .lk{font-size:12px}.sub{font-size:8px}
-  .grid-body{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:auto}
-  .grid-body>.mobile-hidden{display:none}
-  .grid-body>.cell{padding:10px;border-right:1px solid var(--rule)}
-  .grid-body>.glyph:first-child{order:0}
-  .grid-body>.about{order:1}
-  .grid-body>[data-post-index="0"]{order:2;border-right:0}
-  .grid-body>.shelf{order:3}
-  .grid-body>[data-post-index="1"]{order:4}
-  .grid-body>.works{order:5;border-right:0}
-  .grid-body>[data-post-index="2"]{order:6}
-  .grid-body>.accounts{order:7}
-  .grid-body>.glyph:last-child{order:8;border-right:0}
-  .glyph>.idx{top:10px;left:10px}
-  .body{padding:4px 0;gap:0}.biglink{line-height:1.3}.arw{display:none}
-  .note{line-height:1.5;margin-top:4px}
-  .home :global(.fin){padding:16px 8px}
-  .home :global(.links){gap:8px 10px;font-size:9px}
+
+@media(prefers-reduced-motion:reduce){.orbit,.paper,.read,.arrow{transition:none}
 }
-@media(max-width:360px){
-  .grid-body>.cell{padding:8px}.tit{-webkit-line-clamp:2;line-clamp:2}
+
+:global(.has-page-editor){padding-bottom:0}
+:global(body.has-page-editor #page-editor){bottom:80px}
+ @media(max-width:900px){:global(body.has-page-editor #page-editor){bottom:74px;padding:6px 10px}
 }
-@media(min-width:721px){
-  .tit{font-size:clamp(18px,7.2cqw,32px)}
-  .biglink{font-size:clamp(24px,8.4cqw,42px)}
-  .idx{font-size:clamp(11px,3cqw,15px)}
-  .body .post-subtitle{font-size:clamp(13px,4.3cqw,22px)}
-}
+
+
 </style>
+<script>
+const scene = document.querySelector<HTMLElement>('.scene')!;
+const button = document.querySelector<HTMLButtonElement>('#motion')!;
+const papers = [...document.querySelectorAll<HTMLElement>('.paper')];
+let running = false;
+let down: { x: number; y: number } | null = null;
+let dragged = false;
+let frame = 0;
+const loops: Animation[] = [];
+function move(x: number, y: number) {
+  if (document.body.classList.contains('editing-page')) return;
+  cancelAnimationFrame(frame);
+  frame = requestAnimationFrame(() => papers.forEach((el, i) => {
+    const depth = [12, -7, 16, 9, -10, 14, -6][i] * (innerWidth <= 900 ? .35 : 1);
+    el.style.transform = `translate3d(${x * depth}px,${y * depth * .55}px,${depth * 3}px)`;
+  }));
+}
+scene.addEventListener('pointerdown', e => { down = { x: e.clientX, y: e.clientY }; dragged = false; });
+scene.addEventListener('pointermove', e => {
+  if (e.pointerType === 'touch' && !down) return;
+  if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 7) dragged = true;
+  move((e.clientX / innerWidth - .5) * 2, (e.clientY / innerHeight - .5) * 2);
+});
+scene.addEventListener('pointerleave', () => move(0, 0));
+window.addEventListener('pointerup', () => { down = null; });
+scene.addEventListener('click', e => { if (dragged) { e.preventDefault(); dragged = false; } }, true);
+function toggle() {
+  if (running) {
+    loops.splice(0).forEach(a => a.cancel());
+    running = false;
+  } else {
+    papers.forEach((el, i) => {
+      const dx = i % 2 ? 6 : -6, dy = i % 3 ? 10 : -10;
+      loops.push(el.querySelector('.float')!.animate([
+        { transform: 'translate3d(0,0,0)' },
+        { transform: `translate3d(${dx}px,${dy}px,24px)` },
+        { transform: 'translate3d(0,0,0)' },
+      ], { duration: 7000 + i * 650, delay: -(i * 1130), iterations: Infinity, easing: 'ease-in-out' }));
+    });
+    running = true;
+  }
+  button.textContent = running ? '暂停动态 ‖' : '播放动态 ↗';
+  button.setAttribute('aria-pressed', String(running));
+}
+button.addEventListener('click', toggle);
+document.getElementById('edit-toggle')?.addEventListener('click', () => { if (running) toggle(); });
+document.addEventListener('visibilitychange', () => loops.forEach(a => document.hidden ? a.pause() : a.play()));
+window.addEventListener('pagehide', () => { loops.forEach(a => a.cancel()); cancelAnimationFrame(frame); });
+if (!matchMedia('(prefers-reduced-motion:reduce)').matches) toggle();
+
+</script>

@@ -4,6 +4,8 @@ lu 的个人网站：写作、书影音、账号与作品。
 
 公开网址：https://zml123123lu-ui.github.io/
 
+首页直接展示竖排文章标题与栏目入口，中央站名固定，周围文字可播放或暂停浮动；不再显示信封开场。
+
 ## 本机使用
 
 使用 Node.js 24，运行 `npm ci`、`npm run build`、`npm run serve`。
