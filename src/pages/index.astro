@@ -36,7 +36,7 @@ const entries = [
       ))}
     </div></div></div>
   </div>
-  <h1 class="word"><b>{SITE.name}</b><span>{SITE.latin}</span></h1>
+  <h1 class="word"><b>{[...SITE.name].map(character => <span>{character}</span>)}</b><span>{SITE.latin}</span></h1>
   <footer class="bottom">
     <span class="desktop-hint">移动鼠标，慢慢浏览。</span><span class="mobile-hint">拖动浏览</span>
     <div class="controls"><button id="motion" type="button" aria-pressed="false">播放动态 ↗</button><a href="/search/">搜索 ↗</a></div>
@@ -79,9 +79,10 @@ h2{font-family:inherit;font-weight:400;font-size:clamp(15px,calc(34vh / var(--ch
 .e1 .entry-title{font-size:clamp(36px,5vh,55px)}
 .e2{--depth:42px;left:67%;top:68%;}
 .e3{--depth:-18px;left:87%;top:51%;}
-.word{margin:0;font-family:inherit;position:fixed;left:50%;top:50%;z-index:4;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
-.word b{display:block;font-size:clamp(64px,9vh,104px);font-weight:500;letter-spacing:.08em;line-height:1.2;writing-mode:vertical-rl;white-space:nowrap}
-.word span{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%);font:8px/2 monospace;letter-spacing:.3em;color:var(--ink-55);white-space:nowrap}
+.word{margin:0;font-family:inherit;font-size:clamp(64px,9vh,104px);width:1.2em;position:fixed;left:50%;top:50%;z-index:4;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
+.word b{display:flex;flex-direction:column;align-items:center;width:100%;font-size:inherit;font-weight:500;letter-spacing:0;line-height:1.08;white-space:nowrap}
+.word b span{display:block;height:1.08em}
+.word>span{position:absolute;top:calc(100% + 18px);left:0;width:100%;font:8px/2 monospace;letter-spacing:.3em;text-indent:.3em;text-align:center;color:var(--ink-55);white-space:nowrap}
 
 .bottom{position:fixed;bottom:0;left:0;right:0;height:64px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;z-index:5;background:var(--bg);font:10px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;color:var(--ink-55)}
 .controls{display:flex;gap:24px;align-items:center}
@@ -109,9 +110,8 @@ h2{font-size:clamp(12.5px,calc(27vh / var(--chars) / 1.12),18px);letter-spacing:
 .e2{left:72%;top:74%}
 .e3{left:79%;top:46%}
 .e3 .entry-title{font-size:33px}
-.word{left:50%;top:50%;transform:translate(-50%,-50%)}
-.word b{font-size:53px;letter-spacing:.08em}
-.word span{font-size:7px;top:calc(100% + 12px)}
+.word{left:50%;top:50%;font-size:53px;transform:translate(-50%,-50%)}
+.word>span{font-size:7px;top:calc(100% + 12px)}
 .bottom{height:75px;padding:0 22px;gap:10px;font-size:9px}
 .desktop-hint{display:none}
 .mobile-hint{display:inline}
