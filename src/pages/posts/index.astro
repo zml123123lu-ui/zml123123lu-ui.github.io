@@ -1,394 +1,70 @@
 ---
-/**
- * 文章列表 —— 「台账」的结构（常驻侧栏 + 条目网格），
- * 但穿的是首页那套语言：发丝线、直角、无阴影、无毛玻璃。
- */
 import text from '../../data/site-text.json';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SITE, fmtDate, thousands, categoryClass, readingTime, humanChars } from '../../consts';
-import { getPosts, categoryCounts, totalChars, plainLength } from '../../utils/posts';
+import WritingCards from '../../components/WritingCards.astro';
+import { SITE, fmtDate } from '../../consts';
+import { getPosts, categoryCounts } from '../../utils/posts';
 
 const posts = await getPosts();
-const cats = categoryCounts(posts);
-const chars = totalChars(posts);
-const charStat = humanChars(chars);
-
-const [lead, ...rest] = posts;
-const leadChars = lead ? plainLength(lead) : 0;
+const categories = categoryCounts(posts).filter(category => category.count > 0);
+const latest = posts[0]?.data.pubDate;
 ---
-
-<BaseLayout title="文章" section="文章" description={`${SITE.name} 的全部文章，共 ${posts.length} 篇。`}>
-  <div class="wrap">
-    <!-- 首屏：区块说明 + 台账 -->
-    <section class="hero">
-      <div class="lead">
-        <span class="kick">
-          <span class="d"></span>持续更新 · 最近一次 {fmtDate(posts[0]?.data.pubDate ?? new Date())}
-        </span>
-        <h1 data-edit-kind="site" data-edit-id="posts" data-edit-field="title">{text.posts.title}</h1>
+<BaseLayout title="写作" section="写作" description={`${SITE.name} 的全部文章，共 ${posts.length} 篇。`}>
+  <div class="wrap writing-page">
+    <header class="writing-hero">
+      <div class="edition"><span>JIANJI / WRITING</span><span>{latest?.getFullYear() ?? SITE.since}</span></div>
+      <h1 data-edit-kind="site" data-edit-id="posts" data-edit-field="title">{text.posts.title}</h1>
+      <div class="hero-bottom">
         <p data-edit-kind="site" data-edit-id="posts" data-edit-field="intro">{text.posts.intro}</p>
+        <a class="article-count" href="#articles" aria-label={`浏览全部 ${posts.length} 篇文章`}><span>{String(posts.length).padStart(2, '0')}</span><small>篇写作 ↓</small></a>
       </div>
-
-      <div class="ledger">
-        <div class="hd">
-          <span class="mono dim">站点台账</span>
-          <span class="mono run">● 运行中</span>
-        </div>
-        <div class="rowm"><span class="k">文章总数</span><span class="v">{posts.length}<small>篇</small></span></div>
-        <div class="rowm"><span class="k">累计字数</span><span class="v">{charStat.value}<small>{charStat.unit}</small></span></div>
-        <div class="rowm"><span class="k">内容分区</span><span class="v">{cats.filter((c) => c.count > 0).length}<small>个</small></span></div>
-        <div class="rowm"><span class="k">起始年份</span><span class="v">{SITE.since}<small>年</small></span></div>
-      </div>
+    </header>
+    <nav class="writing-nav" aria-label="写作分类">
+      <div class="categories"><a href="#articles" aria-current="page">全部 <sup>{posts.length}</sup></a>{categories.map(category => <a href={`/tags/${encodeURIComponent(category.name)}/`}>{category.name} <sup>{category.count}</sup></a>)}</div>
+      <div class="tools"><a href="/archive/">归档 ↗</a><a href="/search/">搜索 ↗</a></div>
+    </nav>
+    <section id="articles" aria-labelledby="directory-title">
+      <div class="directory-heading"><h2 id="directory-title">逐篇翻阅</h2><span>按时间倒序 / {latest ? fmtDate(latest) : '等待第一篇'}</span></div>
+      {posts.length ? <WritingCards posts={posts} /> : <p class="empty-writing">下一篇，慢慢写。</p>}
     </section>
-
-    <!-- 主体：侧栏 + 条目 -->
-    <section class="body-grid">
-      <aside class="rail">
-        <div class="card">
-          <h3>内容分区</h3>
-          <div class="tree">
-            <a class="on" href="/posts/">
-              <span class="lbl"><span class="sq" style="background:var(--yellow)"></span>全部文章</span>
-              <span class="n">{posts.length}</span>
-            </a>
-            {cats.map((c) => (
-              <a href={`/tags/${encodeURIComponent(c.name)}/`}>
-                <span class="lbl"><span class="sq" style={`background:${c.color}`}></span>{c.name}</span>
-                <span class="n">{c.count}</span>
-              </a>
-            ))}
-          </div>
-
-          <div class="sep"></div>
-
-          <h3>其他</h3>
-          <div class="tree">
-            <a href="/archive/"><span class="lbl">按时间归档</span></a>
-            <a href="/tags/"><span class="lbl">全部标签</span></a>
-            <a href="/about/"><span class="lbl">关于我</span></a>
-            <a href="/search/"><span class="lbl">搜索</span></a>
-            <a href="/rss.xml"><span class="lbl">RSS 订阅</span></a>
-          </div>
-        </div>
-      </aside>
-
-      <div class="list">
-        {lead && (
-          <a class="post wide" href={`/posts/${lead.id}/`}>
-            <span class="txt">
-              <span class="top">
-                <span class="no">目录 / 001</span>
-                <span class={`chip ${categoryClass(lead.data.category)}`}>{lead.data.category}</span>
-              </span>
-              <h4>{lead.data.title}</h4>
-              {lead.data.category === '开发' && lead.data.subtitle && <span class="post-subtitle">{lead.data.subtitle}</span>}
-              <span class="bot">
-                <span class="date">
-                  {fmtDate(lead.data.pubDate)} · 约 {thousands(leadChars)} 字 · {readingTime(lead.body)} 分钟
-                </span>
-                <span class="mono more">继续阅读 →</span>
-              </span>
-            </span>
-            <span class="art">
-              <span class="ch">{lead.data.category.slice(0, 1)}</span>
-              <span class="kicker">本期首篇 · 第 01 篇</span>
-              <span class="band"><span>{lead.data.category}</span><span>{fmtDate(lead.data.pubDate)}</span></span>
-            </span>
-          </a>
-        )}
-
-        {rest.map((p, i) => (
-          <a class="post" href={`/posts/${p.id}/`}>
-            <span class="top">
-              <span class="no">{String(i + 2).padStart(3, '0')}</span>
-              <span class={`chip ${categoryClass(p.data.category)}`}>{p.data.category}</span>
-            </span>
-            <h4>{p.data.title}</h4>
-            {p.data.category === '开发' && p.data.subtitle && <span class="post-subtitle">{p.data.subtitle}</span>}
-            <span class="bot">
-              <span class="date">{fmtDate(p.data.pubDate)}</span>
-              <span class="mono dim">{thousands(plainLength(p))} 字</span>
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
+    <div class="writing-end"><span>写到这里，仍在继续。</span><a href="#main">回到页首 ↑</a></div>
   </div>
 </BaseLayout>
-
 <style>
-  /* ── 首屏 ─────────────────────────────────────────────────────── */
-  .hero {
-    display: grid;
-    grid-template-columns: 1.45fr 1fr;
-    gap: 0;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0;
-  }
-
-  .lead {
-    padding: 38px 32px 38px 0;
-    border-right: 1px solid var(--rule);
-  }
-
-  .kick {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 18px;
-  }
-  .kick .d {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    flex: none;
-  }
-
-  .lead h1 {
-    font-family: var(--disp);
-    font-size: clamp(34px, 4vw, 54px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 14px;
-  }
-
-  .lead p {
-    font-family: var(--song);
-    font-size: 15px;
-    line-height: 1.9;
-    color: var(--ink-55);
-    /* 别用 ch —— 中文字体里 ch 是「0」的宽度，换一个字族就全变了 */
-    max-width: 30em;
-  }
-
-  /* 台账块 */
-  .ledger { padding: 36px 0 36px 32px; }
-  .ledger .hd {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 4px;
-  }
-  .run { color: var(--green); }
-  .rowm {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 14px;
-    align-items: baseline;
-    padding: 11px 0;
-    border-bottom: 1px dashed var(--rule);
-  }
-  .rowm:last-child { border-bottom: 0; }
-  .rowm .k {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-55);
-  }
-  .rowm .v {
-    font-family: var(--disp);
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .rowm .v small {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--ink-55);
-    margin-left: 3px;
-    font-family: var(--mono);
-  }
-
-  /* ── 主体 ─────────────────────────────────────────────────────── */
-  .body-grid {
-    display: grid;
-    grid-template-columns: 244px 1fr;
-    gap: 0;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .rail {
-    border-right: 1px solid var(--rule);
-    padding: 26px 24px 26px 0;
-  }
-  .card { position: sticky; top: 78px; }
-
-  .rail h3 {
-    font-family: var(--mono);
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin: 0 0 12px;
-  }
-
-  .tree { display: flex; flex-direction: column; }
-  .tree a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    font-family: var(--mono);
-    font-size: 11.5px;
-    color: var(--ink-72);
-    transition: background 0.22s var(--ease), color 0.22s var(--ease);
-  }
-  .tree a:hover { background: var(--yellow); color: var(--on-light); }
-  .tree a.on { background: var(--ink); color: var(--bg); }
-  .tree a.on .n { color: var(--bg); opacity: 0.55; }
-
-  .lbl { display: flex; align-items: center; gap: 8px; }
-  .n { color: var(--ink-38); font-size: 10.5px; }
-  .sq { width: 7px; height: 7px; flex: none; }
-
-  .sep { height: 1px; background: var(--rule); margin: 18px 0; }
-
-  /* ── 条目网格：与首页同一套格子语言 ──────────────────────────── */
-  .list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .post {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 24px 26px 20px;
-    border-bottom: 1px solid var(--rule);
-    border-right: 1px solid var(--rule);
-    transition: background 0.3s var(--ease);
-  }
-  /* 首篇横跨两列，所以后面每一项的列序整体错开一位：
-     2、4、6… 落在左列（保留右边框），3、5、7… 落在右列（去掉右边框）。 */
-  .post:nth-child(2n + 1) { border-right: 0; }
-  .post:hover { background: var(--paper); }
-
-  .post .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-  }
-  .no {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.1em;
-    color: var(--ink-38);
-  }
-
-  h4 {
-    font-family: var(--disp);
-    font-size: 21px;
-    font-weight: 600;
-    line-height: 1.36;
-    letter-spacing: -0.005em;
-    transition: color 0.22s var(--ease);
-  }
-  .post:hover h4 { color: var(--teal); }
-
-
-  .bot {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding-top: 13px;
-    border-top: 1px dashed var(--rule);
-  }
-  .date {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-38);
-  }
-  .more { color: var(--teal); }
-
-  /* 首篇：横跨两列 + 排版封面 */
-  .post.wide {
-    grid-column: span 2;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 30px;
-    border-right: 0;
-  }
-  .post.wide .txt {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 0;
-  }
-  .post.wide h4 { font-size: 27px; }
-  .post.wide p { flex: 1; font-size: 14.5px; }
-
-  .post.wide .art {
-    width: 232px;
-    flex: none;
-    border: 1px solid var(--rule-strong);
-    background: var(--yellow);
-    color: var(--on-light);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 18px 18px 0;
-    overflow: hidden;
-  }
-  .post.wide .art .ch {
-    font-family: var(--disp);
-    font-size: 66px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.03em;
-  }
-  .post.wide .art .kicker {
-    font-family: var(--mono);
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(11, 11, 11, 0.55);
-    margin-top: auto;
-    padding-bottom: 12px;
-  }
-  .post.wide .art .band {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin: 0 -18px;
-    padding: 8px 18px;
-    background: var(--ink);
-    color: var(--bg);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-  }
-
-  /* ── 响应式 ───────────────────────────────────────────────────── */
-  @media (max-width: 1080px) {
-    .hero { grid-template-columns: 1fr; }
-    .lead { border-right: 0; padding-right: 0; }
-    .ledger { padding-left: 0; }
-    .body-grid { grid-template-columns: 1fr; }
-    .rail { border-right: 0; padding-right: 0; }
-    .card { position: static; }
-    .tree { display: grid; grid-template-columns: repeat(3, 1fr); }
-  }
-
-  @media (max-width: 760px) {
-    .list { grid-template-columns: 1fr; }
-    .post { border-right: 0; padding: 22px 0 18px; }
-    .post.wide { grid-column: 1 / -1; flex-direction: column; gap: 16px; }
-    .post.wide .art { width: 100%; flex-direction: row; align-items: center; padding: 14px 16px; }
-    .post.wide .art .ch { font-size: 40px; }
-    .post.wide .art .kicker { margin: 0; padding: 0; }
-    .post.wide .art .band { display: none; }
-    .tree { grid-template-columns: repeat(2, 1fr); }
-  }
+:global(:root:has(.writing-page)){--bg:#fff;--ink:#0b0b0b;--ink-72:rgb(11 11 11 / .75);--ink-55:rgb(11 11 11 / .65);--ink-38:rgb(11 11 11 / .6);--ink-22:rgb(11 11 11 / .22);--rule:#dedede;--rule-strong:#aaa;--paper:#fafafa;--yellow:#e1e1e1;--teal:var(--ink-72);--clay:var(--ink-72)}
+.writing-page{font-family:var(--ui)}
+:global(body:has(.writing-page)){overflow-x:clip}
+.writing-hero{padding:42px 0 30px}
+.edition{display:flex;justify-content:space-between;gap:20px;font:11px/1.5 var(--mono);letter-spacing:.1em}
+h1{font:500 clamp(34px,4vw,54px)/1.25 var(--disp);letter-spacing:-.02em;margin:16px 0;overflow-wrap:anywhere;text-wrap:balance}
+.hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
+.hero-bottom p{font:15px/1.9 var(--song);max-width:30em;color:var(--ink-55)}
+.article-count{display:flex;align-items:baseline;gap:8px;flex-shrink:0}
+.article-count>span{font:500 24px/1.2 var(--disp);letter-spacing:0}
+.article-count small{font:12px var(--ui);white-space:nowrap}
+.writing-nav{position:sticky;top:56px;z-index:10;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:24px;border-block:1px solid var(--rule);padding:22px 0}
+.categories,.tools{display:flex;align-items:center;gap:28px}
+.categories a{font-weight:600;font-size:18px;white-space:nowrap}
+.categories sup{font:10px var(--mono);margin-left:3px;color:var(--ink-55)}
+.categories a[aria-current]{text-decoration:underline;text-underline-offset:7px}
+.tools a{font-size:12px;white-space:nowrap}
+.writing-nav a:hover{text-decoration:underline;text-underline-offset:7px}
+#articles{scroll-margin-top:145px}
+.directory-heading{display:flex;justify-content:space-between;gap:24px;padding:30px 0 24px;font:11px/1.6 var(--mono);color:var(--ink-55)}
+.directory-heading h2{font:inherit}
+.writing-end{display:flex;justify-content:space-between;gap:24px;padding:56px 0 76px;font:12px/1.6 var(--ui);color:var(--ink-55)}
+.empty-writing{font:28px/1.5 var(--song);padding:70px 0;border-block:1px solid var(--rule)}
+@media(max-width:760px){
+ .writing-hero{padding:30px 0}
+ .edition{font-size:9px}
+ h1{font-size:34px;margin:16px 0;max-width:none}
+ .hero-bottom{align-items:baseline;gap:20px}
+ .hero-bottom p{font-size:15px;max-width:24em}
+ .article-count>span{font-size:24px}
+ .article-count small{font-size:10px}
+ .writing-nav{gap:18px;padding:18px 0;align-items:flex-start;flex-wrap:wrap}
+ .categories{gap:22px}.categories a{font-size:15px}.tools{gap:18px}.tools a{font-size:11px}
+ .directory-heading{font-size:9px;gap:14px;padding:25px 0 20px}
+ .writing-end{font-size:10px;padding:36px 0 48px}
+}
 </style>

@@ -1,0 +1,215 @@
+---
+import { fmtDate, thousands } from '../consts';
+import { plainLength, getPosts } from '../utils/posts';
+const { posts } = Astro.props as { posts: Awaited<ReturnType<typeof getPosts>> };
+---
+<div class="writing-cards" role="region" aria-label="文章翻阅卡片">
+  <ol class="article-list">
+    {posts.map((post, index) => <li>
+      <a class="article-row" href={`/posts/${post.id}/`} draggable="false">
+        <span class="row-meta"><span class="article-number">{String(index + 1).padStart(2, '0')}</span><span>{post.data.category}</span></span>
+        <span class="article-text"><h3>{post.data.title}</h3>{post.data.category === '开发' && post.data.subtitle && <span class="post-subtitle">{post.data.subtitle}</span>}</span>
+        <span class="card-footer"><time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{fmtDate(post.data.pubDate)}</time><span>{thousands(plainLength(post))} 字</span><span class="row-arrow" aria-hidden="true">↗</span></span>
+      </a>
+    </li>)}
+  </ol>
+  <div class="deck-controls" hidden>
+    <p class="deck-hint">左右滑动翻阅 · 点标题阅读</p>
+    <div class="deck-navigation"><button type="button" data-step="-1" aria-label="上一篇">←</button><span class="deck-position" aria-live="polite" aria-atomic="true"></span><button type="button" data-step="1" aria-label="下一篇">→</button></div>
+  </div>
+</div>
+<style>
+.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));list-style:none;margin:0;padding:0;gap:20px}
+.article-list>li{min-width:0}
+.article-row,.paper-face{display:flex;flex-direction:column;height:300px;padding:28px;background:var(--bg);border:1px solid var(--rule);border-radius:4px;color:var(--ink)}
+.row-meta,.card-footer{display:flex;align-items:center;gap:16px;font:11px/1.5 var(--mono);color:var(--ink-55)}
+.row-meta{justify-content:space-between}
+.article-text{display:flex;flex-direction:column;justify-content:center;flex:1;min-width:0;padding:24px 0}
+h3{font:500 22px/1.5 var(--disp);letter-spacing:-.02em;overflow-wrap:anywhere;text-wrap:balance}
+.post-subtitle{font:14px/1.7 var(--song);color:var(--ink-72);margin-top:12px}
+.card-footer>span:nth-child(2){margin-left:auto}
+.row-arrow{font:24px/1 var(--ui);color:var(--ink)}
+.article-row:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.article-row:hover h3{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.deck-ready{margin:8px auto 0}
+.deck-ready .article-list{display:block;position:relative;height:430px;overflow:clip;touch-action:pan-y;perspective:1200px;transform-style:preserve-3d}
+.deck-ready li{position:absolute;left:50%;top:50%;width:min(620px,86%);height:350px;visibility:hidden;pointer-events:none;transform-style:preserve-3d}
+.deck-ready li[data-depth="0"]{pointer-events:auto}
+.deck-ready .article-row,.deck-ready .paper-face{position:absolute;inset:0;height:100%;padding:32px 36px;box-shadow:0 12px 28px rgb(0 0 0 / .06);cursor:grab;user-select:none;-webkit-user-select:none}
+.deck-ready.dragging .article-row{cursor:grabbing}
+.writing-cards :global(.paper-surface){position:absolute;inset:0;pointer-events:none;transform-style:preserve-3d}
+.writing-cards :global(.paper-strip){position:absolute;left:0;top:0;height:100%;overflow:clip;transform-origin:center center}
+.deck-ready .paper-face{right:auto;bottom:auto;box-shadow:none}
+
+.deck-controls{padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.deck-controls[hidden]{display:none}
+.deck-hint{font:11px/1.7 var(--ui);color:var(--ink-55)}
+.deck-navigation{display:flex;align-items:center;gap:20px}
+.deck-position{min-width:64px;text-align:center;font:12px var(--mono);color:var(--ink-55)}
+button{width:44px;height:44px;border:1px solid var(--rule);border-radius:50%;background:var(--bg);color:var(--ink);font:20px var(--ui);cursor:pointer}
+button:disabled{opacity:.3;cursor:default}
+button:not(:disabled):hover{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+@media(max-width:760px){
+ .article-list{grid-template-columns:1fr}.article-row{height:300px;padding:24px}h3{font-size:20px}
+ .deck-ready{margin-top:0}.deck-ready .article-list{height:380px;perspective:850px}.deck-ready li{width:82%;height:330px}.deck-ready .article-row,.deck-ready .paper-face{padding:24px}
+ .row-meta,.card-footer{font-size:10px;gap:12px}.deck-controls{padding-top:16px;flex-direction:column;gap:14px}
+}
+</style>
+<script>
+const root = document.querySelector<HTMLElement>('.writing-cards');
+if (root) {
+  const list = root.querySelector<HTMLOListElement>('.article-list')!;
+  const cards = Array.from(list.children) as HTMLLIElement[];
+  const controls = root.querySelector<HTMLElement>('.deck-controls')!;
+  const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-step]'));
+  const status = root.querySelector<HTMLElement>('.deck-position')!;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let index = 0, position = 0, target = 0, velocity = 0, width = 620, height = 350;
+  let surfaceCard = -1, strips: HTMLElement[] = [];
+  let frame = 0, lastTime = 0, suppressClick = false, focusAfterTurn = false;
+  let wheelTimer: ReturnType<typeof setTimeout>;
+  let gesture: { id: number; x: number; y: number; start: number; dragging: boolean } | null = null;
+  const clamp = (value: number) => Math.max(0, Math.min(cards.length - 1, value));
+  function clearPaper() {
+    if (surfaceCard < 0) return;
+    cards[surfaceCard].querySelector<HTMLElement>('.article-row')!.style.opacity = '';
+    cards[surfaceCard].querySelector('.paper-surface')?.remove();
+    surfaceCard = -1; strips = [];
+  }
+  function bendPaper(amount: number) {
+    if (surfaceCard !== index) {
+      clearPaper(); surfaceCard = index;
+      const original = cards[index].querySelector<HTMLElement>('.article-row')!;
+      const surface = document.createElement('div'); surface.className = 'paper-surface';
+      surface.setAttribute('aria-hidden','true'); surface.inert = true;
+      for (let i = 0; i < 8; i++) {
+        const strip = document.createElement('div'); strip.className = 'paper-strip';
+        strip.style.width = `${width / 8 + .5}px`;
+        const face = original.cloneNode(true) as HTMLElement;
+        face.classList.replace('article-row','paper-face'); face.removeAttribute('href'); face.removeAttribute('tabindex');
+        face.style.cssText = `opacity:1;width:${width}px;height:${height}px;left:${-i * width / 8}px;top:0`;
+        strip.append(face); surface.append(strip); strips.push(strip);
+      }
+      cards[index].append(surface); original.style.opacity = '0';
+    }
+    // 连续拼接八片纸面，弯曲时文字仍沿着同一张纸衔接。
+    const parts: {x:number;z:number;angle:number}[] = [];
+    let x = 0, z = 0;
+    for (let i = 0; i < strips.length; i++) {
+      const angle = ((i + .5) / strips.length * 2 - 1) * amount * (reduce.matches ? .36 : .7);
+      const nextX = x + Math.cos(angle) * width / strips.length;
+      const nextZ = z - Math.sin(angle) * width / strips.length;
+      parts.push({x:(x + nextX) / 2 - width / strips.length / 2,z:(z + nextZ) / 2,angle});
+      x = nextX; z = nextZ;
+    }
+    const center = (x - width) / 2;
+    strips.forEach((strip,i) => { const part = parts[i]; strip.style.transform = `translate3d(${part.x-center}px,0,${part.z}px) rotateY(${part.angle*180/Math.PI}deg)`; });
+  }
+  function place(i:number,x:number,y:number,z:number,rx:number,rz:number,order:number) {
+    const card = cards[i]; if (!card) return;
+    card.style.visibility = 'visible'; card.style.zIndex = String(order);
+    card.style.transform = `translate3d(calc(-50% + ${x}px),calc(-50% + ${y}px),${z}px) rotateX(${rx}deg) rotateZ(${rz}deg)`;
+  }
+  function paint() {
+    const change = position - index, direction = Math.sign(change);
+    const progress = Math.min(1,Math.abs(change)), lift = Math.sin(Math.PI * progress);
+    cards.forEach(card => { if (card.style.visibility !== 'hidden') card.style.visibility = 'hidden'; });
+    place(index+2,0,20,-36,0,-.6,1); place(index+1,0,10,-18,0,.6,2);
+    if (progress > .00001 && cards[index+direction]) {
+      bendPaper(lift);
+      place(index+direction,0,10*(1-progress),-18*(1-progress),0,.6*(1-progress),progress < .55 ? 3 : 5);
+      const retreat = Math.max(0,(progress-.45)/.55);
+      place(index,-direction*width*.64*lift,-height*.18*lift,50*lift-120*retreat,-18*lift,-direction*8*lift,progress < .55 ? 5 : 2);
+    } else { clearPaper(); place(index,0,0,0,0,0,5); }
+  }
+  function announce() {
+    index = Math.round(target);
+    paint();
+    cards.forEach((card, i) => {
+      card.dataset.depth = String(i - index);
+      card.inert = i !== index;
+      card.setAttribute('aria-hidden', String(i !== index));
+    });
+    status.textContent = `${String(index + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+    buttons[0].disabled = index === 0; buttons[1].disabled = index === cards.length - 1;
+    if (focusAfterTurn) { cards[index].querySelector('a')?.focus({preventScroll:true}); focusAfterTurn = false; }
+  }
+  function tick(time: number) {
+    frame = 0;
+    const elapsed = Math.min(40, lastTime ? time - lastTime : 16) / 1000;
+    lastTime = time;
+    const frequency = reduce.matches ? 20 : 13;
+    const offset = position - target, impulse = velocity + frequency * offset;
+    const decay = Math.exp(-frequency * elapsed);
+    position = clamp(target + (offset + impulse * elapsed) * decay);
+    velocity = (velocity - frequency * impulse * elapsed) * decay;
+    if (Math.abs(position - target) < .0005 && Math.abs(velocity) < .003) { position = target; velocity = 0; }
+    paint();
+    if (position !== target || velocity !== 0) frame = requestAnimationFrame(tick);
+    else { lastTime = 0; announce(); }
+  }
+  function select(value: number, keyboard = false) {
+    clearTimeout(wheelTimer);
+    target = clamp(Math.max(index-1,Math.min(index+1,Math.round(value)))); focusAfterTurn = keyboard;
+    if (!frame) frame = requestAnimationFrame(tick);
+  }
+  if (cards.length) {
+    root.classList.add('deck-ready'); controls.hidden = false;
+    const measure = () => { clearPaper(); width = cards[0].offsetWidth; height = cards[0].offsetHeight; paint(); };
+    measure(); announce(); new ResizeObserver(measure).observe(list);
+    buttons.forEach(button => button.addEventListener('click', () => select(target + Number(button.dataset.step))));
+    root.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || (event.target as HTMLElement).isContentEditable) return;
+      if (event.key === 'Enter') { target = index; settle(); }
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault(); select(target + (event.key === 'ArrowRight' ? 1 : -1), true);
+      }
+    });
+    list.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || event.button !== 0 || document.body.classList.contains('editing-page')) return;
+      cancelAnimationFrame(frame); frame = 0; lastTime = 0; velocity = 0; clearTimeout(wheelTimer);
+      gesture = {id:event.pointerId,x:event.clientX,y:event.clientY,start:position,dragging:false};
+      suppressClick = false;
+    });
+    list.addEventListener('pointermove', event => {
+      if (!gesture || gesture.id !== event.pointerId) return;
+      const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
+      if (!gesture.dragging) {
+        if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) { gesture = null; select(position); return; }
+        if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy) * 1.2) return;
+        gesture.dragging = true; suppressClick = true;
+        list.setPointerCapture(event.pointerId); root.classList.add('dragging');
+      }
+      position = clamp(Math.max(Math.round(gesture.start)-1, Math.min(Math.round(gesture.start)+1, gesture.start - dx / (width * .78))));
+      target = position; paint();
+    });
+    function end(event: PointerEvent) {
+      if (!gesture || gesture.id !== event.pointerId) return;
+      const current = gesture; gesture = null; root.classList.remove('dragging');
+      if (list.hasPointerCapture(event.pointerId)) list.releasePointerCapture(event.pointerId);
+      select(event.type === 'pointerup' && current.dragging ? position : current.start);
+    }
+    list.addEventListener('pointerup', end); list.addEventListener('pointercancel', end);
+    list.addEventListener('lostpointercapture', event => { if (event.target === list) end(event); });
+    list.addEventListener('wheel', event => {
+      if (event.ctrlKey || (!event.shiftKey && Math.abs(event.deltaX) <= Math.abs(event.deltaY))) return;
+      const delta = (event.shiftKey && !event.deltaX ? event.deltaY : event.deltaX) * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? width : 1);
+      event.preventDefault(); target = clamp(Math.max(index-1,Math.min(index+1,target + delta / (width * .9))));
+      if (!frame) frame = requestAnimationFrame(tick);
+      clearTimeout(wheelTimer); wheelTimer = setTimeout(() => select(target),140);
+    },{passive:false});
+    list.addEventListener('click', event => {
+      if ((suppressClick && event.detail > 0) || Math.abs(position-index) > .01) { event.preventDefault(); event.stopPropagation(); suppressClick = false; }
+    },true);
+    const settle = () => {
+      clearTimeout(wheelTimer); cancelAnimationFrame(frame); frame = 0; lastTime = 0; velocity = 0;
+      gesture = null; suppressClick = false; focusAfterTurn = false; root.classList.remove('dragging');
+      position = target = clamp(Math.round(target)); paint(); announce();
+    };
+    window.addEventListener('pagehide',settle);
+    document.addEventListener('visibilitychange',() => {if(document.hidden) settle();});
+    new IntersectionObserver(([entry]) => {if(!entry.isIntersecting) settle();}).observe(list);
+  }
+}
+</script>
