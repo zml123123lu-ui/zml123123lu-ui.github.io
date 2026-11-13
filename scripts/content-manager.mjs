@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir, mkdtemp, rename, rm } from 'node:fs/promises';
+import { readFile, writeFile, readdir, mkdtemp, rename, rm, realpath } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import yaml from 'js-yaml';
@@ -101,9 +101,10 @@ export async function saveManagedContent({ kind, entry, operation = 'save' }, { 
  try {
   if (next === undefined) await rm(file); else await writeFile(file,next);
   await build(path.join(stage,'dist'));
-  await rename(path.join(root,'dist'),path.join(stage,'previous-dist'));
-  try { await rename(path.join(stage,'dist'),path.join(root,'dist')); }
-  catch(error) { await rename(path.join(stage,'previous-dist'),path.join(root,'dist')); throw error; }
+  const destination = await realpath(path.join(root,'dist'));
+  await rename(destination,path.join(stage,'previous-dist'));
+  try { await rename(path.join(stage,'dist'),destination); }
+  catch(error) { await rename(path.join(stage,'previous-dist'),destination); throw error; }
   return { id, saved:true };
  } catch(error) {
   if(previous===undefined) await rm(file,{force:true}); else await writeFile(file,previous);

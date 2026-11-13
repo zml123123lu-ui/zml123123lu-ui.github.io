@@ -69,13 +69,11 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
   <div class="wrap">
     <!-- 题头 -->
     <header class="hd">
-      <span class="kick"><span class="d" aria-hidden="true"></span>书影音 · 音乐</span>
       <h1 data-edit-kind="site" data-edit-id="music" data-edit-field="title">{title}</h1>
       {intro && <p class="sub" data-edit-kind="site" data-edit-id="music" data-edit-field="intro">{intro}</p>}
 
       <div class="bar">
         <span class="mono">{playlists.length} 个歌单 · {tracks.length} 首单曲</span>
-        <span class="mono">封面与歌都在网易云</span>
         <MusicImport />
         {netease && (
           <a class="btn" href={netease}>
@@ -90,16 +88,14 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     <!-- 01 立体唱片架 -->
     <section class="sec">
       <div class="shd">
-        <span class="mono dim">01 / 单曲</span>
-        <h2>反复循环的</h2>
-        {tracks.length > 0 && <span class="mono dim tip">左右拖动，翻翻唱片</span>}
+        <h2>单曲</h2>
       </div>
 
       {tracks.length > 0 ? (
         <MusicStack tracks={tracks} covers={files} tones={TONES} />
       ) : (
         <p class="empty">
-          还没填单曲。打开 <code>src/content/music/listening.md</code>，把歌曲 ID 加进去就有了。
+          还没有歌曲。
         </p>
       )}
     </section>
@@ -107,8 +103,7 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     <!-- 02 歌单 -->
     <section class="sec">
       <div class="shd">
-        <span class="mono dim">02 / 歌单</span>
-        <h2>整张听的时候</h2>
+        <h2>歌单</h2>
       </div>
 
       {playlists.length > 0 ? (
@@ -135,18 +130,14 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
         </div>
       ) : (
         <p class="empty">
-          还没填歌单。打开 <code>src/content/music/listening.md</code>，把歌单 ID 加进去就有了。
+          还没有歌单。
         </p>
       )}
     </section>
 
     <!-- 说明 -->
     <footer class="note">
-      <span class="mono dim">关于这一页</span>
       {note && <p data-edit-kind="site" data-edit-id="music" data-edit-field="note">{note}</p>}
-      <p class="fine">
-        封面和歌名留在这里。想听的时候，点唱片去网易云。
-      </p>
     </footer>
   </div>
 </BaseLayout>
@@ -154,19 +145,6 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
 <style>
   /* ── 题头 ─────────────────────────────────────────────────────── */
   .hd { padding: 42px 0 0; }
-
-  .kick {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 14px;
-  }
-  .kick .d { width: 7px; height: 7px; background: var(--wine); flex: none; }
 
   h1 {
     font-family: var(--disp);
@@ -212,7 +190,6 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     font-weight: 600;
     letter-spacing: -0.01em;
   }
-  .shd .tip { margin-left: auto; }
 
   /* ── 歌单：一张唱片封套 + 右侧的字 ────────────────────────────── */
   .list { border-top: 1px solid var(--rule); }
@@ -289,18 +266,13 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     padding: 30px 0 46px;
     border-top: 1px solid var(--rule);
   }
-  .note .mono { display: block; margin-bottom: 14px; }
+
   .note p {
     font-family: var(--song);
     font-size: 13.5px;
     line-height: 1.95;
     color: var(--ink-55);
     max-width: 44em;
-  }
-  .note .fine {
-    margin-top: 12px;
-    font-size: 12.5px;
-    color: var(--ink-38);
   }
 
   /* ── 响应式 ───────────────────────────────────────────────────── */
@@ -315,7 +287,6 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     .bar { gap: 12px; }
     .bar .btn { margin-left: 0; }
     .shd h2 { font-size: 21px; }
-    .shd .tip { margin-left: 0; flex-basis: 100%; }
 
     .pl { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .pl .art.big { width: 180px; height: 180px; }

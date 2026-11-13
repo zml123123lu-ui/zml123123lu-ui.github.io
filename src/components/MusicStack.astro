@@ -10,7 +10,6 @@ const { tracks, covers, tones } = Astro.props;
 const initial = Math.min(1, tracks.length - 1);
 ---
 <div class="music-stack" data-initial={initial}>
-  <div class="stack-heading"><span>见己 / 私人唱片架</span><span>{String(tracks.length).padStart(2, '0')} RECORDS</span></div>
   <div class="stack-stage" tabindex="0" role="region" aria-label="横向唱片架，左右拖动或按左右方向键翻唱片">
     <ol class="stack-rail">
       {tracks.map((track, i) => {
@@ -34,7 +33,7 @@ const initial = Math.min(1, tracks.length - 1);
     <div class="stack-caption" aria-live="polite" aria-atomic="true"><strong>{tracks[initial]?.title}</strong><span>{tracks[initial]?.artist}</span></div>
     <button type="button" class="stack-next" aria-label="下一张唱片" disabled={initial === tracks.length - 1}>→</button>
   </div>
-  <p class="stack-help">左右拖动 / 触控板横滑 <span class="stack-counter">{String(initial + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}</span>点正面唱片，去网易云听</p>
+  <p class="stack-help">拖动切换 · 点击去网易云 <span class="stack-counter">{String(initial + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}</span></p>
 </div>
 
 <script>
@@ -211,7 +210,7 @@ const initial = Math.min(1, tracks.length - 1);
 
 <style>
   .music-stack { --album-size: 320px; margin: 12px 0 40px; color: #151515; background: #ffffff; }
-  .stack-heading { display: flex; justify-content: space-between; gap: 16px; padding: 24px 28px; font: 10px var(--mono); letter-spacing: .08em; }
+
   .stack-stage { position: relative; height: 440px; overflow: clip; perspective: 1100px; touch-action: pan-y; cursor: grab; user-select: none; }
   .stack-stage.is-dragging { cursor: grabbing; }
   .stack-stage:focus-visible { outline: 2px solid #151515; outline-offset: -3px; }
@@ -240,7 +239,7 @@ const initial = Math.min(1, tracks.length - 1);
   .stack-counter { font-family: var(--mono); }
   @media (max-width: 720px) {
     .music-stack { --album-size: min(54vw, 260px); margin-top: 8px; }
-    .stack-heading { padding: 20px 18px; font-size: 9px; }
+
     .stack-stage { height: 310px; perspective: 780px; }
     .stack-controls { gap: 24px; padding: 8px 16px 18px; }
     .stack-caption strong { font-size: 20px; }

@@ -1,109 +1,18 @@
 ---
-import { NAV, SITE, SOCIAL } from '../consts';
-
+import { NAV, SITE } from '../consts';
 const year = new Date().getFullYear();
-const years = year > SITE.since ? `${SITE.since} – ${year}` : `${SITE.since}`;
 ---
-
-<footer class="foot">
-  <div class="wrap fin">
-    <div class="col">
-      <span class="k">{SITE.name}</span>
-      <span class="v" data-edit-kind="site" data-edit-id="identity" data-edit-field="tagline">{SITE.tagline}</span>
-    </div>
-
-    <nav class="links" aria-label="页脚导航">
-      {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a href="/search/">搜索</a>
-      <a href="/manage/" class="owner-manage" hidden>管理内容</a>
-      {/* 社交入口和站内导航分开一段：发丝线当分隔符，全站语言一致。
-          SOCIAL 里没填链接的项已经在 consts.ts 里过滤掉了，不会出现空链接。 */}
-      {SOCIAL.length > 0 && <span class="divider" aria-hidden="true"></span>}
-      {SOCIAL.map((l) => (
-        <a href={l.href} target="_blank" rel="me noopener">{l.label}</a>
-      ))}
-      <a href="/rss.xml">RSS</a>
-    </nav>
-
-    <div class="col right">
-      <span class="k">{years}</span>
-      <span class="v">用 Astro 搭的 · 自托管字体 · 无追踪</span>
-    </div>
-  </div>
-</footer>
-
+<footer class="foot"><div class="wrap fin">
+ <span class="brand">{SITE.name} <span>© {year}</span></span>
+ <nav class="links" aria-label="页脚导航">
+  {NAV.map(item=><a href={item.href}>{item.label}</a>)}
+  <a href="/search/">搜索</a><a href="/rss.xml">RSS</a>
+ </nav>
+</div></footer>
 <style>
-  .foot {
-    border-top: 1px solid var(--rule);
-    margin-top: 8px;
-  }
-
-  .fin {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 28px;
-    flex-wrap: wrap;
-    padding-top: 28px;
-    padding-bottom: 36px;
-  }
-
-  .col {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-width: 0;
-  }
-  .col.right { text-align: right; }
-
-  .k {
-    font-family: var(--disp);
-    font-size: 15px;
-    font-weight: 600;
-  }
-
-  .v {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.04em;
-    color: var(--ink-38);
-    line-height: 1.6;
-  }
-
-  .links {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    color: var(--ink-55);
-  }
-  .links a {
-    border-bottom: 1px solid transparent;
-    padding-bottom: 2px;
-    transition: color 0.22s var(--ease), border-color 0.22s var(--ease);
-  }
-  .links a:hover {
-    color: var(--ink);
-    border-bottom-color: var(--yellow);
-  }
-
-  /* 站内导航和社交入口之间的发丝线分隔符 */
-  .links .divider {
-    width: 1px;
-    height: 11px;
-    align-self: center;
-    background: var(--rule);
-  }
-
-  @media (max-width: 700px) {
-    .col.right { text-align: left; }
-  }
+.foot{border-top:1px solid var(--rule);margin-top:8px}
+.fin{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-block:24px}
+.brand{font:500 14px var(--disp);white-space:nowrap}.brand span{font:10px var(--mono);color:var(--ink-55);margin-left:8px}
+.links{display:flex;gap:16px;flex-wrap:wrap;font:11px/1.8 var(--ui);color:var(--ink-55)}
+.links a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:5px}
 </style>
-
-<script>
- if (['localhost','127.0.0.1'].includes(location.hostname)) {
-  fetch('/api/music/status').then(response=>{if(response.ok)document.querySelectorAll<HTMLElement>('.owner-manage').forEach(link=>link.hidden=false)}).catch(()=>{});
- }
-</script>

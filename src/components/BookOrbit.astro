@@ -6,7 +6,6 @@ const { items } = Astro.props;
 {items.length > 0 && <section class="book-orbit" aria-label="环绕书架">
   <div class="orbit-stage">
     <div class="orbit-caption" aria-live="polite" aria-atomic="true">
-      <span class="orbit-eyebrow">BOOKS / {String(items.length).padStart(2, '0')}</span>
       <p class="orbit-title" data-edit-kind="books" data-edit-id={items[0].id} data-edit-field="title">{items[0].title}</p>
       <p class="orbit-author" data-edit-kind="books" data-edit-id={items[0].id} data-edit-field="subtitle">{items[0].subtitle}</p>
     </div>
@@ -22,7 +21,7 @@ const { items } = Astro.props;
   <div class="orbit-controls"><button type="button" class="orbit-motion" aria-pressed="false" hidden>播放环绕 ↗</button></div>
 </section>}
 <style>
-.book-orbit{max-width:1000px;margin:0 auto 40px}
+.book-orbit{max-width:1000px;margin:0 auto 40px;overflow:clip;overflow-clip-margin:12px}
 .orbit-stage{--radius:clamp(180px,25vw,250px);position:relative;box-sizing:content-box;height:190px;padding-block:var(--radius)}
 .orbit-slot{position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate(var(--angle)) translateY(calc(-1 * var(--radius)));pointer-events:none}
 .orbit-book{display:flex;align-items:center;justify-content:center;width:112px;height:160px;transform:translate(-50%,-50%) rotate(calc(-1 * var(--angle)));pointer-events:auto;outline-offset:8px}
@@ -30,7 +29,7 @@ const { items } = Astro.props;
 .orbit-placeholder{display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:12px;border:1px solid var(--rule);font:18px/1.5 var(--song);text-align:center}
 .orbit-caption{position:absolute;left:50%;top:50%;width:260px;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
 :global(body.editing-page) .orbit-caption{pointer-events:auto}
-.orbit-eyebrow{font:10px var(--mono);letter-spacing:.18em;color:var(--ink-55)}
+
 .orbit-title{font:500 28px/1.5 var(--song);margin-top:18px;text-wrap:balance}
 .orbit-author{font:12px/1.8 var(--ui);margin-top:10px;color:var(--ink-72);text-wrap:balance}
 .orbit-controls{display:flex;align-items:center;justify-content:flex-end;gap:20px;font:11px/1.6 var(--ui);color:var(--ink-55);padding:16px 0 24px;border-bottom:1px solid var(--rule)}
@@ -41,7 +40,7 @@ const { items } = Astro.props;
  .orbit-stage{--radius:calc((100vw - 108px) / 2);height:132px}
  .orbit-book{width:62px;height:92px;outline-offset:4px}
  .orbit-caption{width:136px}
- .orbit-eyebrow{font-size:8px;letter-spacing:.1em}
+
  .orbit-title{font-size:clamp(14px,4vw,17px);line-height:1.5;margin-top:12px}
  .orbit-author{font-size:10px;line-height:1.7;margin-top:6px}
  .orbit-controls{gap:12px;font-size:10px;padding:12px 0 20px}

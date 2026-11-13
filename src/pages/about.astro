@@ -5,17 +5,12 @@
  */
 import { render, getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE, fmtDate, thousands } from '../consts';
-import { getPosts, totalChars, byYear } from '../utils/posts';
+import { SITE } from '../consts';
 
 const entry = await getEntry('pages', 'about');
 if (!entry) throw new Error('缺少 src/content/pages/about.md');
 const { Content } = await render(entry);
 
-const posts = await getPosts();
-const years = byYear(posts);
-const chars = totalChars(posts);
-const latest = posts[0]?.data.pubDate;
 ---
 
 <BaseLayout title="关于" section="关于" description={SITE.author.bio}>
@@ -29,27 +24,6 @@ const latest = posts[0]?.data.pubDate;
 
         <h2 class="who" data-edit-kind="site" data-edit-id="identity" data-edit-field="author">{SITE.author.name}</h2>
         <p class="bio" data-edit-kind="site" data-edit-id="identity" data-edit-field="bio">{SITE.author.bio}</p>
-
-        <ul class="facts">
-          <li>
-            <span class="k">在写</span>
-            <span class="v">{posts.length} 篇</span>
-          </li>
-          <li>
-            <span class="k">字数</span>
-            <span class="v">{thousands(chars)} 字</span>
-          </li>
-          <li>
-            <span class="k">跨度</span>
-            <span class="v">
-              {years.length > 1 ? `${years[years.length - 1].year} — ${years[0].year}` : `${SITE.since}`}
-            </span>
-          </li>
-          <li>
-            <span class="k">最近更新</span>
-            <span class="v">{latest ? fmtDate(latest) : '—'}</span>
-          </li>
-        </ul>
 
         <div class="links">
           {SITE.author.links.map((l) => (
@@ -78,9 +52,6 @@ const latest = posts[0]?.data.pubDate;
       <!-- 正文 -->
       <article class="prose" data-pagefind-body data-edit-kind="site" data-edit-id="about" data-edit-field="body">
         <Content />
-        <p class="tail">
-          <a class="btn" href="/posts/"><span aria-hidden="true">←</span> 去看文章</a>
-        </p>
       </article>
     </div>
   </div>
@@ -130,32 +101,6 @@ const latest = posts[0]?.data.pubDate;
     margin-bottom: 24px;
   }
 
-  .facts {
-    list-style: none;
-    margin: 0 0 24px;
-    padding: 0;
-    border-top: 1px solid var(--rule);
-  }
-  .facts li {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--rule);
-  }
-  .facts .k {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--ink-38);
-    letter-spacing: 0.06em;
-  }
-  .facts .v {
-    font-family: var(--disp);
-    font-size: 14px;
-    font-weight: 600;
-  }
-
   .links { display: flex; flex-direction: column; }
   .links a {
     display: flex;
@@ -175,8 +120,6 @@ const latest = posts[0]?.data.pubDate;
   /* ── 正文 ─────────────────────────────────────────────────────── */
   .prose { max-width: var(--measure); }
   .prose :global(h2:first-child) { margin-top: 0; }
-
-  .tail { margin-top: 3em; }
 
   @media (max-width: 900px) {
     .cols {

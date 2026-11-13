@@ -6,7 +6,7 @@
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { fmtDate, categoryClass, thousands, CATEGORIES } from '../../consts';
-import { getPosts, plainLength, tagCounts } from '../../utils/posts';
+import { getPosts, plainLength } from '../../utils/posts';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -27,7 +27,6 @@ export async function getStaticPaths() {
 }
 
 const { name, items, isCategory } = Astro.props;
-const allTags = tagCounts(await getPosts());
 const color = CATEGORIES.find((c) => c.name === name)?.color;
 ---
 
@@ -39,7 +38,6 @@ const color = CATEGORIES.find((c) => c.name === name)?.color;
 >
   <div class="wrap">
     <div class="hd">
-      <span class="kick">{isCategory ? '内容分区' : '自由标签'}</span>
       <h1>
         {isCategory && <span class="dot" style={`background:${color}`} aria-hidden="true"></span>}
         {name}
@@ -64,24 +62,8 @@ const color = CATEGORIES.find((c) => c.name === name)?.color;
       ))}
     </div>
 
-    {allTags.length > 0 && (
-      <section class="others">
-        <h2 class="ttl">其他标签</h2>
-        <div class="tags">
-          {allTags
-            .filter((t) => t.name !== name)
-            .map((t) => (
-              <a class="tag" href={`/tags/${encodeURIComponent(t.name)}/`}>
-                {t.name}<span class="n">{t.count}</span>
-              </a>
-            ))}
-        </div>
-      </section>
-    )}
-
     <p class="back">
       <a class="btn" href="/tags/"><span aria-hidden="true">←</span> 全部标签</a>
-      <a class="btn" href="/posts/">全部文章</a>
     </p>
   </div>
 </BaseLayout>
@@ -91,15 +73,7 @@ const color = CATEGORIES.find((c) => c.name === name)?.color;
     padding: 42px 0 28px;
     border-bottom: 1px solid var(--rule);
   }
-  .kick {
-    display: block;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 12px;
-  }
+
   h1 {
     display: flex;
     align-items: center;

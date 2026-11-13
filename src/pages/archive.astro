@@ -16,14 +16,11 @@ const span = years.length > 1 ? `${years[years.length - 1].year} — ${years[0].
   <div class="wrap">
     <div class="hd">
       <div>
-        <span class="kick">档案 · 按时间</span>
         <h1>归档</h1>
       </div>
       <div class="meta">
         <span class="lbl">收录</span>
         <span class="val">{posts.length}<small>篇</small></span>
-        <span class="lbl">跨度</span>
-        <span class="val">{span}</span>
       </div>
     </div>
 
@@ -62,16 +59,6 @@ const span = years.length > 1 ? `${years[years.length - 1].year} — ${years[0].
     flex-wrap: wrap;
     padding: 42px 0 26px;
     border-bottom: 1px solid var(--rule);
-  }
-
-  .kick {
-    display: block;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 12px;
   }
 
   h1 {

@@ -11,11 +11,7 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
 <BaseLayout title="搜索" section="搜索" description="在全部文章里搜索。">
   <div class="wrap">
     <div class="hd">
-      <span class="kick">检索 · 全文</span>
       <h1>搜索</h1>
-      <p class="sub">
-        索引在构建时生成，所以是纯静态的、没有后端。支持中文分词，直接打词就行，不用空格隔开。
-      </p>
     </div>
 
     <div class="box">
@@ -23,9 +19,6 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
       <pagefind-searchbox></pagefind-searchbox>
     </div>
 
-    <p class="hint">
-      搜不到东西？试试更短的词。索引只收正文，网站导航和页脚不在里面。
-    </p>
   </div>
 </BaseLayout>
 
@@ -34,15 +27,7 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
     padding: 42px 0 30px;
     border-bottom: 1px solid var(--rule);
   }
-  .kick {
-    display: block;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 12px;
-  }
+
   h1 {
     font-family: var(--disp);
     font-size: clamp(34px, 4vw, 54px);
@@ -50,28 +35,12 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
     letter-spacing: -0.02em;
     margin-bottom: 14px;
   }
-  .sub {
-    font-family: var(--song);
-    font-size: 15px;
-    line-height: 1.9;
-    color: var(--ink-55);
-    max-width: 46em;
-  }
 
   .box {
     padding: 34px 0 10px;
     min-height: 320px;
   }
 
-  .hint {
-    font-family: var(--mono);
-    font-size: 11px;
-    line-height: 1.9;
-    color: var(--ink-38);
-    padding: 24px 0 46px;
-    border-top: 1px solid var(--rule);
-    max-width: 60em;
-  }
 </style>
 
 <style is:global>

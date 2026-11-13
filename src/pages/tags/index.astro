@@ -7,7 +7,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPosts, categoryCounts, tagCounts } from '../../utils/posts';
 
 const posts = await getPosts();
-const cats = categoryCounts(posts);
+const cats = categoryCounts(posts).filter(category=>category.count>0);
 
 /**
  * 分区名不再重复列进「自由标签」。
@@ -21,17 +21,12 @@ const tags = tagCounts(posts).filter((t) => !CAT_NAMES.has(t.name));
 <BaseLayout title="标签" section="标签" description="按主题浏览全部文章。">
   <div class="wrap">
     <div class="hd">
-      <span class="kick">索引 · 按主题</span>
       <h1>标签</h1>
-      <p class="sub">
-        本站有 {cats.length} 个固定内容分区，每篇文章只属于其中一个。自由标签可以有多个。
-      </p>
     </div>
 
     <section class="block">
       <h2 class="ttl">
         内容分区
-        <span class="n">{cats.filter((c) => c.count > 0).length} / {cats.length} 个已开写</span>
       </h2>
       <div class="cats">
         {cats.map((c) =>
@@ -55,7 +50,7 @@ const tags = tagCounts(posts).filter((t) => !CAT_NAMES.has(t.name));
     </section>
 
     <section class="block">
-      <h2 class="ttl">自由标签 <span class="n">{tags.length} 个</span></h2>
+      <h2 class="ttl">主题标签</h2>
       <div class="tags">
         {tags.map((t) => (
           <a class="tag" href={`/tags/${encodeURIComponent(t.name)}/`}>
@@ -73,28 +68,13 @@ const tags = tagCounts(posts).filter((t) => !CAT_NAMES.has(t.name));
     padding: 42px 0 30px;
     border-bottom: 1px solid var(--rule);
   }
-  .kick {
-    display: block;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 12px;
-  }
+
   h1 {
     font-family: var(--disp);
     font-size: clamp(34px, 4vw, 54px);
     font-weight: 700;
     letter-spacing: -0.02em;
     margin-bottom: 14px;
-  }
-  .sub {
-    font-family: var(--song);
-    font-size: 15px;
-    line-height: 1.9;
-    color: var(--ink-55);
-    max-width: 44em;
   }
 
   .block { padding: 34px 0; border-bottom: 1px solid var(--rule); }

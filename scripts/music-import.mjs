@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir, mkdtemp, copyFile, rename, rm, access } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, mkdtemp, copyFile, rename, rm, access, realpath } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -151,9 +151,10 @@ export async function importPlaylist(playlist, { root = ROOT, fetcher = fetch, b
     await writeFile(tonesPath, JSON.stringify(tones, null, 2) + '\n');
     await build(output);
     const previous = path.join(staging, 'previous-dist');
-    await rename(path.join(root, 'dist'), previous);
-    try { await rename(output, path.join(root, 'dist')); swapped = true; }
-    catch (error) { await rename(previous, path.join(root, 'dist')); throw error; }
+    const destination = await realpath(path.join(root, 'dist'));
+    await rename(destination, previous);
+    try { await rename(output, destination); swapped = true; }
+    catch (error) { await rename(previous, destination); throw error; }
     return { imported: playlist.tracks.length, name: playlist.name };
   } catch (error) {
     if (changed && !swapped) {

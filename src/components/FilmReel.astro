@@ -1,10 +1,10 @@
 ---
 interface Film {group?:string;id:string;title:string;subtitle?:string;cover?:string;url?:string;note?:string;rating?:number;date?:string}
-const {items} = Astro.props as {items:Film[]};
+const {items,label} = Astro.props as {items:Film[];label:string};
 const labels: Record<string,string> = {电影:"CINEMA",电视剧:"TV SERIES",番剧:"ANIME"};
 ---
 <div class="film-reel">
- <div class="reel-toolbar"><span>海报放映室 <span aria-hidden="true">/</span> {String(items.length).padStart(2,'0')}</span><button type="button" class="reel-toggle" aria-pressed="false" hidden>播放动画</button></div>
+ <header class="group-heading"><h2>{label}</h2><button type="button" class="reel-toggle" aria-pressed="false" hidden>播放动画</button></header>
  <div class="entries films">{items.map((item,i)=>{
   const Tag=item.url?'a':'article';
   return <Tag class="entry" href={item.url} target={item.url?'_blank':undefined} rel={item.url?'noopener noreferrer':undefined} aria-label={item.url?`${item.title}，${item.subtitle || ''}，在豆瓣打开`:undefined}>
@@ -22,8 +22,10 @@ const labels: Record<string,string> = {电影:"CINEMA",电视剧:"TV SERIES",番
  })}</div>
 </div>
 <style>
-.reel-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font:10px var(--mono);color:var(--ink-55)}
-.reel-toolbar>span>span{padding:0 8px}
+.group-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0 16px;border-bottom:1px solid var(--rule);margin-bottom:12px}.group-heading h2{font:500 24px/1.5 var(--disp)}
+
+
+
 .reel-toggle{border:1px solid var(--rule);background:var(--bg);color:var(--ink);padding:9px 12px;font:11px var(--ui);cursor:pointer}
 .reel-toggle[hidden]{display:none}.reel-toggle:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .entries{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
