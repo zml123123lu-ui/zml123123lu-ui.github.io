@@ -1,5 +1,5 @@
 import { readDashboard, saveManagedContent } from './content-manager.mjs';
-import { readBookCover } from './book-cover-reader.mjs';
+import { readBookCover as readCachedAsset } from './book-cover-reader.mjs';
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
@@ -79,7 +79,9 @@ const server = http.createServer(async (request, response) => {
       if ((await stat(target)).isDirectory()) target = path.join(target, 'index.html');
       await stat(target);
     } catch { target = path.join(dist, '404.html'); status = 404; }
-    const bytes = isBookCover && status === 200 ? await readBookCover(target) : await readFile(target);
+    // 保留关键资源字节，避免 iCloud 再次回收后整页丢失样式。
+    const cacheAsset = isBookCover || (pathname.startsWith('/_astro/') && ['.css', '.js'].includes(path.extname(target)));
+    const bytes = cacheAsset && status === 200 ? await readCachedAsset(target) : await readFile(target);
     response.writeHead(status, { 'Content-Type': types[path.extname(target)] || 'application/octet-stream', 'Content-Length': bytes.length, 'X-Content-Type-Options': 'nosniff', ...(path.extname(target) === '.html' ? { 'Cache-Control': 'no-cache' } : {}) });
     response.end(request.method === 'HEAD' ? undefined : bytes);
   } catch (error) {

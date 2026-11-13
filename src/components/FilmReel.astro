@@ -1,0 +1,89 @@
+---
+interface Film {group?:string;id:string;title:string;subtitle?:string;cover?:string;url?:string;note?:string;rating?:number;date?:string}
+const {items} = Astro.props as {items:Film[]};
+const labels: Record<string,string> = {电影:"CINEMA",电视剧:"TV SERIES",番剧:"ANIME"};
+---
+<div class="film-reel">
+ <div class="reel-toolbar"><span>海报放映室 <span aria-hidden="true">/</span> {String(items.length).padStart(2,'0')}</span><button type="button" class="reel-toggle" aria-pressed="false" hidden>播放动画</button></div>
+ <div class="entries films">{items.map((item,i)=>{
+  const Tag=item.url?'a':'article';
+  return <Tag class="entry" href={item.url} target={item.url?'_blank':undefined} rel={item.url?'noopener noreferrer':undefined} aria-label={item.url?`${item.title}，${item.subtitle || ''}，在豆瓣打开`:undefined}>
+   <div class="poster-stage"><div class="poster-object">
+    <div class="poster-front">{item.cover && <img class="cover" src={item.cover} alt={`${item.title}封面`} loading="lazy" referrerpolicy="no-referrer" />}<span class="reflection" aria-hidden="true"></span></div>
+    <div class="poster-back" aria-hidden="true"><span class="back-index">{String(i+1).padStart(2,'0')}</span><span class="back-name">{item.title}</span><span class="back-year">{item.subtitle}</span><span class="back-sign">JIANJI / {labels[item.group || "电影"] || "CINEMA"}</span></div>
+    <span class="poster-edge left" aria-hidden="true"></span><span class="poster-edge right" aria-hidden="true"></span>
+   </div></div>
+   <h3 data-edit-kind="films" data-edit-id={item.id} data-edit-field="title">{item.title}</h3>
+   {item.subtitle && <p class="subtitle" data-edit-kind="films" data-edit-id={item.id} data-edit-field="subtitle">{item.subtitle}</p>}
+   {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}</p>}
+   {item.note && <p class="note" data-edit-kind="films" data-edit-id={item.id} data-edit-field="note">{item.note}</p>}
+   {item.date && <span class="date">{item.date}</span>}
+  </Tag>;
+ })}</div>
+</div>
+<style>
+.reel-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;font:10px var(--mono);color:var(--ink-55)}
+.reel-toolbar>span>span{padding:0 8px}
+.reel-toggle{border:1px solid var(--rule);background:var(--bg);color:var(--ink);padding:9px 12px;font:11px var(--ui);cursor:pointer}
+.reel-toggle[hidden]{display:none}.reel-toggle:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.entries{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+.entry{min-width:0;display:block;text-align:center;color:var(--ink);padding:6px 0 24px}
+.poster-stage{height:320px;display:grid;place-items:center;perspective:1000px;transform-style:preserve-3d}
+.poster-object{position:relative;width:184px;height:268px;transform-style:preserve-3d;transform:rotateX(7deg) rotateY(-16deg) rotateZ(-2deg)}
+.poster-front,.poster-back{position:absolute;inset:0;border:4px solid #c3c4c5;background:linear-gradient(125deg,#fafafa,#b1b3b6 25%,#f4f4f4 48%,#9b9d9f 80%,#eee);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 10px 18px rgb(0 0 0 / .08)}
+.poster-front{transform:translateZ(5px);overflow:hidden}.cover{display:block;width:100%;height:100%;object-fit:contain;background:#111;margin:0;filter:none}
+.reflection{position:absolute;inset:-15%;background:linear-gradient(115deg,transparent 25%,rgb(255 255 255 / .34) 45%,transparent 65%);pointer-events:none;transform:translateX(-70%)}
+.poster-back{opacity:0;transform:rotateY(180deg) translateZ(5px);padding:20px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#252525}
+.poster-back::before{content:'';position:absolute;inset:8px;border:1px solid rgb(255 255 255 / .7);pointer-events:none}
+.back-index{font:10px var(--mono);margin-bottom:24px}.back-name{font:500 20px/1.6 var(--disp);text-wrap:balance}.back-year{font:11px var(--mono);margin-top:12px}.back-sign{font:8px var(--mono);letter-spacing:.12em;margin-top:26px}
+.poster-edge{position:absolute;top:0;width:10px;height:100%;background:repeating-linear-gradient(0deg,#a3a5a7 0 1px,#e2e3e4 1px 3px);backface-visibility:hidden}
+.poster-edge.left{left:0;transform:rotateY(-90deg) translateZ(5px)}.poster-edge.right{right:0;transform:rotateY(90deg) translateZ(5px)}
+h3{font:500 18px/1.5 var(--disp);text-wrap:balance;overflow-wrap:anywhere;margin:12px 0 0}
+.subtitle{font:12px/1.7 var(--ui);color:var(--ink-55);margin-top:6px}.note{font:14px/1.8 var(--song);white-space:pre-wrap;margin-top:12px}.rating,.date{font:12px var(--ui);margin-top:10px}
+a.entry:hover h3{text-decoration:underline;text-underline-offset:5px}a.entry:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+@media(max-width:1050px){.entries{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.poster-object{width:168px;height:246px}.poster-stage{height:290px}}
+@media(max-width:600px){.entries{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.poster-object{width:116px;height:174px}.poster-stage{height:218px;perspective:700px}h3{font-size:16px;margin-top:8px}.poster-front,.poster-back{border-width:3px}.poster-back{padding:14px 8px}.back-name{font-size:15px}.back-index{margin-bottom:12px}.back-sign{font-size:6px;margin-top:18px}.back-year{font-size:9px}.entry{padding-bottom:16px}}
+@media(max-width:350px){.poster-object{width:100px;height:154px}.poster-stage{height:195px}.back-name{font-size:13px}}
+</style>
+<script>
+for(const root of document.querySelectorAll<HTMLElement>('.film-reel')) {
+ const button=root.querySelector<HTMLButtonElement>('.reel-toggle')!;
+ let wanted=true,visible=false;
+ const entries=Array.from(root.querySelectorAll<HTMLElement>('.entry'));
+ const animations=entries.map((entry,i)=>{
+  const object=entry.querySelector<HTMLElement>('.poster-object')!;
+  const turn=object.animate([
+   {transform:'translateY(0) rotateX(7deg) rotateY(-16deg) rotateZ(-2deg)',offset:0},
+   {transform:'translateY(-5px) rotateX(-5deg) rotateY(8deg) rotateZ(1deg)',offset:.18},
+   {transform:'translateY(-8px) rotateX(12deg) rotateY(160deg) rotateZ(3deg)',offset:.46},
+   {transform:'translateY(0) rotateX(7deg) rotateY(184deg) rotateZ(-1deg)',offset:.64},
+   {transform:'translateY(6px) rotateX(-7deg) rotateY(328deg) rotateZ(-3deg)',offset:.9},
+   {transform:'translateY(0) rotateX(7deg) rotateY(344deg) rotateZ(-2deg)',offset:1}
+  ],{duration:16000,iterations:Infinity,easing:'linear'});
+  const shine=entry.querySelector<HTMLElement>('.reflection')!.animate([{transform:'translateX(-70%)',opacity:0},{transform:'translateX(70%)',opacity:.8},{transform:'translateX(110%)',opacity:0}],{duration:8000,iterations:Infinity});
+  // 按转角同步隐藏反面，兼容 Safari 的背面裁切差异。
+  const faces=['.poster-front','.poster-back'].map((selector,side)=>entry.querySelector<HTMLElement>(selector)!.animate([
+   {opacity:1-side,offset:0},{opacity:1-side,offset:.331},
+   {opacity:side,offset:.3311},{opacity:side,offset:.7952},
+   {opacity:1-side,offset:.7953},{opacity:1-side,offset:1}
+  ],{duration:16000,iterations:Infinity}));
+  for(const animation of [turn,...faces]){animation.pause();animation.currentTime=i*550;}shine.pause();
+  return {entry,turn,shine,faces};
+ });
+ const update=()=>{
+  const editing=document.body.classList.contains('editing-page');
+  animations.forEach(({entry,turn,shine,faces})=>{
+   const active=wanted&&visible&&!document.hidden&&!editing&&!entry.matches(':hover,:focus-within');
+   for(const animation of [turn,shine,...faces])active?animation.play():animation.pause();
+  });
+  button.textContent=wanted?'暂停动画':'播放动画';button.setAttribute('aria-pressed',String(wanted));
+ };
+ button.hidden=false;button.addEventListener('click',()=>{wanted=!wanted;update()});
+ for(const event of ['pointerover','pointerout','focusin','focusout'])root.addEventListener(event,()=>queueMicrotask(update));
+ document.addEventListener('visibilitychange',update);
+ new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;update()}).observe(root);
+ new MutationObserver(update).observe(document.body,{attributes:true,attributeFilter:['class']});
+ window.addEventListener('pagehide',()=>animations.forEach(({turn,shine,faces})=>{for(const animation of[turn,shine,...faces])animation.pause()}));
+ window.addEventListener('pageshow',update);update();
+}
+</script>

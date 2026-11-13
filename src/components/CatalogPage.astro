@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ShelfNav from './ShelfNav.astro';
 import BookOrbit from './BookOrbit.astro';
+import FilmReel from './FilmReel.astro';
 import text from '../data/site-text.json';
 import catalog from '../data/catalog.json';
 interface Props { kind: 'accounts' | 'books' | 'films' | 'works'; bookView?: 'orbit' | 'shelf'; }
@@ -23,7 +24,7 @@ const groups = kind === 'films' ? [
   <div class="summary"><span class="mono dim">{items.length} {kind==='books'?'本书':'条记录'}</span>{kind==='works' && <span class="mono dim">创作 · 项目 · 实践</span>}{kind === 'books' && <a href={allBooks ? '/shelf/' : '/shelf/all/'}>{allBooks ? '返回环绕' : '查看全部书架'} →</a>}</div>
   {kind === 'books' && !allBooks && items.length ? <BookOrbit items={items} /> : items.length ? groups.filter(group=>group.items.length).map(group=><section class:list={{'film-section':kind==='films'}}>
    {group.name && <header class="group-heading"><h2>{group.name}</h2><span class="mono dim">{group.items.length} 部</span></header>}
-   <div class:list={['entries',kind]}>{group.items.map((item,i)=>{
+   {kind === 'films' ? <FilmReel items={group.items} /> : <div class:list={['entries',kind]}>{group.items.map((item,i)=>{
    const Tag=item.url?'a':'article';
    const external=!!item.url && !item.url.startsWith('/');
    const Heading=kind==='films'?'h3':'h2';
@@ -34,7 +35,7 @@ const groups = kind === 'films' ? [
     {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}{'☆'.repeat(5-item.rating)}</p>}
     {item.note && <p class="note" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">{item.note}</p>}{item.date && <span class="mono dim">{item.date}</span>}
    </Tag>
-  })}</div></section>) : <div class="empty"><span class="mono dim">尚无记录</span><p>{kind==='works'?'还没有公开的作品。':kind==='books'?'书架还空着，读到喜欢的会记在这里。':'还没有公开的影视记录。'}</p></div>}
+  })}</div>}</section>) : <div class="empty"><span class="mono dim">尚无记录</span><p>{kind==='works'?'还没有公开的作品。':kind==='books'?'书架还空着，读到喜欢的会记在这里。':'还没有公开的影视记录。'}</p></div>}
   <div class="bottom-links"><a href="/posts/">去看写作 →</a><a href="/about/">关于我 →</a></div>
  </div>
 </BaseLayout>
@@ -57,15 +58,5 @@ const groups = kind === 'films' ? [
 .film-section{margin-bottom:44px}
 .group-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:8px 0 18px;border-bottom:1px solid var(--rule)}
 .group-heading h2{font-size:25px}
-.entries.films{grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:24px}
-.films .entry{padding:22px 0;border:0;text-align:center}
-.films .entry-top{font-size:10px;margin-bottom:16px}
-.films .cover{height:256px;object-position:center;margin-bottom:14px}
-.films h3{font:600 18px/1.5 var(--disp);text-wrap:balance;overflow-wrap:anywhere}
-.films .subtitle{color:var(--ink-72);margin-top:6px}
-.films a.entry:hover{background:transparent;color:var(--ink)}
-.films a.entry:is(:hover,:focus-visible) h3{color:var(--teal)}
-@media(max-width:1050px){.entries.films{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){.entries.films{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.films .cover{height:200px}.films h3{font-size:16px}.group-heading h2{font-size:22px}}
 .heading{padding:42px 0 30px;border-bottom:1px solid var(--rule)}h1{font:700 clamp(34px,4vw,54px) var(--disp);margin:16px 0} .heading p{font:15px/1.9 var(--song);color:var(--ink-55)}.summary{display:flex;justify-content:space-between;padding:24px 0}.entries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--rule);border-left:1px solid var(--rule)}.entry{min-width:0;padding:26px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule)}a.entry:hover{background:var(--yellow);color:var(--on-light)}a.entry:hover :is(.dim,.subtitle,.note){color:inherit}.entry-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}.entry-top>span:last-child{margin-left:auto}.status{font:11px var(--ui);color:var(--ink-55)}h2{font:600 25px/1.4 var(--disp);overflow-wrap:anywhere}.subtitle{font:13px/1.8 var(--ui);color:var(--ink-55);margin-top:10px}.note{font:14px/1.85 var(--song);white-space:pre-wrap;color:var(--ink-72);margin:18px 0}.cover{display:block;width:100%;height:230px;object-fit:contain;object-position:left center;margin-bottom:24px}.rating{font-size:16px;letter-spacing:3px;margin-top:14px}.empty{border-block:1px solid var(--rule);padding:60px 0 80px}.empty p{font:21px/1.7 var(--song);margin-top:20px}.bottom-links{display:flex;gap:28px;margin:30px 0 45px;font:12px var(--mono)}.works{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:760px){.entries{grid-template-columns:1fr}.entry{padding:22px}.heading{padding-top:30px}h2{font-size:23px}.empty{padding:40px 0 60px}}
 </style>
