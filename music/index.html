@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>音乐 · 见己</title>
-    <meta name="description" content="见己 在听什么 —— 歌单、单曲，和为什么听它。">
+    <meta name="description" content="见己 在听什么 —— 单曲、专辑，和为什么听它。">
     <link rel="canonical" href="https://zml123123lu-ui.github.io/music/">
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -18,13 +18,13 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="见己">
     <meta property="og:title" content="音乐 · 见己">
-    <meta property="og:description" content="见己 在听什么 —— 歌单、单曲，和为什么听它。">
+    <meta property="og:description" content="见己 在听什么 —— 单曲、专辑，和为什么听它。">
     <meta property="og:url" content="https://zml123123lu-ui.github.io/music/">
     <meta property="og:locale" content="zh_CN">
     
     <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="/_astro/BaseLayout.Wc8gumeo.css">
-<link rel="stylesheet" href="/_astro/music.BVmp4tvV.css">
+<link rel="stylesheet" href="/_astro/music.dvq9z_CW.css">
 <style>.shelf-nav[data-astro-cid-74w5s26x]{border-bottom:1px solid var(--rule);font:14px var(--ui);gap:28px;padding:20px 0;display:flex}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x]{border-bottom:2px solid #0000;padding-bottom:6px}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x][aria-current=page]{border-bottom-color:var(--ink)}.shelf-nav[data-astro-cid-74w5s26x] a[data-astro-cid-74w5s26x]:hover{color:var(--teal)}
 </style></head>
 
@@ -68,7 +68,7 @@
       <p class="sub" data-edit-kind="site" data-edit-id="music" data-edit-field="intro" data-astro-cid-adrqmx6s>我爱听的一些音乐。This is real music.</p>
 
       <div class="bar" data-astro-cid-adrqmx6s>
-        <span class="mono" data-astro-cid-adrqmx6s>1 个歌单 · 106 首单曲</span>
+        <span class="mono" data-astro-cid-adrqmx6s>1 张专辑 · 106 首单曲</span>
         <div class="music-import" hidden data-astro-cid-yinnjqi3>
   <button class="btn import-trigger" type="button" data-astro-cid-yinnjqi3>导入歌单 <span aria-hidden="true" data-astro-cid-yinnjqi3>＋</span></button>
   <span class="import-success" role="status" hidden data-astro-cid-yinnjqi3></span>
@@ -106,7 +106,7 @@
         <h2 data-astro-cid-adrqmx6s>单曲</h2>
       </div>
 
-      <div class="music-stack" data-initial="1" data-astro-cid-4b3mhu5t>
+      <div class="music-stack" data-initial="1" data-stack-label="横向唱片架" data-astro-cid-4b3mhu5t>
   <div class="stack-stage" tabindex="0" role="region" aria-label="横向唱片架，左右拖动或按左右方向键翻唱片" data-astro-cid-4b3mhu5t>
     <ol class="stack-rail" data-astro-cid-4b3mhu5t>
       <li class="album-slot" style="transform:translate3d(calc(-50% + -250px),-50%,-110px) rotateY(70deg)" data-astro-cid-4b3mhu5t>
@@ -968,32 +968,15 @@
   <p class="stack-help" data-astro-cid-4b3mhu5t>拖动切换 · 点击去网易云 <span class="stack-counter" data-astro-cid-4b3mhu5t>02 / 106</span></p>
 </div>
 
-<script type="module">var e=document.querySelector(`.music-stack`);if(e){let t=e.querySelector(`.stack-stage`),n=e.querySelector(`.stack-prev`),r=e.querySelector(`.stack-next`),i=e.querySelector(`.stack-caption strong`),a=e.querySelector(`.stack-caption span`),o=e.querySelector(`.stack-counter`),s=matchMedia(`(prefers-reduced-motion: reduce)`),c=[],l=320,u=Number(e.dataset.initial)||0,d=u+(s.matches?0:.35),f=0,p=0,m=0,h=!0,g=-1,_,v=null,y=!1,b=e=>Math.max(0,Math.min(c.length-1,e)),x=()=>{c.forEach(({slot:e,disc:t},n)=>{let r=n-d,i=Math.abs(r);if(i>5.5){e.style.visibility!==`hidden`&&(e.style.visibility=`hidden`);return}e.style.visibility=`visible`;let a=l*(.225*r+.555*Math.tanh(r*1.7)/Math.tanh(1.7)),o=-70*Math.tanh(r*1.6)/Math.tanh(1.6),s=-140*(Math.sqrt(r*r+.16)-.4);e.style.transform=`translate3d(calc(-50% + ${a.toFixed(2)}px),-50%,${s.toFixed(2)}px) rotateY(${o.toFixed(2)}deg)`,t.style.transform=`translate3d(${(Math.exp(-i*i*3)*l*.18).toFixed(2)}px,0,-2px)`})},S=()=>{let e=Math.round(u);n.disabled=e<=0,r.disabled=e>=c.length-1,g!==e&&(g=e,i.textContent=c[e].album.dataset.title??``,a.textContent=c[e].album.dataset.artist??``,o.textContent=`${String(e+1).padStart(2,`0`)} / ${String(c.length).padStart(2,`0`)}`,c.forEach(({album:t},n)=>{n===e?t.setAttribute(`aria-current`,`true`):t.removeAttribute(`aria-current`)}))},C=e=>{p=0;let t=Math.min(40,m?e-m:16)/1e3;if(m=e,s.matches||v)d=u,f=0;else{let e=d-u,n=f+13*e,r=Math.exp(-13*t);d=u+(e+n*t)*r,f=(f-13*n*t)*r;let i=b(d);i!==d&&(d=i,f=0)}Math.abs(u-d)<5e-4&&Math.abs(f)<.003&&(d=u,f=0),x(),(d!==u||f!==0)&&h?p=requestAnimationFrame(C):(m=0,v||S())},w=()=>{!p&&h&&(p=requestAnimationFrame(C))},T=e=>{clearTimeout(_),u=b(Math.round(e)),w()},E=()=>{c=Array.from(e.querySelectorAll(`.album-slot`)).map(e=>({slot:e,album:e.querySelector(`.album`),disc:e.querySelector(`.record-disc`)})),c.length&&(l=c[0].slot.offsetWidth,d=b(d),u=b(u),g=-1,x(),w())};n.addEventListener(`click`,()=>T(u-1)),r.addEventListener(`click`,()=>T(u+1)),t.addEventListener(`keydown`,e=>{let t=e.key===`ArrowRight`?u+1:e.key===`ArrowLeft`?u-1:e.key===`Home`?0:e.key===`End`?c.length-1:null;t!==null&&(e.preventDefault(),T(t))}),t.addEventListener(`pointerdown`,e=>{e.isPrimary&&e.button===0&&(clearTimeout(_),y=!1,u=d,f=0,v={id:e.pointerId,x:e.clientX,start:d,lastX:e.clientX,time:e.timeStamp,velocity:0})}),t.addEventListener(`pointermove`,e=>{if(!v||v.id!==e.pointerId||!y&&Math.abs(e.clientX-v.x)<6)return;y=!0,t.setPointerCapture(e.pointerId),t.classList.add(`is-dragging`);let n=Math.max(1,e.timeStamp-v.time),r=(v.lastX-e.clientX)/(l*.78*n);v.velocity=v.velocity*.65+r*.35,v.lastX=e.clientX,v.time=e.timeStamp,u=b(v.start+(v.x-e.clientX)/(l*.78)),w()}),addEventListener(`pointerup`,e=>{if(!v||v.id!==e.pointerId)return;let n=e.timeStamp-v.time<100?v.velocity:0,r=y?u+n*140:u;f=y?Math.max(-4,Math.min(4,n*1e3)):0,v=null,t.classList.remove(`is-dragging`),T(r)}),t.addEventListener(`pointercancel`,e=>{v?.id===e.pointerId&&(v=null,t.classList.remove(`is-dragging`),T(u))}),t.addEventListener(`wheel`,e=>{if(e.ctrlKey||!e.shiftKey&&Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;let n=(e.shiftKey&&!e.deltaX?e.deltaY:e.deltaX)*(e.deltaMode===1?16:e.deltaMode===2?t.clientWidth:1);n&&(e.preventDefault(),u=b(u+n/(l*.9)),w(),clearTimeout(_),_=setTimeout(()=>T(u),140))},{passive:!1}),t.addEventListener(`click`,e=>{let t=e.target.closest(`.album`);if(!t)return;if(y){e.preventDefault(),y=!1;return}let n=c.findIndex(e=>e.album===t);Math.abs(n-d)>.1&&(e.preventDefault(),T(n))}),t.addEventListener(`focusin`,e=>{if(v)return;let t=c.findIndex(t=>t.album===e.target);t>=0&&T(t)}),s.addEventListener(`change`,w),new ResizeObserver(E).observe(t),new IntersectionObserver(([e])=>{h=e.isIntersecting,h?w():(cancelAnimationFrame(p),p=0,m=0)}).observe(t),addEventListener(`resize`,E,{passive:!0}),E()}</script>
+<script type="module">for(let e of document.querySelectorAll(`.music-stack`)){let t=e.querySelector(`.stack-stage`),n=e.querySelector(`.stack-prev`),r=e.querySelector(`.stack-next`),i=e.querySelector(`.stack-caption strong`),a=e.querySelector(`.stack-caption span`),o=e.querySelector(`.stack-counter`),s=matchMedia(`(prefers-reduced-motion: reduce)`),c=[],l=320,u=Number(e.dataset.initial)||0,d=u+(s.matches||u===0?0:.35),f=0,p=0,m=0,h=!0,g=-1,_,v=null,y=!1,b=e=>Math.max(0,Math.min(c.length-1,e)),x=()=>{c.forEach(({slot:e,disc:t},n)=>{let r=n-d,i=Math.abs(r);if(i>5.5){e.style.visibility!==`hidden`&&(e.style.visibility=`hidden`);return}e.style.visibility=`visible`;let a=l*(.225*r+.555*Math.tanh(r*1.7)/Math.tanh(1.7)),o=-70*Math.tanh(r*1.6)/Math.tanh(1.6),s=-140*(Math.sqrt(r*r+.16)-.4);e.style.transform=`translate3d(calc(-50% + ${a.toFixed(2)}px),-50%,${s.toFixed(2)}px) rotateY(${o.toFixed(2)}deg)`,t.style.transform=`translate3d(${(Math.exp(-i*i*3)*l*.18).toFixed(2)}px,0,-2px)`})},S=()=>{let e=Math.round(u);n.disabled=e<=0,r.disabled=e>=c.length-1,g!==e&&(g=e,i.textContent=c[e].album.dataset.title??``,a.textContent=c[e].album.dataset.artist??``,o.textContent=`${String(e+1).padStart(2,`0`)} / ${String(c.length).padStart(2,`0`)}`,c.forEach(({album:t},n)=>{n===e?t.setAttribute(`aria-current`,`true`):t.removeAttribute(`aria-current`)}))},C=e=>{p=0;let t=Math.min(40,m?e-m:16)/1e3;if(m=e,s.matches||v)d=u,f=0;else{let e=d-u,n=f+13*e,r=Math.exp(-13*t);d=u+(e+n*t)*r,f=(f-13*n*t)*r;let i=b(d);i!==d&&(d=i,f=0)}Math.abs(u-d)<5e-4&&Math.abs(f)<.003&&(d=u,f=0),x(),(d!==u||f!==0)&&h?p=requestAnimationFrame(C):(m=0,v||S())},w=()=>{!p&&h&&(p=requestAnimationFrame(C))},T=e=>{clearTimeout(_),u=b(Math.round(e)),w()},E=()=>{c=Array.from(e.querySelectorAll(`.album-slot`)).map(e=>({slot:e,album:e.querySelector(`.album`),disc:e.querySelector(`.record-disc`)})),c.length&&(l=c[0].slot.offsetWidth,d=b(d),u=b(u),g=-1,x(),w())};n.addEventListener(`click`,()=>T(u-1)),r.addEventListener(`click`,()=>T(u+1)),t.addEventListener(`keydown`,e=>{let t=e.key===`ArrowRight`?u+1:e.key===`ArrowLeft`?u-1:e.key===`Home`?0:e.key===`End`?c.length-1:null;t!==null&&(e.preventDefault(),T(t))}),t.addEventListener(`pointerdown`,e=>{e.isPrimary&&e.button===0&&(clearTimeout(_),y=!1,u=d,f=0,v={id:e.pointerId,x:e.clientX,start:d,lastX:e.clientX,time:e.timeStamp,velocity:0})}),t.addEventListener(`pointermove`,e=>{if(!v||v.id!==e.pointerId||!y&&Math.abs(e.clientX-v.x)<6)return;y=!0,t.setPointerCapture(e.pointerId),t.classList.add(`is-dragging`);let n=Math.max(1,e.timeStamp-v.time),r=(v.lastX-e.clientX)/(l*.78*n);v.velocity=v.velocity*.65+r*.35,v.lastX=e.clientX,v.time=e.timeStamp,u=b(v.start+(v.x-e.clientX)/(l*.78)),w()}),addEventListener(`pointerup`,e=>{if(!v||v.id!==e.pointerId)return;let n=e.timeStamp-v.time<100?v.velocity:0,r=y?u+n*140:u;f=y?Math.max(-4,Math.min(4,n*1e3)):0,v=null,t.classList.remove(`is-dragging`),T(r)}),t.addEventListener(`pointercancel`,e=>{v?.id===e.pointerId&&(v=null,t.classList.remove(`is-dragging`),T(u))}),t.addEventListener(`wheel`,e=>{if(e.ctrlKey||!e.shiftKey&&Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;let n=(e.shiftKey&&!e.deltaX?e.deltaY:e.deltaX)*(e.deltaMode===1?16:e.deltaMode===2?t.clientWidth:1);n&&(e.preventDefault(),u=b(u+n/(l*.9)),w(),clearTimeout(_),_=setTimeout(()=>T(u),140))},{passive:!1}),t.addEventListener(`click`,e=>{let t=e.target.closest(`.album`);if(!t)return;if(y){e.preventDefault(),y=!1;return}let n=c.findIndex(e=>e.album===t);Math.abs(n-d)>.1&&(e.preventDefault(),T(n))}),t.addEventListener(`focusin`,e=>{if(v)return;let t=c.findIndex(t=>t.album===e.target);t>=0&&T(t)}),s.addEventListener(`change`,w),new ResizeObserver(E).observe(t),new IntersectionObserver(([e])=>{h=e.isIntersecting,h?w():(cancelAnimationFrame(p),p=0,m=0)}).observe(t),addEventListener(`resize`,E,{passive:!0}),E()}</script>
     </section>
 
-    <!-- 02 歌单 -->
-    <section class="sec" data-astro-cid-adrqmx6s>
-      <div class="shd" data-astro-cid-adrqmx6s>
-        <h2 data-astro-cid-adrqmx6s>歌单</h2>
-      </div>
-
-      <div class="list" data-astro-cid-adrqmx6s>
-          <article class="pl" data-astro-cid-adrqmx6s>
-                <a class="art big" href="https://music.163.com/#/playlist?id=167438847" aria-label="欲守护之物不过是泡沫般的温暖喜欢的音乐，在网易云里打开" data-astro-cid-adrqmx6s>
-                  
-<img src="/_astro/playlist-167438847.DEH3UBua_ZLKQYu.webp" alt data-astro-cid-adrqmx6s="true" loading="lazy" decoding="async" width="240" height="240">
-                </a>
-                <div class="txt" data-astro-cid-adrqmx6s>
-                  <h3 data-astro-cid-adrqmx6s>
-                    <a href="https://music.163.com/#/playlist?id=167438847" data-astro-cid-adrqmx6s>欲守护之物不过是泡沫般的温暖喜欢的音乐</a>
-                  </h3>
-                  
-                  <span class="out" data-astro-cid-adrqmx6s>
-                    <a href="https://music.163.com/#/playlist?id=167438847" data-astro-cid-adrqmx6s>在网易云里打开 →</a>
-                  </span>
-                </div>
-              </article>
-        </div>
+    <section class="sec" id="albums" data-astro-cid-adrqmx6s>
+      <div class="shd" data-astro-cid-adrqmx6s><h2 data-astro-cid-adrqmx6s>专辑单</h2></div>
+      <div class="list album-list" data-astro-cid-adrqmx6s><article class="pl" data-astro-cid-adrqmx6s>
+        <a class="art big" href="/music/albums/netease-159294273/" aria-label="打开专辑《My 21st Century Blues》" data-astro-cid-adrqmx6s><img src="/personal-media/d8b341e3d2d8648a73179bddb80b1f76e860d7d534663bfb8232bb258dfc430b.webp" width="240" height="240" alt="My 21st Century Blues专辑封面" loading="lazy" data-astro-cid-adrqmx6s></a>
+        <div class="txt" data-astro-cid-adrqmx6s><h3 data-astro-cid-adrqmx6s><a href="/music/albums/netease-159294273/" data-astro-cid-adrqmx6s>My 21st Century Blues</a></h3><p data-astro-cid-adrqmx6s>RAYE · 2023</p><span class="out" data-astro-cid-adrqmx6s><a href="/music/albums/netease-159294273/" data-astro-cid-adrqmx6s>打开专辑 →</a></span></div>
+      </article></div>
     </section>
 
     <!-- 说明 -->
@@ -1026,7 +1009,7 @@
   <div class="editor-actions" data-astro-cid-bplp3hha><button class="btn" type="submit" data-astro-cid-bplp3hha>保存并更新页面</button><button class="btn" type="button" id="text-editor-cancel" data-astro-cid-bplp3hha>取消</button></div>
  </form>
 </dialog>
-<script>(function(){const fields = {"accounts":{"label":"账号","fields":[["title","平台名称","text"],["subtitle","昵称 / 账号","text"],["url","主页链接","url"],["note","简介","textarea"]]},"posts":{"label":"写作","fields":[["title","标题","text"],["subtitle","副标题（仅开发记录使用，可不填）","text"],["pubDate","日期","date"],["category","分区","select",["读书","随笔","开发"]],["tags","标签（用逗号分隔）","text"],["body","正文（支持 Markdown）","textarea"],["draft","暂存为草稿，不公开","checkbox"]]},"books":{"label":"书籍","fields":[["title","书名","text"],["subtitle","作者","text"],["status","阅读状态","select",["想读","在读","读完"]],["rating","评分（1–5，可不填）","number"],["cover","封面链接（可选）","url"],["url","书籍链接（可选）","url"],["date","记录日期","date"],["note","我的读后感","textarea"]]},"films":{"label":"影视","fields":[["group","板块","select",["电影","电视剧","番剧"]],["title","电影 / 剧集名称","text"],["subtitle","导演 / 主创","text"],["status","观看状态","select",["想看","在看","看过"]],["rating","评分（1–5，可不填）","number"],["cover","海报链接（可选）","url"],["url","影片链接（可选）","url"],["date","记录日期","date"],["note","我的感受","textarea"]]},"works":{"label":"作品","fields":[["title","作品名称","text"],["subtitle","类型 / 一句话介绍","text"],["cover","封面链接（可选）","url"],["url","作品 / 演示链接（可选）","url"],["date","完成日期","date"],["note","作品介绍","textarea"]]}};
+<script>(function(){const fields = {"accounts":{"label":"账号","fields":[["title","平台名称","text"],["subtitle","昵称 / 账号","text"],["url","主页链接","url"],["note","简介","textarea"]]},"posts":{"label":"写作","fields":[["title","标题","text"],["subtitle","副标题（仅开发记录使用，可不填）","text"],["pubDate","日期","date"],["category","分区","select",["读书","随笔","开发"]],["tags","标签（用逗号分隔）","text"],["body","正文（支持 Markdown）","textarea"],["draft","暂存为草稿，不公开","checkbox"]]},"books":{"label":"书籍","fields":[["title","书名","text"],["subtitle","作者","text"],["status","阅读状态","select",["想读","在读","读完"]],["rating","评分（1–5，可不填）","number"],["cover","封面链接（可选）","url"],["url","书籍链接（可选）","url"],["date","记录日期","date"],["note","我的读后感","textarea"]]},"films":{"label":"影视","fields":[["group","板块","select",["电影","电视剧","番剧"]],["title","电影 / 剧集名称","text"],["subtitle","导演 / 主创","text"],["status","观看状态","select",["想看","在看","看过"]],["rating","评分（1–5，可不填）","number"],["cover","海报链接（可选）","url"],["url","影片链接（可选）","url"],["date","记录日期","date"],["note","我的感受","textarea"]]},"works":{"label":"作品","fields":[["title","作品名称","text"],["subtitle","类型 / 一句话介绍","text"],["cover","封面链接（可选）","url"],["url","作品 / 演示链接（可选）","url"],["date","完成日期","date"],["note","作品介绍","textarea"]]},"albums":{"label":"专辑","fields":[["title","专辑名","text"],["artist","音乐人","text"],["pubDate","收录日期","date"],["cover","专辑封面","image"],["releaseYear","发行年份（选填）","text"],["url","收听链接（选填）","url"],["body","对整张专辑的感受","textarea"]]},"moments":{"label":"日常","fields":[["pubDate","记录日期","date"],["images","照片（1—9 张）","images"],["body","记录文字（选填）","textarea"]]}};
 const siteFields = {"identity":{"label":"站点与个人介绍","fields":[["name","站名","text"],["mark","首页印记","text"],["latin","英文站名","text"],["tagline","副标题","text"],["description","站点简介","textarea"],["author","作者名","text"],["bio","个人简介","textarea"],["email","联系邮箱","email"],["emailAlt","备用邮箱","email"]]},"home":{"label":"首页","fields":[["quote","引言前半句","text"],["highlight","引言高亮","text"],["quoteEnd","引言结尾","text"],["source","引言出处","text"],["shelf","书影音入口","text"],["shelfNote","书影音说明","text"],["accounts","账号入口","text"],["accountsNote","账号说明","text"],["works","作品入口","text"],["worksNote","作品说明","text"],["about","关于入口","text"],["aboutNote","关于说明","text"],["update","更新说明","text"]]},"books":{"label":"书影音","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"films":{"label":"影视","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"accounts":{"label":"账号页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"works":{"label":"作品页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"posts":{"label":"写作页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"about":{"label":"关于页正文","fields":[["body","正文（支持 Markdown）","textarea"]]},"music":{"label":"音乐页","fields":[["title","标题","text"],["intro","介绍","textarea"],["note","页尾说明","textarea"]]}};
 
 (async()=>{
