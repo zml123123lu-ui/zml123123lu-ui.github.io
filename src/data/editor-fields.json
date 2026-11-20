@@ -122,7 +122,16 @@
   "films": {
     "label": "影视",
     "fields": [
-      ["group", "板块", "select", ["电影", "电视剧", "番剧"]],
+      [
+        "group",
+        "板块",
+        "select",
+        [
+          "电影",
+          "电视剧",
+          "番剧"
+        ]
+      ],
       [
         "title",
         "电影 / 剧集名称",
@@ -201,6 +210,66 @@
       [
         "note",
         "作品介绍",
+        "textarea"
+      ]
+    ]
+  },
+  "albums": {
+    "label": "专辑",
+    "fields": [
+      [
+        "title",
+        "专辑名",
+        "text"
+      ],
+      [
+        "artist",
+        "音乐人",
+        "text"
+      ],
+      [
+        "pubDate",
+        "收录日期",
+        "date"
+      ],
+      [
+        "cover",
+        "专辑封面",
+        "image"
+      ],
+      [
+        "releaseYear",
+        "发行年份（选填）",
+        "text"
+      ],
+      [
+        "url",
+        "收听链接（选填）",
+        "url"
+      ],
+      [
+        "body",
+        "对整张专辑的感受",
+        "textarea"
+      ]
+    ]
+  },
+  "moments": {
+    "label": "日常",
+    "fields": [
+      [
+        "pubDate",
+        "记录日期",
+        "date"
+      ],
+      [
+        "images",
+        "照片（1—9 张）",
+        "images"
+      ],
+      [
+        "body",
+        "记录文字（选填）",
         "textarea"
       ]
     ]

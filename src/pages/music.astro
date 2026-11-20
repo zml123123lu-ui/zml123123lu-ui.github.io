@@ -18,11 +18,9 @@
  * 封面由 scripts/fetch_covers.py 在构建期抓到本地自托管（和字体一个路子），
  * 页面对外零依赖 —— 不靠网易云的 CDN，也不靠访客的会员。
  */
-import { getEntry } from 'astro:content';
-import { Image } from 'astro:assets';
+import { getEntry, getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../consts';
-import { playlistPage } from '../utils/netease';
 import MusicStack from '../components/MusicStack.astro';
 import MusicImport from '../components/MusicImport.astro';
 import ShelfNav from '../components/ShelfNav.astro';
@@ -30,7 +28,8 @@ import ShelfNav from '../components/ShelfNav.astro';
 const entry = await getEntry('music', 'listening');
 if (!entry) throw new Error('缺少 src/content/music/listening.md');
 
-const { title, intro, note, playlists, tracks } = entry.data;
+const { title, intro, note, tracks } = entry.data;
+const albums=(await getCollection('albums')).sort((a,b)=>b.data.pubDate.valueOf()-a.data.pubDate.valueOf()||a.id.localeCompare(b.id));
 
 /** 关于页那份社交链接里如果有网易云，就在题头给一个出口。 */
 const netease = SITE.author.links.find((l: { label: string }) => l.label === '网易云音乐')?.href;
@@ -42,7 +41,6 @@ const netease = SITE.author.links.find((l: { label: string }) => l.label === '�
  * 纸色方块，页面照样成立 —— 不要为了缺图让构建失败。
  */
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/covers/*.jpg', { eager: true });
-const cover = (name: string) => files[`../assets/covers/${name}.jpg`]?.default ?? null;
 
 /**
  * 脊色。由 scripts/fetch_covers.py 从每张封面里提取，写进同目录的 tones.json。
@@ -64,7 +62,7 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
 <BaseLayout
   title="音乐"
   section="书影音"
-  description={`${SITE.name} 在听什么 —— 歌单、单曲，和为什么听它。`}
+  description={`${SITE.name} 在听什么 —— 单曲、专辑，和为什么听它。`}
 >
   <div class="wrap">
     <!-- 题头 -->
@@ -73,7 +71,7 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
       {intro && <p class="sub" data-edit-kind="site" data-edit-id="music" data-edit-field="intro">{intro}</p>}
 
       <div class="bar">
-        <span class="mono">{playlists.length} 个歌单 · {tracks.length} 首单曲</span>
+        <span class="mono">{albums.length} 张专辑 · {tracks.length} 首单曲</span>
         <MusicImport />
         {netease && (
           <a class="btn" href={netease}>
@@ -100,40 +98,13 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
       )}
     </section>
 
-    <!-- 02 歌单 -->
-    <section class="sec">
-      <div class="shd">
-        <h2>歌单</h2>
-      </div>
-
-      {playlists.length > 0 ? (
-        <div class="list">
-          {playlists.map((p) => {
-            const img = cover(`playlist-${p.id}`);
-            return (
-              <article class="pl">
-                <a class="art big" href={playlistPage(p.id)} aria-label={`${p.title}，在网易云里打开`}>
-                  {img ? <Image src={img} width={240} height={240} format="webp" alt="" /> : <span class="ph" />}
-                </a>
-                <div class="txt">
-                  <h3>
-                    <a href={playlistPage(p.id)}>{p.title}</a>
-                  </h3>
-                  {p.note && <p>{p.note}</p>}
-                  <span class="out">
-                    <a href={playlistPage(p.id)}>在网易云里打开 →</a>
-                  </span>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      ) : (
-        <p class="empty">
-          还没有歌单。
-        </p>
-      )}
-    </section>
+    {albums.length>0 && <section class="sec" id="albums">
+      <div class="shd"><h2>专辑单</h2></div>
+      <div class="list album-list">{albums.map(album=><article class="pl">
+        <a class="art big" href={`/music/albums/${album.id}/`} aria-label={`打开专辑《${album.data.title}》`}><img src={album.data.cover} width="240" height="240" alt={`${album.data.title}专辑封面`} loading="lazy" /></a>
+        <div class="txt"><h3><a href={`/music/albums/${album.id}/`}>{album.data.title}</a></h3><p>{album.data.artist}{album.data.releaseYear&&` · ${album.data.releaseYear}`}</p><span class="out"><a href={`/music/albums/${album.id}/`}>打开专辑 →</a></span></div>
+      </article>)}</div>
+    </section>}
 
     <!-- 说明 -->
     <footer class="note">
@@ -191,7 +162,7 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     letter-spacing: -0.01em;
   }
 
-  /* ── 歌单：一张唱片封套 + 右侧的字 ────────────────────────────── */
+  /* ── 专辑单：封面与文字 ────────────────────────────── */
   .list { border-top: 1px solid var(--rule); }
 
   .art { display: block; flex: none; }
@@ -205,11 +176,11 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     border-bottom: 1px solid var(--rule);
     transition: background 0.3s var(--ease);
   }
-  /* 整行翻浅纸色 —— 首页是整格翻荧光黄，这里是长条目，用浅纸色更克制 */
+  /* 专辑以静态清单陈列，与上方翻动的单曲区分。 */
   .pl:hover { background: var(--paper); }
   .pl .art.big { width: 240px; height: 240px; }
 
-  /* 文字栏撑满，把「在网易云里打开」压到和封面底边齐平 */
+  /* 入口与封面底边对齐。 */
   .pl .txt {
     display: flex;
     flex-direction: column;
@@ -221,6 +192,7 @@ const TONES: Record<string, string> = toneFiles['../assets/covers/tones.json']?.
     font-size: 26px;
     font-weight: 600;
     line-height: 1.3;
+    overflow-wrap: anywhere;
     margin-bottom: 12px;
   }
   .pl h3 a { transition: color 0.2s var(--ease); }

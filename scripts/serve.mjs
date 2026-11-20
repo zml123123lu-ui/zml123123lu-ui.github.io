@@ -1,6 +1,7 @@
 import { readDashboard, saveManagedContent } from './content-manager.mjs';
 import { readBookCover as readCachedAsset } from './book-cover-reader.mjs';
 import http from 'node:http';
+import { uploadPersonalImage } from './personal-media.mjs';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -38,7 +39,11 @@ const server = http.createServer(async (request, response) => {
       if (request.method !== 'POST') return sendJSON(response, 405, { error: '不支持的操作。' });
       if (request.headers.origin !== `http://${request.headers.host}` || request.headers['x-music-token'] !== token || request.headers['content-type']?.split(';')[0] !== 'application/json') return sendJSON(response, 403, { error: '请从本机网页打开编辑或导入窗口。' });
       if (importing) return sendJSON(response, 409, { error: '正在更新内容，请等待当前操作完成。' });
-      const body = await bodyOf(request, url.pathname === '/api/content/save' ? 300000 : 8192);
+      const body = await bodyOf(request, url.pathname === '/api/content/upload' ? 14_100_000 : url.pathname === '/api/content/save' ? 300000 : 8192);
+      if(url.pathname === '/api/content/upload'){
+        if(importing)return sendJSON(response,409,{error:'正在更新内容，请稍后重试。'});
+        importing=true;try{return sendJSON(response,200,await uploadPersonalImage(body,{root:ROOT}))}finally{importing=false}
+      }
       if (url.pathname === '/api/content/save') {
         if(importing) return sendJSON(response,409,{error:'正在保存，请稍后重试。'});
         importing=true;
@@ -69,7 +74,7 @@ const server = http.createServer(async (request, response) => {
     }
     if (!['GET', 'HEAD'].includes(request.method)) { response.writeHead(405); return response.end(); }
     const pathname = decodeURIComponent(url.pathname);
-    const isBookCover = pathname.startsWith('/book-covers/');
+    const isBookCover = pathname.startsWith('/book-covers/') || pathname.startsWith('/personal-media/');
     const staticRoot = isBookCover ? path.join(ROOT, 'public') : dist;
     const file = path.resolve(staticRoot, '.' + pathname);
     if (file !== staticRoot && !file.startsWith(staticRoot + path.sep)) { response.writeHead(403); return response.end(); }

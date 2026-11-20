@@ -1,7 +1,8 @@
-import { readFile, writeFile, readdir, mkdtemp, rename, rm, realpath } from 'node:fs/promises';
+import { readFile, writeFile, readdir, mkdtemp, rename, rm, realpath, mkdir, stat } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import yaml from 'js-yaml';
+import { mediaPattern } from './personal-media.mjs';
 import { ROOT, buildSite } from './music-import.mjs';
 import fields from '../src/data/editor-fields.json' with { type: 'json' };
 import siteFields from '../src/data/site-fields.json' with { type: 'json' };
@@ -16,20 +17,27 @@ export function cleanEntry(kind, entry) {
  if (!schema || typeof entry !== 'object') throw new Error('不支持的内容类型。');
  const clean = {};
  for (const [key,label,type,options] of schema.fields) {
+  if (type === 'images') {
+   if(!Array.isArray(entry[key]) || entry[key].length<1 || entry[key].length>9) throw new Error('请选择 1—9 张照片。');
+   clean[key]=entry[key].map(image=>{if(!image || !mediaPattern.test(image.src) || typeof image.alt!=='string' || image.alt.length>300) throw new Error('照片或图片描述无效。');return {src:image.src,alt:image.alt.trim()}});continue;
+  }
   if (type === 'checkbox') { clean[key] = entry[key] === true; continue; }
   const value = String(entry[key] ?? (kind === 'films' && key === 'group' ? '电影' : '')).trim();
   if (value.length > (key === 'body' ? 150000 : key === 'note' ? 10000 : 1000)) throw new Error(`${label}太长。`);
+  if (type==='image' && !mediaPattern.test(value)) throw new Error('请选择已上传的专辑封面。');
+  if (kind==='albums' && key==='artist' && !value) throw new Error('请填写音乐人。');
+  if (key==='releaseYear' && value && !/^\d{4}$/.test(value)) throw new Error('发行年份请填四位数字。');
   if (key === 'title' && !value) throw new Error('请填写标题或名称。');
   const localCover = key === 'cover' && ((kind === 'books' && /^\/book-covers\/[a-z0-9-]+\.(?:jpg|jpeg|png|webp)$/i.test(value)) || (kind === 'films' && /^\/film-posters\/[a-z0-9-]+\.(?:jpg|jpeg|png|webp)$/i.test(value)));
   const localWork = kind === 'works' && key === 'url' && /^\/works\/[a-z0-9-]+\/$/.test(value);
   if (type === 'url' && value && !localCover && !localWork) { let url; try { url = new URL(value); } catch { throw new Error(`${label}需要完整的网址。`); } if (!['http:','https:'].includes(url.protocol) || url.username || url.password) throw new Error(`${label}只支持公开网页地址。`); }
   if (type === 'email' && value && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(value)) throw new Error(`${label}格式不正确。`);
   if (type === 'select' && !options.includes(value)) throw new Error(`请选择${label}。`);
-  if (type === 'date' && value && (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(value)))) throw new Error(`${label}无效。`);
+  if (type === 'date' && value && (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(value)) || new Date(value).toISOString().slice(0,10)!==value)) throw new Error(`${label}无效。`);
   if (type === 'number') { if (value && (!/^[1-5]$/.test(value))) throw new Error('评分请填 1 到 5。'); if (value) clean[key] = Number(value); continue; }
   clean[key] = value;
  }
- if (kind === 'posts' && !clean.pubDate) throw new Error('请填写文章日期。');
+ if (['posts','albums','moments'].includes(kind) && !clean.pubDate) throw new Error('请填写文章日期。');
  return clean;
 }
 export async function readDashboard(root = ROOT) {
@@ -43,6 +51,11 @@ export async function readDashboard(root = ROOT) {
   return { id:name.slice(0,-3), ...entry, pubDate: new Date(entry.pubDate).toISOString().slice(0,10), tags:(entry.tags??[]).join(', '), body:text.slice(match[0].length), draft:entry.draft===true };
  }));
  data.posts.sort((a,b)=>b.pubDate.localeCompare(a.pubDate));
+ for(const kind of ['albums','moments']) {
+  const folder=path.join(root,'src/content',kind);let names;try{names=await readdir(folder)}catch(error){if(error.code!=='ENOENT')throw error;names=[]}
+  data[kind]=await Promise.all(names.filter(name=>name.endsWith('.md')).map(async name=>{const source=await readFile(path.join(folder,name),'utf8'),match=headerPattern.exec(source);if(!match)throw new Error('内容格式异常。');const meta=yaml.load(match[1]);return {id:name.slice(0,-3),...meta,pubDate:new Date(meta.pubDate).toISOString().slice(0,10),body:source.slice(match[0].length)}}));
+  data[kind].sort((a,b)=>b.pubDate.localeCompare(a.pubDate)||a.id.localeCompare(b.id));
+ }
  const copy = JSON.parse(await readFile(path.join(root,'src/data/site-text.json'),'utf8'));
  data.site = Object.entries(copy).map(([id,entry])=>({id,...entry}));
  for (const [id,file] of Object.entries(siteFiles)) {
@@ -65,7 +78,7 @@ export async function saveManagedContent({ kind, entry, operation = 'save' }, { 
   entry = {...current,...entry.changes};
  }
  const cleaned = operation === 'save' ? cleanEntry(kind,entry) : null;
- const file = path.join(root, kind === 'site' ? (siteFiles[id] || 'src/data/site-text.json') : kind === 'posts' ? `src/content/posts/${id}.md` : 'src/data/catalog.json');
+ const file = path.join(root, kind === 'site' ? (siteFiles[id] || 'src/data/site-text.json') : ['posts','albums','moments'].includes(kind) ? `src/content/${kind}/${id}.md` : 'src/data/catalog.json');
  let previous;
  try { previous = await readFile(file,'utf8'); } catch(error) { if(error.code !== 'ENOENT') throw error; }
  if (operation === 'remove' && previous === undefined) throw new Error('记录已不存在。');
@@ -80,13 +93,13 @@ export async function saveManagedContent({ kind, entry, operation = 'save' }, { 
    copy[id] = cleaned;
    next = JSON.stringify(copy,null,2)+'\n';
   }
- } else if (kind === 'posts') {
+ } else if (['posts','albums','moments'].includes(kind)) {
   if (cleaned) {
    const { body, ...editedMeta } = cleaned;
    const oldHeader = previous && /^---\r?\n([\s\S]*?)\r?\n---/.exec(previous);
    const meta = { ...(oldHeader ? yaml.load(oldHeader[1]) : {}), ...editedMeta };
-   meta.tags = meta.tags.split(/[,，]/).map(tag=>tag.trim()).filter(Boolean);
-   if (!meta.description) meta.description = body.replace(/[#*`>\n]/g,' ').trim().slice(0,120) || meta.title;
+   if(kind==='posts') meta.tags = meta.tags.split(/[,，]/).map(tag=>tag.trim()).filter(Boolean);
+   if (kind==='posts' && !meta.description) meta.description = body.replace(/[#*`>\n]/g,' ').trim().slice(0,120) || meta.title;
    next = `---\n${yaml.dump(meta,{lineWidth:-1,noRefs:true})}---\n\n${body}\n`;
   }
  } else {
@@ -97,6 +110,11 @@ export async function saveManagedContent({ kind, entry, operation = 'save' }, { 
   else catalog[kind][existing] = {id,...cleaned};
   next = JSON.stringify(catalog,null,2)+'\n';
  }
+ if(cleaned && ['albums','moments'].includes(kind)){
+  const images=kind==='albums'?[cleaned.cover]:cleaned.images.map(image=>image.src);
+  for(const src of images) {let exists=false;try{exists=(await stat(path.join(root,'public',src.slice(1)))).isFile()}catch{}if(!exists)throw new Error('照片文件不存在，请重新上传。')}
+ }
+ await mkdir(path.dirname(file),{recursive:true});
  const stage = await mkdtemp(path.join(root,'.content-save-'));
  try {
   if (next === undefined) await rm(file); else await writeFile(file,next);

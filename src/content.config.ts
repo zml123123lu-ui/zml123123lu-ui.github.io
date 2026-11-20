@@ -81,4 +81,13 @@ const music = defineCollection({
   }),
 });
 
-export const collections = { posts, pages, music };
+const localImage = z.string().regex(/^\/personal-media\/[a-f0-9]{64}\.webp$/);
+const albums = defineCollection({
+ loader: glob({base:'./src/content/albums',pattern:'**/*.md'}),
+ schema:z.object({title:z.string(),artist:z.string(),pubDate:z.coerce.date(),cover:localImage,releaseYear:z.string().default(''),url:z.string().default('')})
+});
+const moments = defineCollection({
+ loader:glob({base:'./src/content/moments',pattern:'**/*.md'}),
+ schema:z.object({pubDate:z.coerce.date(),images:z.array(z.object({src:localImage,alt:z.string().default('')})).min(1).max(9)})
+});
+export const collections = { posts, pages, music, albums, moments };

@@ -1,11 +1,14 @@
 ---
 import { NAV, SITE } from '../consts';
+import { getCollection } from 'astro:content';
+const hasMoments=(await getCollection('moments')).length>0;
+const navigation=NAV.filter(item=>item.href!=='/moments/'||hasMoments);
 const year = new Date().getFullYear();
 ---
 <footer class="foot"><div class="wrap fin">
  <span class="brand">{SITE.name} <span>© {year}</span></span>
  <nav class="links" aria-label="页脚导航">
-  {NAV.map(item=><a href={item.href}>{item.label}</a>)}
+  {navigation.map(item=><a href={item.href}>{item.label}</a>)}
   <a href="/search/">搜索</a><a href="/rss.xml">RSS</a>
  </nav>
 </div></footer>

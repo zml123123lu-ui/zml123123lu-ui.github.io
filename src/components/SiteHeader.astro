@@ -5,6 +5,9 @@
  * 那是被明确否掉的手法。这里用实底 + 发丝线，和全站语言一致。
  */
 import { NAV, SITE } from '../consts';
+import { getCollection } from 'astro:content';
+const hasMoments=(await getCollection('moments')).length>0;
+const navigation=NAV.filter(item=>item.href!=='/moments/'||hasMoments);
 
 interface Props {
   /** 当前区块名，显示在面包屑里，如「文章」 */
@@ -27,7 +30,7 @@ const isActive = (href: string) =>
     </a>
 
     <nav class="tbnav" aria-label="主导航">
-      {NAV.map((item) => (
+      {navigation.map((item) => (
         <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
           {item.label}
         </a>

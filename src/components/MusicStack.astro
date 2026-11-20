@@ -2,24 +2,26 @@
 import { Image } from 'astro:assets';
 import { songPage } from '../utils/netease';
 interface Props {
-  tracks: { id: string; title: string; artist: string }[];
-  covers: Record<string, { default: ImageMetadata }>;
-  tones: Record<string, string>;
+  tracks: { id: string; title: string; artist: string; href?: string; cover?: string }[];
+  initialIndex?: number;
+  label?: string;
+  covers?: Record<string, { default: ImageMetadata }>;
+  tones?: Record<string, string>;
 }
-const { tracks, covers, tones } = Astro.props;
-const initial = Math.min(1, tracks.length - 1);
+const { tracks, covers = {}, tones = {}, initialIndex = 1, label = "横向唱片架" } = Astro.props;
+const initial = Math.max(0, Math.min(initialIndex, tracks.length - 1));
 ---
-<div class="music-stack" data-initial={initial}>
-  <div class="stack-stage" tabindex="0" role="region" aria-label="横向唱片架，左右拖动或按左右方向键翻唱片">
+<div class="music-stack" data-initial={initial} data-stack-label={label}>
+  <div class="stack-stage" tabindex="0" role="region" aria-label={`${label}，左右拖动或按左右方向键翻唱片`}>
     <ol class="stack-rail">
       {tracks.map((track, i) => {
         const image = covers[`../assets/covers/${track.id}.jpg`]?.default;
         const d = i - initial;
         return (
           <li class="album-slot" style={`transform:translate3d(calc(-50% + ${Math.sign(d) * (Math.min(Math.abs(d), 1) * 250 + Math.max(Math.abs(d) - 1, 0) * 72)}px),-50%,${-Math.abs(d) * 110}px) rotateY(${-Math.sign(d) * 70}deg)`}>
-            <a class="album" href={songPage(track.id)} aria-label={`${track.title}${track.artist ? ` · ${track.artist}` : ''}，在网易云打开`} aria-current={i === initial ? 'true' : undefined} data-title={track.title} data-artist={track.artist} style={`--c:${tones[track.id] ?? '#363636'}`} draggable="false">
+            <a class="album" href={track.href ?? songPage(track.id)} aria-label={`${track.title}${track.artist ? ` · ${track.artist}` : ''}，${track.href ? "阅读专辑感受" : "在网易云打开"}`} aria-current={i === initial ? 'true' : undefined} data-title={track.title} data-artist={track.artist} style={`--c:${tones[track.id] ?? '#363636'}`} draggable="false">
               <span class="record-disc" aria-hidden="true"><span class="record-label"></span></span>
-              <span class="album-art">{image ? <Image src={image} width={560} height={560} format="webp" alt="" loading="eager" draggable="false" /> : <span class="missing-cover">{track.title}</span>}</span>
+              <span class="album-art">{track.cover ? <img src={track.cover} width="560" height="560" alt="" draggable="false" loading="lazy" /> : image ? <Image src={image} width={560} height={560} format="webp" alt="" loading="eager" draggable="false" /> : <span class="missing-cover">{track.title}</span>}</span>
               <span class="album-edge edge-left" aria-hidden="true">{track.title} · {track.artist}</span>
               <span class="album-edge edge-right" aria-hidden="true">{track.title} · {track.artist}</span>
             </a>
@@ -33,12 +35,11 @@ const initial = Math.min(1, tracks.length - 1);
     <div class="stack-caption" aria-live="polite" aria-atomic="true"><strong>{tracks[initial]?.title}</strong><span>{tracks[initial]?.artist}</span></div>
     <button type="button" class="stack-next" aria-label="下一张唱片" disabled={initial === tracks.length - 1}>→</button>
   </div>
-  <p class="stack-help">拖动切换 · 点击去网易云 <span class="stack-counter">{String(initial + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}</span></p>
+  <p class="stack-help">拖动切换 · {tracks[0]?.href ? "点击阅读专辑感受" : "点击去网易云"} <span class="stack-counter">{String(initial + 1).padStart(2, '0')} / {String(tracks.length).padStart(2, '0')}</span></p>
 </div>
 
 <script>
-  const root = document.querySelector<HTMLElement>('.music-stack');
-  if (root) {
+  for (const root of document.querySelectorAll<HTMLElement>('.music-stack')) {
     const stage = root.querySelector<HTMLElement>('.stack-stage')!;
     const previous = root.querySelector<HTMLButtonElement>('.stack-prev')!;
     const next = root.querySelector<HTMLButtonElement>('.stack-next')!;
@@ -49,7 +50,7 @@ const initial = Math.min(1, tracks.length - 1);
     let entries: { slot: HTMLElement; album: HTMLAnchorElement; disc: HTMLElement }[] = [];
     let size = 320;
     let target = Number(root.dataset.initial) || 0;
-    let position = target + (reduced.matches ? 0 : 0.35);
+    let position = target + (reduced.matches || target === 0 ? 0 : 0.35);
     let velocity = 0;
     let frame = 0;
     let lastTime = 0;

@@ -1,0 +1,28 @@
+---
+import {getCollection,render} from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {fmtDate} from '../../consts';
+const moments=(await getCollection('moments')).sort((a,b)=>b.data.pubDate.valueOf()-a.data.pubDate.valueOf()||a.id.localeCompare(b.id));
+const entries=await Promise.all(moments.map(async moment=>({...moment,...await render(moment)})));
+---
+<BaseLayout searchable={entries.some(moment=>moment.body?.trim())} title="日常" section="日常" description="一些照片，一些片刻。">
+ <div class="wrap moments-page"><header><h1>日常</h1></header><div class="moments-list">{entries.map(moment=><article class="moment" id={moment.id} data-pagefind-body={moment.body?.trim()?true:undefined} data-pagefind-ignore={!moment.body?.trim()?true:undefined}><time datetime={moment.data.pubDate.toISOString().slice(0,10)}>{fmtDate(moment.data.pubDate)}</time><div class:list={['photos',{'single':moment.data.images.length===1}]}>{moment.data.images.map((image,index)=><a href={image.src} class="photo" data-group={moment.id} aria-label={`查看照片 ${index+1}${image.alt?'：'+image.alt:''}`}><img src={image.src} alt={image.alt} width="1000" height="1000" loading="lazy" /></a>)}</div>{moment.body?.trim()&&<div class="prose"><moment.Content /></div>}</article>)}</div>{!entries.length&&<p class="empty">还没有公开的日常。</p>}</div>
+ <dialog class="lightbox" aria-label="照片浏览"><button type="button" class="close" aria-label="关闭照片">×</button><figure><img alt="" /><figcaption aria-live="polite"></figcaption></figure><div class="viewer-controls"><button type="button" class="previous" aria-label="上一张照片">←</button><span class="position" aria-live="polite"></span><button type="button" class="next" aria-label="下一张照片">→</button></div></dialog>
+</BaseLayout>
+<script>
+const dialog=document.querySelector<HTMLDialogElement>('.lightbox');
+if(dialog){
+ const photos=[...document.querySelectorAll<HTMLAnchorElement>('.photo')],image=dialog.querySelector('img')!,caption=dialog.querySelector('figcaption')!,position=dialog.querySelector('.position')!;
+ const previous=dialog.querySelector<HTMLButtonElement>('.previous')!,next=dialog.querySelector<HTMLButtonElement>('.next')!;
+ let group:HTMLAnchorElement[]=[],index=0,origin:HTMLAnchorElement|null=null;
+ const show=(value:number)=>{index=Math.max(0,Math.min(group.length-1,value));image.src=group[index].href;image.alt=group[index].querySelector('img')!.alt;caption.textContent=image.alt;position.textContent=`${index+1} / ${group.length}`;previous.disabled=index===0;next.disabled=index===group.length-1};
+ for(const photo of photos)photo.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();origin=photo;group=photos.filter(item=>item.dataset.group===photo.dataset.group);show(group.indexOf(photo));dialog.showModal()});
+ previous.addEventListener('click',()=>show(index-1));next.addEventListener('click',()=>show(index+1));dialog.querySelector('.close')!.addEventListener('click',()=>dialog.close());
+ dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+ dialog.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();show(index+(event.key==='ArrowRight'?1:-1))}});
+ dialog.addEventListener('close',()=>{image.removeAttribute('src');origin?.focus()});
+}
+</script>
+<style>
+.moments-page{padding-bottom:60px}.moments-page header{padding:42px 0 30px;border-bottom:1px solid var(--rule)}h1{font:500 clamp(34px,4vw,54px) var(--disp)}.moments-list{max-width:820px;margin:auto}.moment{padding:40px 0;border-bottom:1px solid var(--rule)}time{display:block;font:12px var(--mono);color:var(--ink-55);margin-bottom:20px}.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.photo{display:block;min-width:0}.photo img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover}.photos.single{grid-template-columns:1fr}.single img{aspect-ratio:auto;max-height:750px;object-fit:contain;object-position:left center}.moment .prose{margin-top:24px}.empty{padding:50px 0;font:15px var(--ui);color:var(--ink-55)}.lightbox{border:0;padding:60px 24px 24px;background:var(--bg);color:var(--ink);width:min(1100px,96vw);max-height:96dvh;margin:auto}.lightbox::backdrop{background:rgb(0 0 0/.8)}.lightbox figure{margin:0}.lightbox img{display:block;max-width:100%;max-height:70dvh;width:auto;height:auto;margin:auto}.lightbox figcaption{text-align:center;font:13px/1.6 var(--ui);margin-top:12px;overflow-wrap:anywhere}.close{position:absolute;right:18px;top:10px;font:30px var(--ui);border:0;background:none;color:var(--ink);padding:6px 12px;cursor:pointer}.viewer-controls{display:flex;justify-content:center;align-items:center;gap:24px;margin-top:18px;font:13px var(--mono)}.viewer-controls button{padding:9px 16px;border:1px solid var(--rule-strong);color:var(--ink);background:var(--bg);cursor:pointer}.viewer-controls button:disabled{opacity:.35}a:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:4px}@media(max-width:600px){.moments-page header{padding-top:30px}.photos{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.photos.single{grid-template-columns:1fr}.moment{padding:28px 0}.lightbox{padding-inline:12px}}
+</style>

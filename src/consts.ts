@@ -89,6 +89,7 @@ export const CONTACT = SITE.author.email
 export const NAV = [
   { label: '写作', href: '/posts/', sub: '文字' },
   { label: '书影音', href: '/shelf/', sub: '读 · 看 · 听' },
+  { label: '日常', href: '/moments/', sub: '片刻' },
   { label: '作品', href: '/works/', sub: '做过的' },
   { label: '账号', href: '/accounts/', sub: '在别处' },
   { label: '标签', href: '/tags/', sub: '按主题' },

@@ -18,7 +18,7 @@ const categories = categoryCounts(posts).filter(category => category.count > 0);
     </header>
     <nav class="writing-nav" aria-label="写作分类">
       <div class="categories"><a href="#articles" aria-current="page">全部 <sup>{posts.length}</sup></a>{categories.map(category => <a href={`/tags/${encodeURIComponent(category.name)}/`}>{category.name} <sup>{category.count}</sup></a>)}</div>
-      <div class="tools"><a href="/archive/">归档 ↗</a></div>
+      <div class="tools"><a href="/archive/">全部文章 ↗</a></div>
     </nav>
     <section id="articles" aria-labelledby="directory-title">
       <h2 id="directory-title" class="sr-only">文章</h2>
