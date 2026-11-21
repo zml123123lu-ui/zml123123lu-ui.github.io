@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>开发个人网站日记5 · 见己</title>
+    <meta name="description" content="重做影视页面的海报旋转交互，删减多余文字，并记录朋友对网站的六项反馈及下一阶段的改进方向。">
+    <link rel="canonical" href="https://zml123123lu-ui.github.io/posts/2026-11-13-dev-6cd7041656/">
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="见己 · RSS" href="/rss.xml">
+
+    <meta name="generator" content="Astro v7.3.2">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="见己">
+    <meta property="og:title" content="开发个人网站日记5 · 见己">
+    <meta property="og:description" content="重做影视页面的海报旋转交互，删减多余文字，并记录朋友对网站的六项反馈及下一阶段的改进方向。">
+    <meta property="og:url" content="https://zml123123lu-ui.github.io/posts/2026-11-13-dev-6cd7041656/">
+    <meta property="og:locale" content="zh_CN">
+    
+    <meta name="twitter:card" content="summary">
+  <link rel="stylesheet" href="/_astro/BaseLayout.Wc8gumeo.css">
+<style>.doc[data-astro-cid-ssdmjifj]{max-width:var(--measure-doc);margin:0 auto}.head[data-astro-cid-ssdmjifj]{border-bottom:1px solid var(--rule);padding:46px 0 34px}.meta[data-astro-cid-ssdmjifj]{flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:22px;display:flex}.sep[data-astro-cid-ssdmjifj]{color:var(--ink-22);font-size:11px}.head[data-astro-cid-ssdmjifj] h1[data-astro-cid-ssdmjifj]{font-family:var(--disp);letter-spacing:-.022em;max-width:18em;margin-bottom:18px;font-size:clamp(30px,4.2vw,50px);font-weight:700;line-height:1.22}.head[data-astro-cid-ssdmjifj] .post-subtitle[data-astro-cid-ssdmjifj]{margin-top:-4px;font-size:clamp(18px,2.2vw,24px);line-height:1.5}.tags[data-astro-cid-ssdmjifj]{font-family:var(--mono);flex-wrap:wrap;gap:14px;margin-top:22px;font-size:11px;display:flex}.tag[data-astro-cid-ssdmjifj]{color:var(--ink-55);border-bottom:1px solid var(--rule);transition:color .2s var(--ease), border-color .2s var(--ease);padding-bottom:2px}.tag[data-astro-cid-ssdmjifj]:hover{color:var(--teal);border-bottom-color:var(--teal)}.cols[data-astro-cid-ssdmjifj]{grid-template-columns:1fr;gap:0;padding:42px 0 10px;display:grid}.prose[data-astro-cid-ssdmjifj]{max-width:var(--measure)}.end[data-astro-cid-ssdmjifj]{margin-top:3.2em}.end[data-astro-cid-ssdmjifj] .rule[data-astro-cid-ssdmjifj]{background:var(--rule);height:1px;margin-bottom:22px}.sign[data-astro-cid-ssdmjifj]{font-family:var(--song);color:var(--ink-55);font-size:14px;line-height:1.9}.sign[data-astro-cid-ssdmjifj] a[data-astro-cid-ssdmjifj]{color:var(--ink);text-underline-offset:4px;text-decoration:underline;text-decoration-color:var(--ink-38)}.sign[data-astro-cid-ssdmjifj] a[data-astro-cid-ssdmjifj]:hover{color:var(--clay);text-decoration-color:var(--clay)}.side[data-astro-cid-ssdmjifj]{display:none}.sticky[data-astro-cid-ssdmjifj]{position:sticky;top:84px}.toc[data-astro-cid-ssdmjifj] h2[data-astro-cid-ssdmjifj]{font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-38);margin-bottom:12px;font-size:10px;font-weight:400}.toc[data-astro-cid-ssdmjifj] ol[data-astro-cid-ssdmjifj]{border-left:1px solid var(--rule);margin:0;padding:0;list-style:none}.toc[data-astro-cid-ssdmjifj] li[data-astro-cid-ssdmjifj]{line-height:1.5}.toc[data-astro-cid-ssdmjifj] li[data-astro-cid-ssdmjifj].sub{padding-left:12px}.toc[data-astro-cid-ssdmjifj] a[data-astro-cid-ssdmjifj]{font-family:var(--song);color:var(--ink-55);transition:color .2s var(--ease), border-color .2s var(--ease);border-left:2px solid #0000;margin-left:-1px;padding:5px 0 5px 12px;font-size:13px;display:block}.toc[data-astro-cid-ssdmjifj] a[data-astro-cid-ssdmjifj]:hover{color:var(--ink);border-left-color:var(--yellow)}.back[data-astro-cid-ssdmjifj]{margin-top:28px}.pn[data-astro-cid-ssdmjifj]{border-top:1px solid var(--rule);grid-template-columns:1fr 1fr;margin-top:40px;display:grid}.pn-i[data-astro-cid-ssdmjifj]{min-width:0;transition:background .25s var(--ease);flex-direction:column;gap:8px;padding:24px 24px 24px 0;display:flex}.pn-i[data-astro-cid-ssdmjifj]:hover{background:var(--paper)}.pn-i[data-astro-cid-ssdmjifj].right{text-align:right;border-left:1px solid var(--rule);align-items:flex-end;padding:24px 0 24px 24px}.pn-i[data-astro-cid-ssdmjifj] .t[data-astro-cid-ssdmjifj]{font-family:var(--disp);transition:color .22s var(--ease);font-size:17px;font-weight:600;line-height:1.4}.pn-i[data-astro-cid-ssdmjifj]:hover .t[data-astro-cid-ssdmjifj]{color:var(--teal)}@media (width>=1080px){.cols[data-astro-cid-ssdmjifj]{grid-template-columns:minmax(0, var(--measure)) 232px;justify-content:space-between;column-gap:40px}.side[data-astro-cid-ssdmjifj]{display:block}}@media (width<=1079px){.doc[data-astro-cid-ssdmjifj]{max-width:var(--measure)}}
+</style></head>
+
+  <body>
+    <a class="skip" href="#main">跳到正文</a>
+
+    <header class="topbar" data-astro-cid-fzpbxy5g>
+  <div class="wrap tbin" data-astro-cid-fzpbxy5g>
+    <a class="crumb" href="/" data-astro-cid-fzpbxy5g>
+      <b data-astro-cid-fzpbxy5g>见己</b>
+    </a>
+
+    <nav class="tbnav" aria-label="主导航" data-astro-cid-fzpbxy5g>
+      <a href="/posts/" aria-current="page" data-astro-cid-fzpbxy5g>
+          写作
+        </a><a href="/shelf/" data-astro-cid-fzpbxy5g>
+          书影音
+        </a><a href="/works/" data-astro-cid-fzpbxy5g>
+          作品
+        </a><a href="/accounts/" data-astro-cid-fzpbxy5g>
+          账号
+        </a><a href="/tags/" data-astro-cid-fzpbxy5g>
+          标签
+        </a><a href="/archive/" data-astro-cid-fzpbxy5g>
+          归档
+        </a><a href="/about/" data-astro-cid-fzpbxy5g>
+          关于
+        </a>
+    </nav>
+
+    <a class="pill" href="/search/" data-astro-cid-fzpbxy5g>搜索</a>
+  </div>
+</header>
+
+    <main id="main">
+      
+  <div class="wrap" data-astro-cid-ssdmjifj>
+    <div class="doc" data-astro-cid-ssdmjifj>
+      <!-- 题头 -->
+      <header class="head" data-astro-cid-ssdmjifj>
+        <div class="meta" data-astro-cid-ssdmjifj>
+          <span class="chip violet" data-astro-cid-ssdmjifj>开发</span>
+          <span class="sep" aria-hidden="true" data-astro-cid-ssdmjifj>/</span>
+          <span class="idx" data-astro-cid-ssdmjifj>2026.11.13</span>
+          <span class="sep" aria-hidden="true" data-astro-cid-ssdmjifj>/</span>
+          <span class="idx" data-astro-cid-ssdmjifj>1,640 字 · 4 分钟</span>
+          
+              <span class="sep" aria-hidden="true" data-astro-cid-ssdmjifj>/</span>
+              <span class="idx" data-astro-cid-ssdmjifj>修订于 2026.11.21</span>
+            
+        </div>
+
+        <h1 data-pagefind-body data-edit-kind="posts" data-edit-id="2026-11-13-dev-6cd7041656" data-edit-field="title" data-astro-cid-ssdmjifj>开发个人网站日记5</h1>
+        <span class="post-subtitle" data-pagefind-body data-edit-kind="posts" data-edit-id="2026-11-13-dev-6cd7041656" data-edit-field="subtitle" data-astro-cid-ssdmjifj>影视海报旋转、页面做减法与朋友的反馈</span>
+
+        <div class="tags" data-astro-cid-ssdmjifj>
+            <a class="tag" href="/tags/%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91/" data-astro-cid-ssdmjifj>#网站开发</a><a class="tag" href="/tags/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1/" data-astro-cid-ssdmjifj>#界面设计</a>
+          </div>
+      </header>
+
+      <!-- 正文 + 目录 -->
+      <div class="cols" data-astro-cid-ssdmjifj>
+        <article class="prose" data-pagefind-body data-edit-kind="posts" data-edit-id="2026-11-13-dev-6cd7041656" data-edit-field="body" data-astro-cid-ssdmjifj>
+          
+  <blockquote>
+<p>今日关键词：影视海报旋转、页面做减法、朋友的反馈、下一阶段的改进方向</p>
+</blockquote>
+<h2 id="01今天做了什么">01｜今天做了什么</h2>
+<p>今天其实主要就做了一件事：把<strong>影视页面的 UI</strong> 重新设计了一下。</p>
+<p>另外，我还删掉了页面上一些不需要的文字，让整体看起来更加简洁。今天也把网站分享给了两个朋友，其中一位朋友给了我很多很中肯、很有用的建议。</p>
+<h2 id="02影视页面从斜向滑动到硬币式旋转">02｜影视页面：从斜向滑动到硬币式旋转</h2>
+<p>一开始，我想要的是一种<strong>斜着向上推动电影海报</strong>的交互。想象中，电影海报像一列斜着悬空的卡片。往右上角划一下，就滑过去一页，海报再转过来。</p>
+<p>后来 AI 在这个想法上做了一些改良。我发现现在的版本反而更有意思。</p>
+<p>现在每一张电影海报都待在自己的位置上，能够独立旋转、翻面。它的感觉有点像<strong>一枚方形硬币在地上旋转</strong>，很有立体感。我挺喜欢这个结果。</p>
+<p>这次的设计变化可以记成：</p>
+<p><strong>斜向悬空排列、向右上滑动翻页 → 固定位置、独立旋转翻面的方形海报</strong></p>
+<p>有意思的是，最初的交互并没有被原样实现，但 AI 提出的修改让我看到了另一种可能，最后的效果也更符合我的喜好。</p>
+<h3 id="影视页面交互效果11-月-21-日补充录屏">影视页面交互效果（11 月 21 日补充录屏）</h3>
+<p>下面是实际网页的录屏动图。可以看到电影、番剧与电视剧等分区中的海报陈列，以及海报围绕竖直方向旋转、翻面时的立体视觉效果。视频摄于 <strong>2026 年 11 月 21 日</strong>，作为本篇 <strong>11 月 13 日开发过程</strong> 的后续视觉补充。</p>
+<p><img src="/imported-post-assets/2026-11-13-dev-6cd7041656/film-reel.gif" alt="影视页面 3D 海报旋转交互录屏"></p>
+<blockquote>
+<p>视觉记录说明：此动图由网页实际录屏转换，记录录制当时的页面效果，并不代表 11 月 13 日当天的每处细节都与录屏一致。</p>
+</blockquote>
+<h2 id="03继续给页面做减法">03｜继续给页面做减法</h2>
+<p>除了影视页面，我还清理了网站里一些没有必要的文字。</p>
+<p>最近一直在调整网站的简洁程度。今天继续删减，是希望页面里留下的东西都有自己的作用，让浏览时的视觉感受更干净。</p>
+<h2 id="04第一次认真收集朋友的反馈">04｜第一次认真收集朋友的反馈</h2>
+<p>今天把网站发给了两个朋友看。其中一位朋友提出了六条建议，我觉得都非常中肯，也确实能帮助我继续完善网站。</p>
+<h3 id="朋友的六条建议待实施">朋友的六条建议（待实施）</h3>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" disabled> <strong>补充书影音内容与个人感受。</strong> 比如加入我喜欢的专辑，写下为什么喜欢；书籍、电影、电视剧等内容也可以加入自己的看法。</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>适当增加色彩。</strong> 在缺少颜色的地方加入一点色彩元素，避免整站过于单调。</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>增强页面对比度。</strong> 让文字和其他信息更清楚、更容易辨认。</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>重做归档页面。</strong> 尝试时间轴式布局，让归档更有顺序感。</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>增加个人生活栏目。</strong> 开一个“碎碎念”栏目，再加一个放生活照片的栏目。</li>
+<li class="task-list-item"><input type="checkbox" disabled> <strong>增加互动。</strong> 为网站加入更多让访客参与、操作或探索的交互设计。</li>
+</ul>
+<p>这些都是朋友给出的建议，目前还没有全部实施。我很愿意采纳，之后可以按实际需要慢慢安排。</p>
+<h2 id="05收到反馈时的感受">05｜收到反馈时的感受</h2>
+<p>我今天真的很开心。</p>
+<p>有人愿意认真看我的个人网站，还会仔细地想它哪里可以做得更好，并告诉我具体的改进方向，这让我感觉自己的创作被重视了。</p>
+<p>更重要的是，我觉得这些评价确实有用。它们让我看到了自己做网站时可能没有注意到的地方，所以我也很愿意把这些建议真正用到后面的修改中。</p>
+<h2 id="06留给下一阶段的设计问题">06｜留给下一阶段的设计问题</h2>
+<p>朋友建议增加色彩，而我在 11 月 9 日刚刚决定把网站改成黑白极简风格。这两个想法不一定冲突，但需要再试试看：<strong>主色调继续保持黑白，只在需要强调的地方加一点颜色，会不会更合适？</strong></p>
+<p>还有，做更多交互之前，也可以想想哪些互动真的能帮助别人了解我。毕竟我最初做这个网站，是想让陌生人在没有和我交谈的情况下，也能了解我的一部分。</p>
+<p>先把今天这些建议记下来，后面再慢慢验证。</p>
+<h2 id="07今日收尾">07｜今日收尾</h2>
+<p><strong>今天完成：</strong></p>
+<ul>
+<li>调整影视页面，采用电影海报独立旋转翻面的新交互。</li>
+<li>删除部分不必要的页面文字。</li>
+<li>邀请两位朋友查看网站，收到了六项具体的优化建议。</li>
+</ul>
+<p><strong>今日状态：开发结束。</strong></p>
+<p><strong>视觉记录：</strong> 2026 年 11 月 21 日补充影视页面录屏，已转成 GIF 并插入第二节。</p>
+
+
+
+          <footer class="end" data-astro-cid-ssdmjifj>
+            <div class="rule" aria-hidden="true" data-astro-cid-ssdmjifj></div>
+            <p class="sign" data-astro-cid-ssdmjifj>
+              有想法可以到
+              <a href="mailto:1070821872@qq.com" data-astro-cid-ssdmjifj>邮箱</a> 找我。
+            </p>
+          </footer>
+        </article>
+
+        <aside class="side" data-astro-cid-ssdmjifj>
+          <div class="sticky" data-astro-cid-ssdmjifj>
+            <nav class="toc" aria-label="本页目录" data-astro-cid-ssdmjifj>
+                <h2 data-astro-cid-ssdmjifj>本页目录</h2>
+                <ol data-astro-cid-ssdmjifj>
+                  <li class data-astro-cid-ssdmjifj>
+                      <a href="#01今天做了什么" data-astro-cid-ssdmjifj>01｜今天做了什么</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#02影视页面从斜向滑动到硬币式旋转" data-astro-cid-ssdmjifj>02｜影视页面：从斜向滑动到硬币式旋转</a>
+                    </li><li class="sub" data-astro-cid-ssdmjifj>
+                      <a href="#影视页面交互效果11-月-21-日补充录屏" data-astro-cid-ssdmjifj>影视页面交互效果（11 月 21 日补充录屏）</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#03继续给页面做减法" data-astro-cid-ssdmjifj>03｜继续给页面做减法</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#04第一次认真收集朋友的反馈" data-astro-cid-ssdmjifj>04｜第一次认真收集朋友的反馈</a>
+                    </li><li class="sub" data-astro-cid-ssdmjifj>
+                      <a href="#朋友的六条建议待实施" data-astro-cid-ssdmjifj>朋友的六条建议（待实施）</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#05收到反馈时的感受" data-astro-cid-ssdmjifj>05｜收到反馈时的感受</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#06留给下一阶段的设计问题" data-astro-cid-ssdmjifj>06｜留给下一阶段的设计问题</a>
+                    </li><li class data-astro-cid-ssdmjifj>
+                      <a href="#07今日收尾" data-astro-cid-ssdmjifj>07｜今日收尾</a>
+                    </li>
+                </ol>
+              </nav>
+
+            <div class="back" data-astro-cid-ssdmjifj>
+              <a class="btn" href="/posts/" data-astro-cid-ssdmjifj>
+                <span aria-hidden="true" data-astro-cid-ssdmjifj>←</span> 全部文章
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- 上一篇 / 下一篇 -->
+      <nav class="pn" aria-label="文章翻页" data-astro-cid-ssdmjifj>
+          <a class="pn-i left" href="/posts/2026-11-11-dev-00db5a0cdf/" data-astro-cid-ssdmjifj>
+              <span class="idx" data-astro-cid-ssdmjifj>← 上一篇</span>
+              <span class="t" data-astro-cid-ssdmjifj>开发个人网站日记4</span>
+            </a>
+          <span class="pn-i empty" data-astro-cid-ssdmjifj></span>
+        </nav>
+    </div>
+  </div>
+
+    </main>
+
+    <footer class="foot" data-astro-cid-nns7i3if><div class="wrap fin" data-astro-cid-nns7i3if>
+ <span class="brand" data-astro-cid-nns7i3if>见己 <span data-astro-cid-nns7i3if>© 2026</span></span>
+ <nav class="links" aria-label="页脚导航" data-astro-cid-nns7i3if>
+  <a href="/posts/" data-astro-cid-nns7i3if>写作</a><a href="/shelf/" data-astro-cid-nns7i3if>书影音</a><a href="/works/" data-astro-cid-nns7i3if>作品</a><a href="/accounts/" data-astro-cid-nns7i3if>账号</a><a href="/tags/" data-astro-cid-nns7i3if>标签</a><a href="/archive/" data-astro-cid-nns7i3if>归档</a><a href="/about/" data-astro-cid-nns7i3if>关于</a>
+  <a href="/search/" data-astro-cid-nns7i3if>搜索</a><a href="/rss.xml" data-astro-cid-nns7i3if>RSS</a>
+ </nav>
+</div></footer>
+    <div id="page-editor" hidden data-pagefind-ignore data-astro-cid-bplp3hha>
+ <button id="edit-toggle" type="button" aria-pressed="false" data-astro-cid-bplp3hha>编辑本页</button>
+ <span id="edit-hint" hidden data-astro-cid-bplp3hha>点虚线文字修改</span>
+ <a href="/manage/" data-astro-cid-bplp3hha>管理内容 ↗</a>
+</div>
+<dialog id="text-editor" aria-labelledby="text-editor-title" aria-describedby="text-editor-help" data-pagefind-ignore data-astro-cid-bplp3hha>
+ <form id="text-editor-form" data-astro-cid-bplp3hha>
+  <div class="editor-head" data-astro-cid-bplp3hha><h2 id="text-editor-title" data-astro-cid-bplp3hha>编辑文字</h2><button type="button" id="text-editor-close" aria-label="关闭编辑窗口" data-astro-cid-bplp3hha>×</button></div>
+  <p id="text-editor-help" data-astro-cid-bplp3hha>保存后会更新网站。</p>
+  <label for="text-editor-value" class="sr-only" data-astro-cid-bplp3hha>文字内容</label>
+  <textarea id="text-editor-value" aria-labelledby="text-editor-title" rows="8" data-astro-cid-bplp3hha></textarea>
+  <p id="text-editor-status" role="status" aria-live="polite" data-astro-cid-bplp3hha></p>
+  <div class="editor-actions" data-astro-cid-bplp3hha><button class="btn" type="submit" data-astro-cid-bplp3hha>保存并更新页面</button><button class="btn" type="button" id="text-editor-cancel" data-astro-cid-bplp3hha>取消</button></div>
+ </form>
+</dialog>
+<script>(function(){const fields = {"accounts":{"label":"账号","fields":[["title","平台名称","text"],["subtitle","昵称 / 账号","text"],["url","主页链接","url"],["note","简介","textarea"]]},"posts":{"label":"写作","fields":[["title","标题","text"],["subtitle","副标题（仅开发记录使用，可不填）","text"],["pubDate","日期","date"],["category","分区","select",["读书","随笔","开发"]],["tags","标签（用逗号分隔）","text"],["body","正文（支持 Markdown）","textarea"],["draft","暂存为草稿，不公开","checkbox"]]},"books":{"label":"书籍","fields":[["title","书名","text"],["subtitle","作者","text"],["status","阅读状态","select",["想读","在读","读完"]],["rating","评分（1–5，可不填）","number"],["cover","封面链接（可选）","url"],["url","书籍链接（可选）","url"],["date","记录日期","date"],["note","我的读后感","textarea"]]},"films":{"label":"影视","fields":[["group","板块","select",["电影","电视剧","番剧"]],["title","电影 / 剧集名称","text"],["subtitle","导演 / 主创","text"],["status","观看状态","select",["想看","在看","看过"]],["rating","评分（1–5，可不填）","number"],["cover","海报链接（可选）","url"],["url","影片链接（可选）","url"],["date","记录日期","date"],["note","我的感受","textarea"]]},"works":{"label":"作品","fields":[["title","作品名称","text"],["subtitle","类型 / 一句话介绍","text"],["cover","封面链接（可选）","url"],["url","作品 / 演示链接（可选）","url"],["date","完成日期","date"],["note","作品介绍","textarea"]]},"albums":{"label":"专辑","fields":[["title","专辑名","text"],["artist","音乐人","text"],["pubDate","收录日期","date"],["cover","专辑封面","image"],["releaseYear","发行年份（选填）","text"],["url","收听链接（选填）","url"],["body","对整张专辑的感受","textarea"]]},"moments":{"label":"日常","fields":[["pubDate","记录日期","date"],["images","照片（1—9 张）","images"],["body","记录文字（选填）","textarea"]]}};
+const siteFields = {"identity":{"label":"站点与个人介绍","fields":[["name","站名","text"],["mark","首页印记","text"],["latin","英文站名","text"],["tagline","副标题","text"],["description","站点简介","textarea"],["author","作者名","text"],["bio","个人简介","textarea"],["email","联系邮箱","email"],["emailAlt","备用邮箱","email"]]},"home":{"label":"首页","fields":[["quote","引言前半句","text"],["highlight","引言高亮","text"],["quoteEnd","引言结尾","text"],["source","引言出处","text"],["shelf","书影音入口","text"],["shelfNote","书影音说明","text"],["accounts","账号入口","text"],["accountsNote","账号说明","text"],["works","作品入口","text"],["worksNote","作品说明","text"],["about","关于入口","text"],["aboutNote","关于说明","text"],["update","更新说明","text"]]},"books":{"label":"书影音","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"films":{"label":"影视","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"accounts":{"label":"账号页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"works":{"label":"作品页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"posts":{"label":"写作页","fields":[["title","栏目标题","text"],["intro","栏目介绍","textarea"]]},"about":{"label":"关于页正文","fields":[["body","正文（支持 Markdown）","textarea"]]},"music":{"label":"音乐页","fields":[["title","标题","text"],["intro","介绍","textarea"],["note","页尾说明","textarea"]]}};
+
+(async()=>{
+ if(!['localhost','127.0.0.1'].includes(location.hostname)||location.pathname==='/manage/')return;
+ const bar=document.getElementById('page-editor'),toggle=document.getElementById('edit-toggle'),dialog=document.getElementById('text-editor'),form=document.getElementById('text-editor-form'),input=document.getElementById('text-editor-value'),status=document.getElementById('text-editor-status');
+ const selector='[data-edit-kind][data-edit-id][data-edit-field]';
+ let token='',active=false,busy=false,target=null;
+ const originalAttributes=new Map();
+ const request=async(url,body)=>{const response=await fetch(url,{method:body?'POST':'GET',headers:{'X-Music-Token':token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});const value=await response.json();if(!response.ok)throw Error(value.error||'保存失败，请重试。');return value;};
+ const setActive=value=>{active=value;document.body.classList.toggle('editing-page',active);toggle.textContent=active?'完成编辑':'编辑本页';toggle.setAttribute('aria-pressed',String(active));document.getElementById('edit-hint').hidden=!active;sessionStorage.setItem('jianji-editing',active?'1':'0');document.querySelectorAll(selector).forEach(node=>{if(active){originalAttributes.set(node,['tabindex','role','title','aria-label'].map(name=>[name,node.getAttribute(name)]));node.setAttribute('tabindex','0');node.setAttribute('role','button');node.setAttribute('aria-label','编辑这段文字');node.title='点击编辑文字'}else{for(const[name,value]of originalAttributes.get(node)||[])if(value===null)node.removeAttribute(name);else node.setAttribute(name,value)}})};
+ const close=()=>{if(!busy)dialog.close()};
+ document.getElementById('text-editor-close').onclick=close;document.getElementById('text-editor-cancel').onclick=close;
+ dialog.addEventListener('cancel',event=>{if(busy)event.preventDefault()});
+ const edit=async node=>{if(busy)return;target=node;const{editKind:kind,editId:id,editField:key}=node.dataset;const schema=kind==='site'?siteFields[id]:fields[kind],field=schema?.fields.find(([name])=>name===key);if(!field)return;
+ document.getElementById('text-editor-title').textContent=field[1];document.getElementById('text-editor-help').textContent=key==='body'?'正文支持 Markdown：用 ## 写小标题，用空行分段。':'保存后会更新网站，同一处文字在其他页面也会同步。';input.value='';status.textContent='正在读取原文…';busy=true;input.disabled=true;form.querySelector('[type=submit]').disabled=true;dialog.showModal();
+ try{const data=await request('/api/content'),entry=data[kind]?.find(item=>item.id===id);if(!entry)throw Error('这条内容已不存在，请刷新页面。');input.value=entry[key]??'';status.textContent='';input.disabled=false;form.querySelector('[type=submit]').disabled=false;input.focus()}catch(error){status.textContent=error.message}finally{busy=false}
+ };
+ document.addEventListener('click',event=>{const node=event.target.closest(selector);if(active&&node){event.preventDefault();event.stopImmediatePropagation();edit(node)}},true);
+ document.addEventListener('keydown',event=>{if(active&&!dialog.open&&['Enter',' '].includes(event.key)&&event.target.matches(selector)){event.preventDefault();edit(event.target)}},true);
+ toggle.onclick=()=>setActive(!active);
+ form.onsubmit=async event=>{event.preventDefault();if(busy||input.disabled)return;busy=true;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=true);status.textContent='正在保存并更新页面，请稍等…';try{const{editKind:kind,editId:id,editField:key}=target.dataset;await request('/api/content/save',{kind,entry:{id,changes:{[key]:input.value}}});location.reload()}catch(error){status.textContent=error.message;busy=false;form.querySelectorAll('button,textarea').forEach(node=>node.disabled=false)}};
+ try{token=(await request('/api/music/status')).token;if(!token)return;const post=document.querySelector('[data-edit-kind=posts][data-edit-field=body]');if(post){const link=bar.querySelector('a');link.href='/manage/?post='+encodeURIComponent(post.dataset.editId);link.textContent='管理本文 ↗'}bar.hidden=false;document.body.classList.add('has-page-editor');if(sessionStorage.getItem('jianji-editing')==='1')setActive(true)}catch{}
+})();
+})();</script>
+  </body>
+</html>
