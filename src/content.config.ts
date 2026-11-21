@@ -88,6 +88,6 @@ const albums = defineCollection({
 });
 const moments = defineCollection({
  loader:glob({base:'./src/content/moments',pattern:'**/*.md'}),
- schema:z.object({pubDate:z.coerce.date(),images:z.array(z.object({src:localImage,alt:z.string().default('')})).min(1).max(9)})
+ schema:z.object({pubDate:z.coerce.date(),images:z.array(z.object({src:localImage,alt:z.string().default('')})).max(9).default([])})
 });
 export const collections = { posts, pages, music, albums, moments };

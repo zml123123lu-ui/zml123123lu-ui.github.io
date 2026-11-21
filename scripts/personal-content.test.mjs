@@ -8,6 +8,8 @@ test('专辑和日常校验图片、日期与链接，不接受越界路径和�
  for(const patch of [{artist:''},{pubDate:'2026-02-31'},{cover:'/../private.webp'},{url:'javascript:alert(1)'},{releaseYear:'abc'}])assert.throws(()=>cleanEntry('albums',{...album,...patch}));
  for(const images of [[],Array(10).fill({src,alt:''}),[{src:'https://external.test/a.jpg',alt:''}]])assert.throws(()=>cleanEntry('moments',{pubDate:'2026-11-18',images}));
  assert.equal(cleanEntry('moments',{pubDate:'2026-11-18',images:[{src,alt:'照片'}]}).images[0].alt,'照片');
+ assert.deepEqual(cleanEntry('moments',{pubDate:'2026-11-20',body:'原样文字'}).images,[]);
+ assert.throws(()=>cleanEntry('moments',{pubDate:'2026-11-20',images:[],body:'  '}),/文字/);
 });
 test('上传仅接受静态位图，转为自托管WebP；新内容保存/删除失败回滚，稳定ID不变',async()=>{
  const root=await mkdtemp(path.join(tmpdir(),'jianji-personal-'));
@@ -27,6 +29,9 @@ test('上传仅接受静态位图，转为自托管WebP；新内容保存/删除
   await saveManagedContent({kind:'albums',entry},{root,build});await saveManagedContent({kind:'albums',entry:{id:entry.id,changes:{title:'新名称'}}},{root,build});
   let album=(await readDashboard(root)).albums[0];assert.equal(album.id,'album-test');assert.equal(album.title,'新名称');assert.equal(album.pubDate,'2026-11-18');assert(album.body.includes('听后感'));
   await saveManagedContent({kind:'moments',entry:{id:'moment-test',pubDate:'2026-11-17',body:'',images:[{src:image.src,alt:'说明'}]}},{root,build});assert.equal((await readDashboard(root)).moments.length,1);
+  const textOnly={kind:'moments',entry:{id:'text-only',pubDate:'2026-11-20',images:[],body:'原样文字，标点不改。'}};
+  await assert.rejects(saveManagedContent(textOnly,{root,build:async()=>{throw Error('failed')}}));assert(!(await readDashboard(root)).moments.some(m=>m.id==='text-only'));
+  await saveManagedContent(textOnly,{root,build});assert.equal((await readDashboard(root)).moments.find(m=>m.id==='text-only').body.trim(),textOnly.entry.body);
   const remove={kind:'albums',entry:{id:entry.id},operation:'remove'};await assert.rejects(saveManagedContent(remove,{root,build:async()=>{throw Error('failed')}}));assert.equal((await readDashboard(root)).albums.length,1);
   await saveManagedContent(remove,{root,build});assert.equal((await readDashboard(root)).albums.length,0);
  }finally{await rm(root,{recursive:true,force:true})}

@@ -18,8 +18,9 @@ export function cleanEntry(kind, entry) {
  const clean = {};
  for (const [key,label,type,options] of schema.fields) {
   if (type === 'images') {
-   if(!Array.isArray(entry[key]) || entry[key].length<1 || entry[key].length>9) throw new Error('请选择 1—9 张照片。');
-   clean[key]=entry[key].map(image=>{if(!image || !mediaPattern.test(image.src) || typeof image.alt!=='string' || image.alt.length>300) throw new Error('照片或图片描述无效。');return {src:image.src,alt:image.alt.trim()}});continue;
+   const images=entry[key]??[];
+   if(!Array.isArray(images) || images.length>9) throw new Error('每条日常最多放 9 张照片。');
+   clean[key]=images.map(image=>{if(!image || !mediaPattern.test(image.src) || typeof image.alt!=='string' || image.alt.length>300) throw new Error('照片或图片描述无效。');return {src:image.src,alt:image.alt.trim()}});continue;
   }
   if (type === 'checkbox') { clean[key] = entry[key] === true; continue; }
   const value = String(entry[key] ?? (kind === 'films' && key === 'group' ? '电影' : '')).trim();
@@ -38,6 +39,7 @@ export function cleanEntry(kind, entry) {
   clean[key] = value;
  }
  if (['posts','albums','moments'].includes(kind) && !clean.pubDate) throw new Error('请填写文章日期。');
+ if(kind==='moments' && !clean.images.length && !clean.body) throw new Error('请写一点文字，或选择照片。');
  return clean;
 }
 export async function readDashboard(root = ROOT) {
