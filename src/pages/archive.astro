@@ -1,13 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE, fmtDate, categoryClass } from '../consts';
-import { getPosts, byYear } from '../utils/posts';
-const posts=await getPosts();const years=byYear(posts);
+import { getPosts } from '../utils/posts';
+import { getCollection } from 'astro:content';
+const [posts,moments]=await Promise.all([getPosts(),getCollection('moments')]);
+const entries=[
+ ...posts.map(post=>({date:post.data.pubDate,title:post.data.title,subtitle:post.data.category==='开发'?post.data.subtitle:'',category:post.data.category,href:`/posts/${post.id}/`})),
+ ...moments.sort((a,b)=>a.id.localeCompare(b.id)).map(moment=>{
+  const text=(moment.body??'').replace(/<[^>]*>/g,'').replace(/^\s{0,3}#{1,6}\s+/gm,'').replace(/\s+/g,' ').trim();
+  const chars=[...text];
+  return {date:moment.data.pubDate,title:chars.length?chars.slice(0,36).join('')+(chars.length>36?'…':''):'日常照片',subtitle:'',category:'日常',href:`/moments/#${encodeURIComponent(moment.id)}`};
+ }),
+].sort((a,b)=>b.date.valueOf()-a.date.valueOf());
+const years=[...new Set(entries.map(entry=>entry.date.getUTCFullYear()))].sort((a,b)=>b-a).map(year=>({year,items:entries.filter(entry=>entry.date.getUTCFullYear()===year)}));
 ---
-<BaseLayout title="归档" section="归档" description={`${SITE.name}的全部文章，按时间倒序。`}>
- <div class="wrap archive-page"><header class="hd"><h1>归档</h1><p>{posts.length} 篇文章</p></header>
- <div class="timeline">{years.map(({year,items})=><section class="year"><h2>{year}<span>{items.length} 篇</span></h2>{[...new Set(items.map(post=>post.data.pubDate.getUTCMonth()))].map(month=><section class="month"><h3>{String(month+1).padStart(2,'0')} 月</h3><ol>{items.filter(post=>post.data.pubDate.getUTCMonth()===month).map(post=><li class:list={{right:items.indexOf(post)%2===1}}><a class="timeline-entry" href={`/posts/${post.id}/`}><time datetime={post.data.pubDate.toISOString().slice(0,10)}>{fmtDate(post.data.pubDate).slice(5)}</time><div class="text"><h4>{post.data.title}</h4>{post.data.category==='开发'&&post.data.subtitle&&<p class="post-subtitle">{post.data.subtitle}</p>}<span class={`chip ${categoryClass(post.data.category)}`}>{post.data.category}</span></div><span class="arrow" aria-hidden="true">↗</span></a></li>)}</ol></section>)}</section>)}</div>
- {posts.length===0&&<p class="empty">还没有文章。</p>}
+<BaseLayout title="归档" section="归档" description={`${SITE.name}的文章与日常，按时间倒序。`}>
+ <div class="wrap archive-page"><header class="hd"><h1>归档</h1><p>{posts.length} 篇文章 · {moments.length} 条日常</p></header>
+ <div class="timeline">{years.map(({year,items})=><section class="year"><h2>{year}<span>{items.length} 条</span></h2>{[...new Set(items.map(entry=>entry.date.getUTCMonth()))].map(month=><section class="month"><h3>{String(month+1).padStart(2,'0')} 月</h3><ol>{items.filter(entry=>entry.date.getUTCMonth()===month).map(entry=><li class:list={{right:items.indexOf(entry)%2===1}}><a class="timeline-entry" href={entry.href}><time datetime={entry.date.toISOString().slice(0,10)}>{fmtDate(entry.date).slice(5)}</time><div class="text"><h4>{entry.title}</h4>{entry.subtitle&&<p class="post-subtitle">{entry.subtitle}</p>}<span class={`chip ${categoryClass(entry.category)}`}>{entry.category}</span></div><span class="arrow" aria-hidden="true">↗</span></a></li>)}</ol></section>)}</section>)}</div>
+ {entries.length===0&&<p class="empty">还没有记录。</p>}
  </div>
 </BaseLayout>
 <style>
