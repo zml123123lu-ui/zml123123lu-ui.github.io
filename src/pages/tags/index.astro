@@ -1,150 +1,117 @@
 ---
-/**
- * 标签索引。
- * 上面是四个固定分区（分类，有颜色），下面是自由标签。
- */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPosts, categoryCounts, tagCounts } from '../../utils/posts';
-
-const posts = await getPosts();
-const cats = categoryCounts(posts).filter(category=>category.count>0);
-
-/**
- * 分区名不再重复列进「自由标签」。
- * 否则「读书」会同时出现在上面的分区区和下面的标签区，读者会以为是两回事
- * —— 而点进去其实是同一个页面。
- */
-const CAT_NAMES = new Set(cats.map((c) => c.name));
-const tags = tagCounts(posts).filter((t) => !CAT_NAMES.has(t.name));
+const posts=await getPosts();
+const categories=categoryCounts(posts).filter(category=>category.count>0);
+const categoryNames=new Set(categories.map(category=>category.name));
+const topics=[...categories,...tagCounts(posts).filter(tag=>!categoryNames.has(tag.name))];
+const largest=Math.max(1,...topics.map(topic=>topic.count));
 ---
-
 <BaseLayout title="标签" section="标签" description="按主题浏览全部文章。">
-  <div class="wrap">
-    <div class="hd">
-      <h1>标签</h1>
-    </div>
-
-    <section class="block">
-      <h2 class="ttl">
-        内容分区
-      </h2>
-      <div class="cats">
-        {cats.map((c) =>
-          c.count > 0 ? (
-            <a class="cat" href={`/tags/${encodeURIComponent(c.name)}/`}>
-              <span class="bar" style={`background:${c.color}`} aria-hidden="true"></span>
-              <span class="name">{c.name}</span>
-              <span class="cnt">{c.count} 篇</span>
-            </a>
-          ) : (
-            /* 还没有文章的分区：保留在版面上（让人知道它存在），但不能做成链接
-               —— 空分区不会生成 /tags/<名字>/ 页面，点了就是 404。 */
-            <span class="cat empty">
-              <span class="bar" style={`background:${c.color}`} aria-hidden="true"></span>
-              <span class="name">{c.name}</span>
-              <span class="cnt">还没写</span>
-            </span>
-          ),
-        )}
-      </div>
-    </section>
-
-    <section class="block">
-      <h2 class="ttl">主题标签</h2>
-      <div class="tags">
-        {tags.map((t) => (
-          <a class="tag" href={`/tags/${encodeURIComponent(t.name)}/`}>
-            <span class="name">{t.name}</span>
-            <span class="cnt">{t.count}</span>
-          </a>
-        ))}
-      </div>
-    </section>
-  </div>
+ <div class="wrap tags-page">
+  <header class="hd"><h1>标签</h1><button class="motion-toggle" type="button" aria-pressed="false" hidden>暂停漂浮</button></header>
+  <ul class="bubble-field" aria-label="按主题浏览文章" hidden={topics.length===0}>
+   {topics.map((topic,index)=>{
+    const weight=Math.sqrt(topic.count/largest);
+    const size=Math.round(Math.max(88,[...topic.name].length*14+22,74+weight*142+(index*67+51)%151-60));
+    const depth=size>=178?80:size<=120?-100:0;
+    return <li class="bubble-slot" data-depth={depth} style={`--plane:${depth}px;--size:${size}px;--type:${15+(size-88)*.075}px;--drift-x:${12+index%3*2}px;--drift-y:${22+index%4*3}px;--duration:${7.2+(index*7)%11*.29}s;--sway-duration:${11.3+(index*11)%17*.41}s;--delay:${-1.2-index*1.73}s`}>
+     <a class="tag-bubble" href={`/tags/${encodeURIComponent(topic.name)}/`} aria-label={`${topic.name}，${topic.count} 篇文章`}><span class="name">{topic.name}</span><span class="count">{topic.count} 篇</span></a>
+    </li>;
+   })}
+  </ul>
+  {topics.length===0&&<p class="empty">还没有文章标签。</p>}
+ </div>
 </BaseLayout>
+<script>
+const field=document.querySelector<HTMLUListElement>('.bubble-field');
+const toggle=document.querySelector<HTMLButtonElement>('.motion-toggle');
+if(field&&toggle&&field.children.length){
+ const slots=[...field.querySelectorAll<HTMLLIElement>('.bubble-slot')];
+ const depths=slots.map(slot=>Number(slot.dataset.depth));
+ let pointerFrame=0;
+ let lastWidth=0,paused=false,visible=true;
+ const sync=()=>{field.dataset.running=String(!paused&&visible&&!document.hidden)};
+ const arrange=()=>{
+  const width=field.clientWidth;
+  if(!width||Math.abs(width-lastWidth)<1)return;
+  lastWidth=width;
+  const sizes=slots.map(slot=>slot.getBoundingClientRect().width);
+  const compact=matchMedia('(max-width:700px)').matches;
+  const circles=sizes.map((size,index)=>({index,r:size/2*900/(900-depths[index]*(compact?.6:1))+(compact?10:16)})).sort((a,b)=>b.r-a.r);
+  let height=Math.max(420,Math.min(700,innerHeight-300),Math.ceil(circles.reduce((area,c)=>area+Math.PI*c.r*c.r,0)/(width*.62)));
+  let positions:{index:number,r:number,x:number,y:number}[]=[];
+  // 固定种子保持排布稳定；按圆形间距散布，不再按行列摆放。
+  for(let attempt=0;attempt<12;attempt++){
+   let seed=214;
+   const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+   positions=[];
+   for(const circle of circles){
+    for(let trial=0;trial<900;trial++){
+     const x=circle.r+12+random()*(width-circle.r*2-24);
+     const y=circle.r+20+random()*(height-circle.r*2-40);
+     if(positions.every(other=>Math.hypot(x-other.x,y-other.y)>=circle.r+other.r+4)){
+      positions.push({...circle,x,y});break;
+     }
+    }
+    if(positions.length<circles.indexOf(circle)+1)break;
+   }
+   if(positions.length===circles.length)break;
+   height=Math.ceil(height*1.08);
+  }
+  // 极窄窗口或将来标签增多时，仍保留所有入口。
+  if(positions.length<circles.length){
+   let y=20;
+   positions=circles.map(circle=>{y+=circle.r;const point={...circle,x:width/2,y};y+=circle.r+20;return point});
+   height=y;
+  }
+  for(const point of positions){
+   slots[point.index].style.left=`${point.x-sizes[point.index]/2}px`;
+   slots[point.index].style.top=`${point.y-sizes[point.index]/2}px`;
+  }
+  field.style.height=`${height}px`;
+  field.classList.add('is-arranged');
+ };
+ arrange();
+ new ResizeObserver(arrange).observe(field);
+ const look=(x:number,y:number)=>{
+  cancelAnimationFrame(pointerFrame);
+  pointerFrame=requestAnimationFrame(()=>slots.forEach((slot,index)=>{
+   if(slot.matches(':hover,:focus-within'))return;
+   const distance=depths[index]>0?12:depths[index]<0?-3:5;
+   slot.style.transform=`translate3d(${x*distance}px,${y*distance*.6}px,0)`;
+  }));
+ };
+ field.addEventListener('pointermove',event=>{
+  if(event.pointerType!=='mouse'||paused||!visible||document.hidden)return;
+  look((event.clientX/innerWidth-.5)*2,(event.clientY/innerHeight-.5)*2);
+ });
+ field.addEventListener('pointerleave',()=>look(0,0));
 
+ new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync()}).observe(field);
+ document.addEventListener('visibilitychange',sync);
+ window.addEventListener('pagehide',()=>{cancelAnimationFrame(pointerFrame);field.dataset.running='false'});
+ window.addEventListener('pageshow',sync);
+ toggle.hidden=false;
+ toggle.addEventListener('click',()=>{paused=!paused;toggle.textContent=paused?'播放漂浮':'暂停漂浮';toggle.setAttribute('aria-pressed',String(paused));sync()});
+ sync();
+}
+</script>
 <style>
-  .hd {
-    padding: 42px 0 30px;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  h1 {
-    font-family: var(--disp);
-    font-size: clamp(34px, 4vw, 54px);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 14px;
-  }
-
-  .block { padding: 34px 0; border-bottom: 1px solid var(--rule); }
-  .block:last-of-type { border-bottom: 0; }
-
-  .ttl {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    font-family: var(--mono);
-    font-size: 10.5px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-38);
-    margin-bottom: 20px;
-  }
-  .ttl .n { color: var(--ink-22); letter-spacing: 0.08em; }
-
-  /* 分区：色条 + 名称 + 篇数 */
-  .cats {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 0;
-    border-top: 1px solid var(--rule);
-    border-left: 1px solid var(--rule);
-  }
-  .cat {
-    display: grid;
-    grid-template-columns: 4px 1fr auto;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 18px;
-    border-right: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    transition: background 0.25s var(--ease);
-  }
-  .cat:hover { background: var(--yellow); color: var(--on-light); }
-  /* 空分区：不可点，视觉上弱化，但仍在版面上 */
-  .cat.empty { cursor: default; }
-  .cat.empty:hover { background: transparent; color: inherit; }
-  .cat.empty .bar { opacity: 0.25; }
-  .cat.empty .name { color: var(--ink-38); }
-  .cat.empty:hover .cnt { color: var(--ink-38); }
-  .cat .bar { width: 4px; height: 26px; }
-  .cat .name { font-family: var(--disp); font-size: 18px; font-weight: 600; }
-  .cat .cnt { font-family: var(--mono); font-size: 11px; color: var(--ink-38); }
-  .cat:hover .cnt { color: rgba(11, 11, 11, 0.55); }
-
-  /* 自由标签：等宽小签 */
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .tag {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 12px;
-    padding: 6px 12px;
-    border: 1px solid var(--rule);
-    transition: background 0.22s var(--ease), color 0.22s var(--ease), border-color 0.22s var(--ease);
-  }
-  .tag:hover {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
-  }
-  .tag .cnt { font-size: 10px; color: var(--ink-38); }
-  .tag:hover .cnt { color: rgba(255, 255, 255, 0.6); }
+.tags-page{padding-bottom:48px}.hd{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:42px 0 30px;border-bottom:1px solid var(--rule)}h1{font:500 clamp(34px,4vw,54px) var(--disp)}
+.motion-toggle{border:0;border-bottom:1px solid var(--rule-strong);background:none;padding:8px 0;color:var(--ink);font:12px var(--ui);cursor:pointer}.motion-toggle[hidden]{display:none}
+.bubble-field{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:32px;list-style:none;margin:26px 0 0;padding:24px;min-height:400px}.bubble-field[hidden]{display:none}.bubble-slot{--depth:var(--plane);--shadow-y:9px;--shadow-blur:22px;--shadow-alpha:.11;width:var(--size);height:var(--size);flex:none;list-style:none;perspective:900px;z-index:2;transition:transform .55s cubic-bezier(.22,.7,.25,1)}.bubble-slot[data-depth="80"]{--shadow-y:16px;--shadow-blur:30px;--shadow-alpha:.18;z-index:3}.bubble-slot[data-depth="-100"]{--shadow-y:4px;--shadow-blur:16px;--shadow-alpha:.08;z-index:1}.bubble-slot:hover,.bubble-slot:focus-within{z-index:4}.bubble-field.is-arranged{display:block;padding:0}.is-arranged .bubble-slot{position:absolute}
+.tag-bubble{--float-scale:1;position:relative;isolation:isolate;display:flex;width:100%;height:100%;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:10px;border:1px solid rgb(139 177 192/.24);border-radius:50%;background:radial-gradient(ellipse at 24% 18%,rgb(255 255 255/.85),transparent 28%),radial-gradient(ellipse at 79% 87%,rgb(153 220 230/.08),transparent 45%);box-shadow:inset 2px 2px 5px rgb(255 255 255/.7),inset -1px -2px 4px rgb(147 199 218/.1),0 var(--shadow-y) var(--shadow-blur) -7px rgb(24 42 52/var(--shadow-alpha));color:var(--ink);text-decoration:none;transition:border-color .2s}
+.tag-bubble:before{content:'';position:absolute;inset:-1px;padding:1.5px;border-radius:50%;background:conic-gradient(from 20deg,rgba(185,219,231,.2),rgba(173,221,234,.64) 13%,rgba(203,186,231,.4) 29%,rgba(240,186,202,.56) 41%,rgba(247,224,173,.38) 53%,rgba(153,219,218,.52) 66%,rgba(201,209,240,.26) 78%,rgba(255,255,255,.9) 90%,rgba(185,219,231,.2));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none}
+.bubble-slot[data-depth="-100"] .tag-bubble:before{opacity:.65;filter:blur(.3px)}.tag-bubble:after{content:'';position:absolute;inset:7%;border:3px solid transparent;border-top-color:rgb(255 255 255/.95);border-left-color:rgb(192 226 237/.36);border-radius:50%;transform:rotate(-23deg);clip-path:polygon(0 0,83% 0,35% 52%,0 83%);pointer-events:none}
+.name{position:relative;font:500 var(--type)/1.35 var(--disp);text-align:center;overflow-wrap:anywhere}.count{position:relative;font:11px var(--mono);color:var(--ink-55)}.tag-bubble:hover{border-color:rgb(133 183 203/.6)}.tag-bubble:hover .name{text-decoration:underline;text-underline-offset:5px}.tag-bubble:focus-visible,.motion-toggle:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+.is-arranged .tag-bubble{animation:bubble-bob var(--duration) cubic-bezier(.37,0,.63,1) var(--delay) infinite,bubble-sway var(--sway-duration) cubic-bezier(.37,0,.63,1) calc(var(--delay)*1.91) infinite}.bubble-field[data-running=false] .tag-bubble,.bubble-slot:hover .tag-bubble,.bubble-slot:focus-within .tag-bubble{animation-play-state:paused}
+/* 两轴周期和起点错开，形成连续弯曲的路线；文字保持水平。 */
+@keyframes bubble-bob{0%,100%{transform:translate3d(0,calc(var(--drift-y)*var(--float-scale)*.65),var(--depth))}50%{transform:translate3d(0,calc(var(--drift-y)*var(--float-scale)*-1),var(--depth))}}
+@keyframes bubble-sway{0%,100%{translate:calc(var(--drift-x)*var(--float-scale)*-1) 0}50%{translate:calc(var(--drift-x)*var(--float-scale)) 0}}
+.empty{padding:40px 0;color:var(--ink-55);font:15px var(--ui)}
+@media(prefers-color-scheme:dark){.tag-bubble{border-color:rgb(174 215 227/.24);background:radial-gradient(ellipse at 24% 18%,rgb(255 255 255/.06),transparent 28%),radial-gradient(ellipse at 79% 87%,rgb(153 220 230/.025),transparent 45%);box-shadow:inset 2px 2px 5px rgb(255 255 255/.025),inset -1px -2px 4px rgb(147 199 218/.04),0 var(--shadow-y) var(--shadow-blur) -7px rgb(0 0 0/.45)}.tag-bubble:after{border-top-color:rgb(255 255 255/.75)}}
+@media(max-width:700px){.hd{padding-top:30px}.bubble-field{margin-top:22px;gap:18px;padding:16px}.bubble-slot{--depth:calc(var(--plane)*.6);width:clamp(76px,calc(var(--size)*.64),150px);height:clamp(76px,calc(var(--size)*.64),150px)}.tag-bubble{--float-scale:.65;gap:5px;padding:8px}.name{font-size:clamp(14px,calc(var(--type)*.74),17px)}.count{font-size:11px}}
+/* 用户明确要求默认漂浮，仅覆盖本页的全局减少动效规则；仍可随时暂停。 */
+@media(prefers-reduced-motion:reduce){.is-arranged .tag-bubble{animation-duration:var(--duration),var(--sway-duration)!important;animation-iteration-count:infinite!important}}
 </style>
