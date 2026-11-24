@@ -7,10 +7,9 @@ const essayIds = [
   '2026-10-20-xhs-0fa2f609b4',
   '2026-10-23-xhs-1479d3aa0f',
   '2026-10-09-xhs-97ec7ce55d',
-  '2026-09-28-xhs-78cf06b89d',
-  '2026-05-04-xhs-787bfb7715',
   '2026-09-14-xhs-2b515d6f25',
   '2026-06-01-xhs-0e12b721e2',
+  '2026-05-04-xhs-787bfb7715',
 ];
 const essays = essayIds.flatMap(id => {
   const post = posts.find(post => post.id === id && post.data.category === '随笔');
@@ -51,36 +50,35 @@ a,button{-webkit-tap-highlight-color:transparent}
 a:focus-visible,button:focus-visible{outline:1px solid var(--ink);outline-offset:6px}
 header{position:fixed;top:0;left:0;right:0;z-index:5;height:90px;padding:0 36px;display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
 .brand{font-size:24px;letter-spacing:4px;font-weight:600}
-.scene{position:fixed;inset:90px 0 90px;overflow:hidden;perspective:1300px;perspective-origin:50% 50%;touch-action:none;cursor:grab}
+.scene{position:fixed;inset:90px 0 90px;overflow:visible;perspective:1300px;perspective-origin:50% 50%;touch-action:none;cursor:grab}
 .scene:active{cursor:grabbing}
 .orbit,.room,.back{position:absolute;inset:0;transform-style:preserve-3d;pointer-events:none}
 .orbit{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .room{width:100%;height:100%}
-.back{transform:translateZ(-100px)}
+.back{inset:-5% -4%;transform:translateZ(-100px)}
 .paper{position:absolute;pointer-events:auto;padding:10px;display:block;width:max-content;min-height:44px;translate:-50% -50%;transform-style:preserve-3d;cursor:pointer;background:transparent}
 .float{display:block;position:relative;transform-style:preserve-3d}
 .paper{transform:translateZ(var(--depth,0px));transition:transform .65s ease-out}
 .entry-title{font-size:clamp(34px,var(--entry-size,5.2vh),64px);font-weight:500;line-height:1.18;letter-spacing:.08em;writing-mode:vertical-rl;white-space:nowrap;display:block}
 .arrow{position:absolute;left:50%;bottom:-20px;font:17px -apple-system,sans-serif;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s}
 .entry:is(:hover,:focus-visible) .arrow{opacity:1;transform:none}
-.e0{--depth:27px;--entry-size:6vh;left:23%;top:26%}
-.e1{--depth:27px;left:77%;top:26%}
+.e0{--depth:27px;--entry-size:6vh;left:27.5%;top:27.5%}
+.e1{--depth:27px;left:72.5%;top:27.5%}
 .e1 .entry-title{font-size:clamp(28px,4.9vh,52px)}
-.e2{--depth:12px;--entry-size:3.8vh;left:50%;top:14%}
-.e3{--depth:36px;left:88%;top:50%}
-.e4{--depth:-21px;--entry-size:4.9vh;left:77%;top:74%}
-.e5{--depth:12px;--entry-size:3.8vh;left:50%;top:86%}
-.e6{--depth:-21px;--entry-size:4.9vh;left:23%;top:74%}
-.e7{--depth:36px;left:12%;top:50%}
+.e2{--depth:12px;--entry-size:3.8vh;left:50%;top:8%}
+.e3{--depth:36px;left:90%;top:50%}
+.e4{--depth:-21px;--entry-size:4.9vh;left:72.5%;top:72.5%}
+.e5{--depth:12px;--entry-size:3.8vh;left:50%;top:92%}
+.e6{--depth:-21px;--entry-size:4.9vh;left:27.5%;top:72.5%}
+.e7{--depth:36px;left:10%;top:50%}
 .note-title{display:block;font-size:clamp(14px,1.8vh,18px);font-weight:400;line-height:1.45;letter-spacing:.1em;writing-mode:vertical-rl;white-space:nowrap;color:var(--ink-72)}
 .note:is(:hover,:focus-visible) .note-title{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
-.n0{--depth:-18px;left:7%;top:22%}
-.n1{--depth:18px;left:34%;top:36%}
-.n2{--depth:-30px;left:43%;top:18%}
-.n3{--depth:-12px;left:63%;top:25%}
-.n4{--depth:-24px;left:94%;top:22%}
-.n5{--depth:9px;left:34%;top:75%}
-.n6{--depth:-15px;left:65%;top:73%}
+.n0{--depth:-18px;left:39%;top:20%}
+.n1{--depth:18px;left:61%;top:20%}
+.n2{--depth:-30px;left:20%;top:50%}
+.n3{--depth:-12px;left:80%;top:50%}
+.n4{--depth:-24px;left:39%;top:80%}
+.n5{--depth:9px;left:61%;top:80%}
 .word{margin:0;font-family:inherit;font-size:clamp(64px,9vh,104px);width:1.2em;position:fixed;left:50%;top:50%;z-index:4;transform:translate(-50%,-50%);pointer-events:none;text-align:center}
 .word b{display:flex;flex-direction:column;align-items:center;width:100%;font-size:inherit;font-weight:500;letter-spacing:0;line-height:1.08;white-space:nowrap}
 .word b span{display:block;height:1.08em}
@@ -95,23 +93,22 @@ header{position:fixed;top:0;left:0;right:0;z-index:5;height:90px;padding:0 36px;
 @media(max-width:900px){header{height:66px;padding:0 22px}
 .brand{font-size:21px}
 .scene{inset:76px 0 76px;perspective:1000px}
-.back{transform:none}
+.back{inset:-2.5% -1.5%;transform:none}
 .paper{padding:6px;transform:translateZ(calc(var(--depth,0px)*.35))}
 .entry-title{font-size:clamp(22px,4vh,32px);letter-spacing:.04em}
-.e0{left:19%;top:28%}
-.e1{left:81%;top:28%}
+.e0{left:23%;top:27%}
+.e1{left:77%;top:27%}
 .e1 .entry-title{font-size:clamp(20px,3.75vh,29.4px)}
-.e2{left:50%;top:20%}
+.e2{left:50%;top:10%}
 .e2 .entry-title,.e5 .entry-title{font-size:clamp(22px,4vh,32px)}
-.e3{left:88%;top:50%}
-.e4{left:86%;top:78%}
-.e5{left:50%;top:80%}
-.e6{left:14%;top:78%}
-.e7{left:12%;top:50%}
-.n0{left:8%;top:20%}.n1{left:29.5%;top:38%}
-.n2{left:40%;top:17%}.n3{left:66%;top:28%}
-.n4{left:94%;top:20%}.n5{left:31%;top:80%}
-.n6{left:66%;top:72%}
+.e3{left:90%;top:50%}
+.e4{left:79%;top:80%}
+.e5{left:50%;top:90%}
+.e6{left:21%;top:80%}
+.e7{left:10%;top:50%}
+.n0{left:35.5%;top:23%}.n1{left:64.5%;top:23%}
+.n2{left:24%;top:54%}.n3{left:76%;top:54%}
+.n4{left:35.5%;top:78%}.n5{left:64.5%;top:77%}
 .note-title{font-size:clamp(12px,1.75vh,14px);letter-spacing:.04em}
 .word{left:50%;top:50%;font-size:53px;transform:translate(-50%,-50%)}
 .word>span{font-size:7px;top:calc(100% + 12px)}
@@ -121,13 +118,17 @@ header{position:fixed;top:0;left:0;right:0;z-index:5;height:90px;padding:0 36px;
 .controls{gap:16px}
 }
 
+@media(max-height:700px) and (min-width:901px){.back{inset:-3% -4%}.n0,.n1{top:27%}}
+
+@media(max-height:650px) and (max-width:900px){.back{inset:-.75% -1.5%}}
+
 @media(max-height:500px) and (min-width:600px){
+.back{inset:-3% -.5%}
 .scene{inset:75px 0 75px}
 .note-title{font-size:12px;letter-spacing:.03em}
 .n0{left:10.5%;top:52%}.n1{left:27%;top:51%}
 .n2{left:42%;top:48%}.n3{left:58%;top:50%}
 .n4{left:73%;top:51%}.n5{left:89.5%;top:48%}
-.n6{left:69%;top:50%}
 .e0{left:16%;top:24%}.e1{left:84%;top:24%}
 .e2{left:36%;top:20%}.e5{left:64%;top:80%}
 .e7{left:5%;top:50%}.e3{left:95%;top:50%}
@@ -193,6 +194,6 @@ button.addEventListener('click', toggle);
 document.getElementById('edit-toggle')?.addEventListener('click', () => { if (running) toggle(); });
 document.addEventListener('visibilitychange', () => loops.forEach(a => document.hidden ? a.pause() : a.play()));
 window.addEventListener('pagehide', () => { loops.forEach(a => a.cancel()); cancelAnimationFrame(frame); });
-if (!matchMedia('(prefers-reduced-motion:reduce)').matches) toggle();
+toggle();
 
 </script>
