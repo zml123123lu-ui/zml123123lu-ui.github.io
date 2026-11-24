@@ -1,5 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),yaml=require('js-yaml');
 const {chromium,webkit}=require('/Users/lu/.workbuddy/binaries/node/workspace/node_modules/playwright-core');
+const stamp=process.env.VERIFY_DATE||'2026-11-21';
 const base=(process.argv[2]||'http://127.0.0.1:4321').replace(/\/$/,''),live=new URL(base).hostname.endsWith('github.io');
 (async()=>{
  const expected=new Map(),categories=new Map();
@@ -11,7 +12,7 @@ const base=(process.argv[2]||'http://127.0.0.1:4321').replace(/\/$/,''),live=new
   for(const tag of data.tags||[])expected.set(tag,(expected.get(tag)||0)+1);
  }
  for(const [name,count]of categories)expected.set(name,count);
- const shots=path.join(__dirname,'../design/shots/tag-bubbles-2026-11-21'+(live?'-live':''));await fs.mkdir(shots,{recursive:true});
+ const shots=path.join(__dirname,'../design/shots/tag-bubbles-'+stamp+(live?'-live':''));await fs.mkdir(shots,{recursive:true});
  const results=[];
  for(const [name,engine,options,widths]of [['chrome',chromium,{executablePath:'/Users/lu/.agent-browser/browsers/chrome-153.0.8010.36/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'},[1440,768,390,320]],['webkit',webkit,{},[390]]]){
   const browser=await engine.launch({...options,...(live?{proxy:{server:'http://127.0.0.1:7897'}}:{})});
@@ -66,5 +67,5 @@ const base=(process.argv[2]||'http://127.0.0.1:4321').replace(/\/$/,''),live=new
    const plain=await browser.newPage({viewport:{width:390,height:1000},javaScriptEnabled:false});await plain.goto(base+'/tags/');assert.equal(await plain.locator('.tag-bubble').count(),expected.size);assert(!await plain.locator('.motion-toggle').isVisible());assert(!await plain.evaluate(()=>document.documentElement.scrollWidth>innerWidth));await plain.locator('.tag-bubble').first().click();assert(decodeURIComponent(new URL(plain.url()).pathname).startsWith('/tags/'));await plain.close();
   }finally{await browser.close()}
  }
- await fs.writeFile(path.join(__dirname,'../design/tag-bubbles-verification-2026-11-21'+(live?'-live':'')+'.json'),JSON.stringify({cases:results,explicitAutoplayWithPause:true,noJavascript:true,tagLinksChecked:expected.size},null,2));console.log(JSON.stringify({cases:results.length,tags:expected.size,explicitAutoplayWithPause:true,noJavascript:true}));
+ await fs.writeFile(path.join(__dirname,'../design/tag-bubbles-verification-'+stamp+(live?'-live':'')+'.json'),JSON.stringify({cases:results,explicitAutoplayWithPause:true,noJavascript:true,tagLinksChecked:expected.size},null,2));console.log(JSON.stringify({cases:results.length,tags:expected.size,explicitAutoplayWithPause:true,noJavascript:true}));
 })().catch(e=>{console.error(e);process.exitCode=1});
