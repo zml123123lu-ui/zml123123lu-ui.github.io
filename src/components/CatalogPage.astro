@@ -33,7 +33,7 @@ const groups = kind === 'films' ? [
     {(item.cover || kind==='books') && <div class:list={{'book-face':kind==='books'}}>{item.cover ? <img class="cover" src={item.cover} alt={`${item.title}封面`} loading="lazy" referrerpolicy="no-referrer" /> : <span class="cover-placeholder">{item.title}</span>}</div>}
     <Heading data-edit-kind={kind} data-edit-id={item.id} data-edit-field="title">{item.title}</Heading>{item.subtitle && <p class="subtitle" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="subtitle">{item.subtitle}</p>}
     {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}{'☆'.repeat(5-item.rating)}</p>}
-    {item.note && kind !== 'books' && <p class="note" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">{item.note}</p>}{item.date && <span class="mono dim">{item.date}</span>}
+    {item.note && kind !== 'books' && <p class="note" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">{item.note}</p>}{item.date && kind !== 'books' && <span class="mono dim">{item.date}</span>}
    </Tag>
   })}</div>}</section>) : <div class="empty"><span class="mono dim">尚无记录</span><p>{kind==='works'?'还没有公开的作品。':kind==='books'?'书架还空着，读到喜欢的会记在这里。':'还没有公开的影视记录。'}</p></div>}
  </div>
