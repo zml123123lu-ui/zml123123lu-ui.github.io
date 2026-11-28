@@ -16,8 +16,6 @@ const labels: Record<string,string> = {电影:"CINEMA",电视剧:"TV SERIES",番
    </div></div>
    <h3 data-edit-kind="films" data-edit-id={item.id} data-edit-field="title">{item.title}</h3>
    {item.subtitle && <p class="subtitle" data-edit-kind="films" data-edit-id={item.id} data-edit-field="subtitle">{item.subtitle}</p>}
-   {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}</p>}
-   {item.date && <span class="date">{item.date}</span>}
   </Tag>;
  })}</div>
 </div>
@@ -41,7 +39,7 @@ const labels: Record<string,string> = {电影:"CINEMA",电视剧:"TV SERIES",番
 .poster-edge{position:absolute;top:0;width:10px;height:100%;background:repeating-linear-gradient(0deg,#a3a5a7 0 1px,#e2e3e4 1px 3px);backface-visibility:hidden}
 .poster-edge.left{left:0;transform:rotateY(-90deg) translateZ(5px)}.poster-edge.right{right:0;transform:rotateY(90deg) translateZ(5px)}
 h3{font:500 18px/1.5 var(--disp);text-wrap:balance;overflow-wrap:anywhere;margin:12px 0 0}
-.subtitle{font:12px/1.7 var(--ui);color:var(--ink-55);margin-top:6px}.note{font:14px/1.8 var(--song);white-space:pre-wrap;margin-top:12px}.rating,.date{font:12px var(--ui);margin-top:10px}
+.subtitle{font:12px/1.7 var(--ui);color:var(--ink-55);margin-top:6px}.note{font:14px/1.8 var(--song);white-space:pre-wrap;margin-top:12px}
 a.entry:hover h3{text-decoration:underline;text-underline-offset:5px}a.entry:focus-visible{outline:2px solid var(--ink);outline-offset:5px}
 @media(max-width:1050px){.entries{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.poster-object{width:168px;height:246px}.poster-stage{height:290px}}
 @media(max-width:600px){.entries{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}.poster-object{width:116px;height:174px}.poster-stage{height:218px;perspective:700px}h3{font-size:16px;margin-top:8px}.poster-front,.poster-back{border-width:3px}.poster-back{padding:14px 8px}.back-name{font-size:15px}.back-index{margin-bottom:12px}.back-sign{font-size:6px;margin-top:18px}.back-year{font-size:9px}.entry{padding-bottom:16px}}
