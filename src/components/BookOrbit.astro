@@ -11,8 +11,9 @@ const { items } = Astro.props;
     </div>
     {items.map((book, index) => {
       const Tag = book.url ? 'a' : 'div';
+      const external = !!book.url && !book.url.startsWith('/');
       return <div class="orbit-slot" style={`--angle:${index * 360 / items.length}deg`}>
-        <Tag class="orbit-book" href={book.url} target={book.url ? '_blank' : undefined} rel={book.url ? 'noopener noreferrer' : undefined} aria-label={`${book.title}，${book.subtitle || ''}`} data-id={book.id} data-title={book.title} data-author={book.subtitle || ''}>
+        <Tag class="orbit-book" href={book.url} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} aria-label={`${book.title}，${book.subtitle || ''}，查看我的读后感`} data-id={book.id} data-title={book.title} data-author={book.subtitle || ''}>
           {book.cover ? <img src={book.cover} alt={`${book.title}封面`} width="112" height="160" loading="lazy" /> : <span class="orbit-placeholder">{book.title}</span>}
         </Tag>
       </div>;

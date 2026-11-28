@@ -24,7 +24,7 @@ export function cleanEntry(kind, entry) {
   }
   if (type === 'checkbox') { clean[key] = entry[key] === true; continue; }
   const value = String(entry[key] ?? (kind === 'films' && key === 'group' ? '电影' : '')).trim();
-  if (value.length > (key === 'body' ? 150000 : key === 'note' ? 10000 : 1000)) throw new Error(`${label}太长。`);
+  if (value.length > (key === 'body' || (key === 'note' && ['books','films'].includes(kind)) ? 150000 : key === 'note' ? 10000 : 1000)) throw new Error(`${label}太长。`);
   if (type==='image' && !mediaPattern.test(value)) throw new Error('请选择已上传的专辑封面。');
   if (kind==='albums' && key==='artist' && !value) throw new Error('请填写音乐人。');
   if (key==='releaseYear' && value && !/^\d{4}$/.test(value)) throw new Error('发行年份请填四位数字。');

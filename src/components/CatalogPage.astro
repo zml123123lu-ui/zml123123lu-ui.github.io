@@ -10,7 +10,7 @@ const { kind, bookView = 'orbit' } = Astro.props;
 const { title, intro } = text[kind];
 const allBooks = kind === 'books' && bookView === 'shelf';
 const pageTitle = allBooks ? '全部书架' : title;
-const items: {id:string;title:string;group?:string;subtitle?:string;url?:string;note?:string;cover?:string;status?:string;rating?:number;date?:string}[] = catalog[kind];
+const items: {id:string;title:string;group?:string;subtitle?:string;url?:string;note?:string;cover?:string;status?:string;rating?:number;date?:string}[] = catalog[kind].map(item => kind === 'books' || kind === 'films' ? {...item, url:`/${kind === 'books' ? 'shelf' : 'films'}/${item.id}/`} : item);
 const groups = kind === 'films' ? [
  {name:'我最爱的电影',items:items.filter(item=>(item.group || '电影')==='电影')},
  {name:'我最爱的电视剧',items:items.filter(item=>item.group==='电视剧')},
@@ -28,12 +28,12 @@ const groups = kind === 'films' ? [
    const Tag=item.url?'a':'article';
    const external=!!item.url && !item.url.startsWith('/');
    const Heading=kind==='films'?'h3':'h2';
-   return <Tag class="entry" href={item.url || undefined} target={external?'_blank':undefined} rel={external?'noopener noreferrer':undefined}>
+   return <Tag class="entry" id={kind === 'books' ? item.id : undefined} href={item.url || undefined} target={external?'_blank':undefined} rel={external?'noopener noreferrer':undefined}>
     <div class="entry-top"><span class="mono dim">{String(i+1).padStart(2,'0')}</span>{!['books','films'].includes(kind) && item.status && <span class="status">{item.status}</span>}{item.url && <span aria-hidden="true">{external?'↗':'→'}</span>}</div>
     {(item.cover || kind==='books') && <div class:list={{'book-face':kind==='books'}}>{item.cover ? <img class="cover" src={item.cover} alt={`${item.title}封面`} loading="lazy" referrerpolicy="no-referrer" /> : <span class="cover-placeholder">{item.title}</span>}</div>}
     <Heading data-edit-kind={kind} data-edit-id={item.id} data-edit-field="title">{item.title}</Heading>{item.subtitle && <p class="subtitle" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="subtitle">{item.subtitle}</p>}
     {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}{'☆'.repeat(5-item.rating)}</p>}
-    {item.note && <p class="note" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">{item.note}</p>}{item.date && <span class="mono dim">{item.date}</span>}
+    {item.note && kind !== 'books' && <p class="note" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">{item.note}</p>}{item.date && <span class="mono dim">{item.date}</span>}
    </Tag>
   })}</div>}</section>) : <div class="empty"><span class="mono dim">尚无记录</span><p>{kind==='works'?'还没有公开的作品。':kind==='books'?'书架还空着，读到喜欢的会记在这里。':'还没有公开的影视记录。'}</p></div>}
  </div>
@@ -44,7 +44,7 @@ const groups = kind === 'films' ? [
 .summary>a{font:12px var(--mono);color:var(--ink);text-underline-offset:5px}
 .summary>a:hover{text-decoration:underline}
 .entries.books{grid-template-columns:repeat(5,minmax(0,1fr));border:0;gap:32px 0}
-.books .entry{padding:12px 18px 20px;border:0}
+.books .entry{padding:12px 18px 20px;border:0;scroll-margin-top:88px}
 .books .entry-top{margin-bottom:18px;font-size:11px}
 .books .book-face{height:246px;display:flex;align-items:flex-end;justify-content:center;margin:0 -18px 12px;padding:0 18px 12px;border-bottom:2px solid var(--rule-strong)}
 .books .cover{width:auto;max-width:100%;height:224px;object-position:center bottom;margin:0}

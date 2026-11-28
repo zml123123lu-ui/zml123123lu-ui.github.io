@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+interface Props {
+ kind: 'books' | 'films';
+ item: {id:string;title:string;subtitle?:string;cover?:string;url?:string;note?:string;date?:string;group?:string;rating?:number};
+}
+const {kind,item} = Astro.props;
+const book = kind === 'books';
+const back = book ? '/shelf/all/' : '/films/';
+const label = book ? '书架' : '影视';
+const paragraphs = (item.note || '').trim().split(/\n\s*\n/).filter(Boolean);
+---
+<BaseLayout title={item.title} section="书影音" description={`《${item.title}》——我的${book ? '读后感' : '观后感'}。`} ogImage={item.cover}>
+ <div class="wrap review-page">
+  <a class="back" href={`${back}#${item.id}`}>← {label}</a>
+  <header class="review-heading" data-pagefind-body>
+   {item.cover && <img src={item.cover} alt={`${item.title}封面`} width="240" height="360" />}
+   <div>
+    <h1 data-pagefind-meta="title" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="title">{item.title}</h1>
+    {item.subtitle && <p class="subtitle" data-edit-kind={kind} data-edit-id={item.id} data-edit-field="subtitle">{item.subtitle}</p>}
+    {item.rating && <p class="rating" aria-label={`评分 ${item.rating} 星`}>{'★'.repeat(item.rating)}</p>}
+    {item.url && <a class="external" href={item.url} target="_blank" rel="noopener noreferrer">{book ? '在微信读书打开' : '在豆瓣打开'} ↗</a>}
+   </div>
+  </header>
+  {item.date && <time class="review-date" datetime={item.date}>{item.date.replaceAll('-','.')}</time>}
+  <article class="prose" aria-label={book ? '我的读后感' : '我的观后感'} data-pagefind-body data-edit-kind={kind} data-edit-id={item.id} data-edit-field="note">
+   {paragraphs.length ? paragraphs.map(paragraph => <p>{paragraph}</p>) : <p class="empty" data-pagefind-ignore>还没写下感受。</p>}
+  </article>
+  <a class="back return" href={`${back}#${item.id}`}>← 返回{label}</a>
+ </div>
+</BaseLayout>
+<style>
+.review-page{padding-block:30px 60px}
+.back{font:13px var(--ui);text-underline-offset:5px}
+.back:hover{text-decoration:underline}
+.review-heading{display:grid;justify-items:center;gap:32px;padding:48px 0;border-bottom:1px solid var(--rule);margin-bottom:48px}
+.review-heading>div{width:min(100%,900px);text-align:center}
+.review-heading img{width:min(100%,280px);height:360px;object-fit:contain}
+h1{font:500 clamp(30px,4vw,48px)/1.3 var(--disp);overflow-wrap:anywhere}
+.subtitle{font:20px/1.8 var(--song);margin-top:16px;overflow-wrap:anywhere}
+.rating{font:14px/1.8 var(--ui);letter-spacing:3px;margin-top:12px}
+.review-date{display:block;text-align:center;font:12px/1.8 var(--mono);color:var(--ink-55);margin-bottom:28px}
+.external{display:inline-block;font:13px/1.8 var(--ui);color:var(--ink-55);margin-top:24px;text-decoration:underline;text-underline-offset:5px}
+.prose{max-width:var(--measure);margin-inline:auto;text-align:center;overflow-wrap:anywhere}
+.prose p{white-space:pre-line}
+.empty{color:var(--ink-55)}
+.return{display:block;margin-top:60px}
+@media(max-width:650px){.review-heading{gap:24px;padding:32px 0}.review-heading img{width:min(100%,240px);height:320px}.review-page{padding-bottom:40px}.review-heading h1{font-size:32px}}
+</style>

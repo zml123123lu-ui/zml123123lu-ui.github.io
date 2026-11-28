@@ -1,0 +1,7 @@
+---
+import catalog from '../../data/catalog.json';
+import CatalogDetail from '../../components/CatalogDetail.astro';
+export function getStaticPaths(){return catalog.books.map(item=>({params:{id:item.id},props:{item}}))}
+const {item} = Astro.props;
+---
+<CatalogDetail kind="books" item={item} />
